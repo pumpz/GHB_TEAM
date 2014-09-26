@@ -1,0 +1,5 @@
+Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.dll
+Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
+Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache
+Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
+Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb
