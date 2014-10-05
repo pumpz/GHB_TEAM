@@ -8,14 +8,18 @@ namespace AppraisalSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        public ActionResult Index()//Login
         {
-            ViewBag.Message = "Welcome to ASP.NET MVC!";
 
             return View();
         }
 
         public ActionResult About()
+        {
+            return View();
+        }
+
+        public ActionResult Manage()//Index (Choose search/Add new assets)
         {
             return View();
         }
