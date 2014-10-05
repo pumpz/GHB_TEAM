@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemadesigner version="6.5">
+<source>
+<database charset="utf8" collation="utf8_unicode_ci">appraisalasset</database>
+</source>
+<canvas zoom="100">
+<tables>
+<table name="amphur" view="colnames">
+<left>484</left>
+<top>303</top>
+<width>164</width>
+<height>192</height>
+<sql_create_table>CREATE TABLE `amphur` (
+  `AMPHUR_ID` int(5) NOT NULL AUTO_INCREMENT,
+  `AMPHUR_CODE` varchar(4) COLLATE utf8_unicode_ci NOT NULL,
+  `AMPHUR_NAME` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `AMPHUR_NAME_ENG` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `GEO_ID` int(5) NOT NULL DEFAULT '0',
+  `PROVINCE_ID` int(5) NOT NULL DEFAULT '0',
+  `STATUS` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`AMPHUR_ID`),
+  KEY `FK_amphur` (`GEO_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=999 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="district" view="colnames">
+<left>165</left>
+<top>251</top>
+<width>145</width>
+<height>192</height>
+<sql_create_table>CREATE TABLE `district` (
+  `DISTRICT_ID` int(5) NOT NULL AUTO_INCREMENT,
+  `DISTRICT_CODE` varchar(6) COLLATE utf8_unicode_ci NOT NULL,
+  `DISTRICT_NAME` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `AMPHUR_ID` int(5) NOT NULL DEFAULT '0',
+  `PROVINCE_ID` int(5) NOT NULL DEFAULT '0',
+  `GEO_ID` int(5) NOT NULL DEFAULT '0',
+  `STATUS` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`DISTRICT_ID`),
+  KEY `FK_district` (`GEO_ID`),
+  KEY `FK_district_a` (`AMPHUR_ID`),
+  CONSTRAINT `FK_district` FOREIGN KEY (`GEO_ID`) REFERENCES `geography` (`GEO_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `FK_district_a` FOREIGN KEY (`AMPHUR_ID`) REFERENCES `amphur` (`AMPHUR_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8861 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="province" view="colnames">
+<left>286</left>
+<top>7</top>
+<width>177</width>
+<height>175</height>
+<sql_create_table>CREATE TABLE `province` (
+  `PROVINCE_ID` int(5) NOT NULL AUTO_INCREMENT,
+  `PROVINCE_CODE` varchar(2) COLLATE utf8_unicode_ci NOT NULL,
+  `PROVINCE_NAME` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `PROVINCE_NAME_ENG` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
+  `GEO_ID` int(5) NOT NULL DEFAULT '0',
+  `STATUS` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`PROVINCE_ID`),
+  KEY `FK_province` (`GEO_ID`),
+  CONSTRAINT `FK_province` FOREIGN KEY (`GEO_ID`) REFERENCES `geography` (`GEO_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="role" view="colnames">
+<left>831</left>
+<top>241</top>
+<width>130</width>
+<height>226</height>
+<sql_create_table>CREATE TABLE `role` (
+  `ROLE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ROLE_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `STATUS` tinyint(1) NOT NULL DEFAULT '1',
+  `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
+  `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="users" view="colnames">
+<left>659</left>
+<top>27</top>
+<width>130</width>
+<height>306</height>
+<sql_create_table>CREATE TABLE `users` (
+  `USER_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_NAME` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `PASSWORD` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `ROLE_ID` int(11) NOT NULL,
+  `STATUS` tinyint(1) NOT NULL DEFAULT '1',
+  `FIRST_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `LAST_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `EMAIL` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `LAST_LOGIN` timestamp NULL DEFAULT NULL,
+  `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
+  `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`USER_ID`),
+  KEY `FK_users` (`ROLE_ID`),
+  CONSTRAINT `FK_users` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ROLE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+<table name="geography" view="colnames">
+<left>29</left>
+<top>74</top>
+<width>110</width>
+<height>124</height>
+<sql_create_table>CREATE TABLE `geography` (
+  `GEO_ID` int(5) NOT NULL AUTO_INCREMENT,
+  `GEO_NAME` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `STATUS` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`GEO_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+</table>
+</tables>
+</canvas>
+</schemadesigner>
