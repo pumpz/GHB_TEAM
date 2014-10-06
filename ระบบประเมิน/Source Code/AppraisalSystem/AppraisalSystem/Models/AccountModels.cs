@@ -17,33 +17,33 @@ namespace AppraisalSystem.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "รหัสเก่า")]
         public string OldPassword { get; set; }
 
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "รหัสใหม่")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "ยืนยันรหัสใหม่")]
+        [Compare("NewPassword", ErrorMessage = "รหัสใช้งานและรหัสยืนยันใช้งานไม่เหมือนกัน!!")]
         public string ConfirmPassword { get; set; }
     }
 
     public class LogOnModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "รหัสผู้ใช้งาน")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "จดจำรหัสเข้าใช้งาน?")]
         public bool RememberMe { get; set; }
     }
 
@@ -51,24 +51,45 @@ namespace AppraisalSystem.Models
     public class RegisterModel
     {
         [Required]
-        [Display(Name = "User name")]
+        [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
-
-        [Required]
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email address")]
-        public string Email { get; set; }
 
         [Required]
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "รหัสผู้ใช้งาน")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "ยืนยันรหัสผู้ใช้งาน")]
+        [Compare("Password", ErrorMessage = "รหัสใช้งานและรหัสยืนยันใช้งานไม่เหมือนกัน!!")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "สิทธิ์ในการเข้าถึงระบบ")]
+        public int RoleID { get; set; }
+
+        [Required]
+        [Display(Name = "สถานะ")]
+        public int Status { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "เลขบัตรประชาชน")]
+        public string CitizenID { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "ชื่อ-นามสกุล")]
+        public string Name { get; set; }
+
+        [DataType(DataType.EmailAddress)]
+        [Display(Name = "อีเมลย์")]
+        public string Email { get; set; }
+
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "เบอร์โทรศัพท์")]
+        public string Phone { get; set; }
     }
     #endregion
 
