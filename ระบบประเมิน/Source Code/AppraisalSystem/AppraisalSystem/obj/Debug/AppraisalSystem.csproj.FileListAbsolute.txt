@@ -5,6 +5,5 @@ Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\Appr
 Z:\Documents\GIT_HUB\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.dll
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
-D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb

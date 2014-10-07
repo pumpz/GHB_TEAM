@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/bootstrap_admin.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/mint-admin_admin.css")" rel="stylesheet" type="text/css" />
+    
+    <script src="@Url.Content("~/Scripts/jquery-1.4.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-1.10.2.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/mint-admin.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.metisMenu.js")" type="text/javascript"></script>
+</head>
+ <body>
+
+        <div id="wrapper">
+            <nav class="navbar navbar-default navbar-static-top" role="navigation">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="http://themes.grozav.com/mint/index.html"><i class="fa fa-pagelines"></i>&nbsp;Appraisal System Admin</a>
+                </div>
+                <!-- /.navbar-header -->
+
+                <ul class="nav navbar-top-links navbar-right">
+                    <!-- /.dropdown -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-user  fa-2x fa-fw"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="http://themes.grozav.com/mint/login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                            </li>
+                        </ul>
+                        <!-- /.dropdown-user -->
+                    </li>
+                    <!-- /.dropdown -->
+                </ul>
+                <!-- /.navbar-top-links -->
+
+            </nav>
+            <!-- /.navbar-static-top -->
+
+            <nav class="navbar-default_admin navbar-static-side" role="navigation">
+                <div class="sidebar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <div class="user-info-wrapper">	
+                                <div class="user-info-profile-image">
+                                    <img src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/profile-1.jpg" alt="" height="65" width="65">
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-welcome">Welcome</div>
+                                    <div class="username">John <strong>Doe</strong></div>
+                                    <div class="status">Status <span class="status-now"><i class="fa fa-circle text-emerald fa"></i> Online</span> </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input class="form-control" placeholder="Search..." type="text">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="http://themes.grozav.com/mint/index.html"><i class="fa fa-map-marker fa-fw fa-3x"></i> จัดการผู้ใช้งาน</a>
+                        </li>
+                        <li>
+                            <a href="http://themes.grozav.com/mint/index.html"><i class="fa fa-files-o fa-fw fa-3x"></i> การเข้าถึงการใช้งาน</a>
+                        </li>
+                       
+                    </ul>
+                    <!-- /#side-menu -->
+                </div>
+                <!-- /.sidebar-collapse -->
+            </nav>
+            <!-- /.navbar-static-side -->
+
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h3 class="page-header">Forms</h3>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="panel panel-default">
+                           @RenderBody()
+                            <!-- /.panel-body -->
+                        </div>
+                        <!-- /.panel -->
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /#page-wrapper -->
+
+        </div>
+        <!-- /#wrapper -->
+
+        <!-- Core Scripts - Include with every page -->
+        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery-1.js"></script>
+        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/bootstrap.js"></script>
+        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery.js"></script>
+
+        <!-- Page-Level Plugin Scripts - Forms -->
+
+        <!-- Mint Admin Scripts - Include with every page -->
+        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/mint-admin.js"></script>
+
+        <!-- Page-Level Demo Scripts - Forms - Use for reference -->
+
+    
+
+
+</body>
+
+</html>
