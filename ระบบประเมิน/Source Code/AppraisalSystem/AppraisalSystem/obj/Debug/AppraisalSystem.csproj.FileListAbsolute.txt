@@ -7,3 +7,4 @@ D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSyst
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
 D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb
+D:\NUM_WORK\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache

@@ -21,5 +21,9 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        public ActionResult ManagePermissions()
+        {
+            return View();
+        }
     }
 }

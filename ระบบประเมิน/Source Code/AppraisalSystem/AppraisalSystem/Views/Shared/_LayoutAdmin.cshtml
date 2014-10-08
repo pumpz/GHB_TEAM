@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="http://themes.grozav.com/mint/index.html"><i class="fa fa-pagelines"></i>&nbsp;Appraisal System Admin</a>
+                    <a class="navbar-brand" href="http://themes.grozav.com/mint/index.html">&nbsp;Appraisal System Admin</a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -69,20 +69,15 @@
                         </li>
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
-                                <input class="form-control" placeholder="Search..." type="text">
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
+                               &nbsp;
                             </div>
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="http://themes.grozav.com/mint/index.html"><i class="fa fa-map-marker fa-fw fa-3x"></i> จัดการผู้ใช้งาน</a>
+                            <a href="@Url.Content("~/Backend/Manage")"><i class="fa fa-map-marker fa-fw fa-3x"></i> จัดการผู้ใช้งาน</a>
                         </li>
                         <li>
-                            <a href="http://themes.grozav.com/mint/index.html"><i class="fa fa-files-o fa-fw fa-3x"></i> การเข้าถึงการใช้งาน</a>
+                            <a href="@Url.Content("~/Backend/ManagePermissions")"><i class="fa fa-files-o fa-fw fa-3x"></i> การเข้าถึงการใช้งาน</a>
                         </li>
                        
                     </ul>
@@ -92,10 +87,10 @@
             </nav>
             <!-- /.navbar-static-side -->
 
-            <div id="page-wrapper">
+           <div id="page-wrapper">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h3 class="page-header">Forms</h3>
+                        <h3 class="page-header">@ViewBag.Header</h3>
                     </div>
                     <!-- /.col-lg-12 -->
                 </div>

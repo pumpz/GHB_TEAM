@@ -309,11 +309,11 @@ a {
   background: transparent; }
   .nav .open > a:hover, .nav .open > a:focus, .nav .open > a:active {
     color: #fff;
-    background: #1bc5a3; }
+    background: #497aab; }
 
 .navbar-top-links > li > a {
   text-align: center;
-  color: #148f77;
+  color: #345b83;
   background: transparent;
   float: left;
   -moz-transition: background 0.5s linear;
@@ -323,7 +323,7 @@ a {
   transition: background 0.5s linear; }
   .navbar-top-links > li > a:hover, .navbar-top-links > li > a:focus, .navbar-top-links > li > a:active {
     color: #fff;
-    background: #1bc5a3; }
+    background: #497aab; }
   .navbar-top-links > li > a i {
     -moz-transition: color 0.3s linear;
     -o-transition: color 0.3s linear;
@@ -606,14 +606,14 @@ table.dataTable thead .sorting:after {
   margin-top: 5px; }
 
 .turquoise {
-  background-color: #1abc9c;
+  background-color: #345b83;
   color: #fff; }
 
 a:hover.turquoise {
   background-color: #17a689; }
 
 .text-turquoise, .text-turquoise * {
-  color: #1abc9c; }
+  color: #345b83; }
 
 .green-sea {
   background-color: #16a085;
@@ -846,14 +846,14 @@ a:hover.custom {
   color: #123123; }
 
 .theme-color {
-  background-color: #1abc9c;
+  background-color: #345b83;
   color: #fff; }
 
 a:hover.theme-color {
   background-color: #17a689; }
 
 .text-theme-color, .text-theme-color * {
-  color: #1abc9c; }
+  color: #345b83; }
 
 .dropdown-messages-profile {
   margin-top: 3px;
@@ -1256,7 +1256,7 @@ ul.labels-info li a i {
 
 .table-inbox tr.unread td {
   font-weight: bold;
-  color: #1abc9c;
+  color: #345b83;
   background: #fff; }
   .table-inbox tr.unread td i {
     color: #555555; }
