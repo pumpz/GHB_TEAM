@@ -62,8 +62,8 @@ CREATE TABLE `appraisal_assets_detail` (
   `APPRAISAL` double DEFAULT '0',
   `STATUS` tinyint(1) DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -92,8 +92,8 @@ CREATE TABLE `appraisal_assets_job` (
   `PAINT_THE_TOWN_ID` int(11) NOT NULL DEFAULT '0',
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -122,9 +122,10 @@ CREATE TABLE `compare_assets` (
   `TERMS_ID` int(11) NOT NULL DEFAULT '0',
   `NOTE` text COLLATE utf8_unicode_ci,
   `LIQUIDITY_ID` int(11) NOT NULL DEFAULT '0',
+  `SEQUENCE` int(11) NOT NULL DEFAULT '0',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -168,12 +169,12 @@ CREATE TABLE `filter_data` (
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`FILTER_ID`),
-  UNIQUE KEY `FILTER_ID` (`FILTER_ID`),
-  KEY `FK_filter_data` (`FILTER_TYPE_ID`),
-  CONSTRAINT `FK_filter_data` FOREIGN KEY (`FILTER_TYPE_ID`) REFERENCES `filter_type` (`FILTER_TYPE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `FILTER_ID` (`FILTER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `filter_data` */
+
+insert  into `filter_data`(`FILTER_ID`,`FILTER_TYPE_ID`,`FILTER_VALUE`,`FILTER_TEXT`,`STATUS`,`CREATE_DATE`) values (1,1,'1','ที่ดิน',1,'2014-10-05 21:38:46'),(2,1,'2','ที่ดินพร้อมสิ่งปลูกสร้าง',1,'2014-10-05 21:39:13'),(3,1,'3','ตึกแถว',1,'2014-10-05 21:39:44'),(4,2,'1','เปรียบเทียบราคาตลาด',1,'2014-10-05 21:40:35'),(5,2,'2','เปรียบเทียบราคาต้นทุน',1,'2014-10-05 21:40:55'),(6,3,'1','ทางสาธารณะ',1,'2014-10-05 21:41:23'),(7,3,'2','ที่จัดสรร',1,'2014-10-05 21:41:39'),(8,4,'1','สีแพงพาณิชยกรรม',1,'2014-10-05 21:42:23'),(9,4,'2','สีส้มที่อยู่อาศัยหนาแน่นมาก',1,'2014-10-05 21:42:37'),(10,4,'3','สีเหลืองที่อยู่อาศัยหนาแน่นปานกลาง',1,'2014-10-05 21:42:48'),(11,5,'1','โฉนด',1,'2014-10-05 21:45:25'),(12,6,'1','ถม',1,'2014-10-05 21:45:38'),(13,6,'2','ไม่ถม',1,'2014-10-05 21:54:45'),(14,7,'1','คสล',1,'2014-10-05 21:55:02'),(15,7,'2','ครึ่งตึกครึ่งไม้',1,'2014-10-05 21:55:16'),(16,7,'3','ไม้',1,'2014-10-05 21:55:45'),(17,8,'1','ใหม่',1,'2014-10-05 21:55:58'),(18,8,'2','ปานกลาง',1,'2014-10-05 21:56:08'),(19,8,'3','เก่า',1,'2014-10-06 09:48:59'),(20,9,'1','คสล',1,'2014-10-06 09:49:07'),(21,9,'2','ไม้',1,'2014-10-06 09:49:13'),(22,9,'3','เหล็ก',1,'2014-10-06 11:05:29'),(23,10,'1','ซีแพค',1,'2014-10-06 11:06:53'),(24,10,'2','ลอนคู่',1,'2014-10-06 11:07:00'),(25,11,'1','ยิปซั่มบอร์ด',1,'2014-10-06 11:14:31'),(26,11,'2','คสล',1,'2014-10-06 11:14:50'),(27,12,'1','คสล ทาสี',1,'2014-10-06 11:15:30'),(28,12,'2','คสล ไม่ทาสี',1,'2014-10-06 11:15:40'),(29,12,'3','ไม้',1,'2014-10-06 11:15:46'),(30,13,'1','คสล',1,'2014-10-06 11:17:30'),(31,13,'2','ไม้',1,'2014-10-06 11:20:01'),(32,14,'1','สี่เหลี่ยม',1,'2014-10-06 11:20:17'),(33,14,'2','หลายเหลี่ยม',1,'2014-10-06 11:20:28'),(34,15,'1','ถนนหลัก',1,'2014-10-06 11:20:42'),(35,15,'2','ถนนรอง',1,'2014-10-06 11:20:49'),(36,15,'3','ซอยย่อย',1,'2014-10-06 11:20:58'),(37,16,'1','ถนนลาดยาง-คอนกรีต',1,'2014-10-06 11:22:03'),(38,16,'2','ถนนลูกรัง',1,'2014-10-06 11:22:10'),(39,17,'1','ปานกลาง',1,'2014-10-06 11:24:19'),(40,17,'2','ต่ำ',1,'2014-10-06 11:24:25'),(41,17,'3','สูง',1,'2014-10-06 11:24:34');
 
 /*Table structure for table `filter_type` */
 
@@ -186,9 +187,11 @@ CREATE TABLE `filter_type` (
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`FILTER_TYPE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `filter_type` */
+
+insert  into `filter_type`(`FILTER_TYPE_ID`,`FILTER_TYPE_CODE`,`FILTER_TYPE_NAME`,`STATUS`,`CREATE_DATE`) values (1,'000001','ASSET_TYPE',1,'2014-10-05 21:34:21'),(2,'000002','ASSESSMENT_METHOD',1,'2014-10-05 21:35:04'),(3,'000003','RIGHT_OF_ACCESS',1,'2014-10-05 21:35:44'),(4,'000004','PAINT_THE_TOWN',1,'2014-10-05 21:36:09'),(5,'000005','TYPE_OF_DOCUMENT',1,'2014-10-05 21:43:41'),(6,'000006','CONDITION_LAND',1,'2014-10-05 21:45:00'),(7,'000007','BUILDING_TYPE',1,'2014-10-05 21:46:27'),(8,'000008','CONDITION_BUILDING',1,'2014-10-05 21:46:42'),(9,'000009','STRUCTURE',1,'2014-10-05 21:50:24'),(10,'000010','MATERIALS',1,'2014-10-05 21:50:38'),(11,'000011','CEILING',1,'2014-10-05 21:50:45'),(12,'000012','EX-INTERIOR_WALLS',1,'2014-10-05 21:51:17'),(13,'000013','STAIR',1,'2014-10-05 21:51:49'),(14,'000014','SHAPE_INFORMATION',1,'2014-10-05 21:52:23'),(15,'000015','ENVIRONMENT',1,'2014-10-05 21:52:40'),(16,'000016','CHARACTERISTICS_ACCESS',1,'2014-10-05 21:52:58'),(17,'000017','UTILITIES',1,'2014-10-06 11:22:49');
 
 /*Table structure for table `geography` */
 
@@ -216,10 +219,11 @@ CREATE TABLE `image_assets` (
   `IMAGE_PATH` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `FILE_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `DESCRIPTION` text COLLATE utf8_unicode_ci,
+  `SEQUENCE` int(11) NOT NULL DEFAULT '0',
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -237,8 +241,8 @@ CREATE TABLE `location_assets` (
   `APPRAISAL_ASSETS_ID` int(11) NOT NULL,
   `NO_BUILDINGS` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `BUILDING_TYPE_ID` int(11) NOT NULL DEFAULT '0',
-  `FLOOR_ID` int(11) NOT NULL DEFAULT '0',
-  `HOUSE_BUILDING_ID` int(11) NOT NULL DEFAULT '0',
+  `FLOOR` int(11) DEFAULT '0',
+  `CONDITION_BUILDING_ID` int(11) NOT NULL DEFAULT '0',
   `BUILDING_AGE` double DEFAULT '0',
   `STRUCTURE_ID` int(11) NOT NULL DEFAULT '0',
   `POLE_ID` int(11) NOT NULL DEFAULT '0',
@@ -256,8 +260,8 @@ CREATE TABLE `location_assets` (
   `PRICE_PER_METER` double NOT NULL DEFAULT '0',
   `DEPRECIATION` double NOT NULL DEFAULT '0',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -277,8 +281,8 @@ CREATE TABLE `map_assets` (
   `LONGITUDE` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `UPDATE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `DELETE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `UPDATE_DATE` timestamp NULL DEFAULT NULL,
+  `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -313,6 +317,7 @@ DROP TABLE IF EXISTS `role`;
 
 CREATE TABLE `role` (
   `ROLE_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `ROLE_CODE` varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,
   `ROLE_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -322,9 +327,11 @@ CREATE TABLE `role` (
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`ROLE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `role` */
+
+insert  into `role`(`ROLE_ID`,`ROLE_CODE`,`ROLE_NAME`,`STATUS`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'ADMIN','ผู้ดูแลระบบ',1,'2014-10-07 14:20:54',NULL,NULL,'SYSTEM',NULL,NULL),(2,'VALUER','ผู้ประเมิน',1,'2014-10-07 14:24:34',NULL,NULL,'SYSTEM',NULL,NULL),(3,'CHECKER','ผู้ตรวจสอบ',1,'2014-10-07 14:26:07',NULL,NULL,'SYSTEM',NULL,NULL);
 
 /*Table structure for table `upload_type` */
 
@@ -337,9 +344,11 @@ CREATE TABLE `upload_type` (
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`UPLOAD_TYPE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `upload_type` */
+
+insert  into `upload_type`(`UPLOAD_TYPE_ID`,`UPLOAD_TYPE_CODE`,`UPLOAD_TYPE_NAME`,`STATUS`,`CREATE_DATE`) values (1,'PICTURE_DO','รูปภาพเอกสารสิทธิ์',1,'2014-10-07 14:55:54'),(2,'PICTURE_AS','รูปภาพทรัพย์สิน',1,'2014-10-07 14:56:42'),(3,'PICTURE_CO','รูปภาพข้อมูลเทียบ',1,'2014-10-07 15:16:53');
 
 /*Table structure for table `users` */
 
@@ -350,23 +359,444 @@ CREATE TABLE `users` (
   `USER_NAME` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `PASSWORD` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `ROLE_ID` int(11) NOT NULL,
-  `STATUS` tinyint(1) NOT NULL DEFAULT '1',
-  `FIRST_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `LAST_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
+  `STATUS` int(1) NOT NULL DEFAULT '1',
+  `CITIZEN_ID` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `NAME` varchar(250) COLLATE utf8_unicode_ci NOT NULL,
   `EMAIL` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `PHONE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `LAST_LOGIN` timestamp NULL DEFAULT NULL,
+  `DELETE_FLAG` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATE_DATE` timestamp NULL DEFAULT NULL,
   `DELETE_DATE` timestamp NULL DEFAULT NULL,
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`USER_ID`),
+  PRIMARY KEY (`USER_ID`,`ROLE_ID`),
   KEY `FK_users` (`ROLE_ID`),
   CONSTRAINT `FK_users` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ROLE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `users` */
+
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,1,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,NULL,1,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,1,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+
+/* Procedure structure for procedure `USP_DEL_UPLOAD_PICTURE` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_DEL_UPLOAD_PICTURE` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_UPLOAD_PICTURE`(
+	IN p_appraisal_assets_id INT, 
+        IN p_upload_type_id INT,
+        IN p_sequence INT,
+        IN p_delete_by VARCHAR(20)
+    )
+BEGIN
+	UPDATE IMAGE_ASSETS
+	SET STATUS = 0,
+		DELETE_DATE = CURRENT_TIMESTAMP,
+		DELETE_BY = p_delete_by
+	WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
+		AND UPLOAD_TYPE_ID = p_upload_type_id 
+		AND SEQUENCE = p_sequence;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_DEL_USERS` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_DEL_USERS` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_USERS`(
+	IN p_user_name VARCHAR(20),
+	IN p_delete_by VARCHAR(20)
+    )
+BEGIN
+	UPDATE USERS
+	SET DELETE_FLAG = 1, 
+		DELETE_DATE = CURRENT_TIMESTAMP,
+		DELETE_BY = p_delete_by
+	WHERE USER_NAME = p_user_name;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_GET_USERS_LOGIN` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_GET_USERS_LOGIN` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_GET_USERS_LOGIN`(
+	IN iUsername VARCHAR(50),
+        IN iPassword VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oUserID INT)
+BEGIN
+	SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
+           CASE WHEN `STATUS` = 0 THEN NULL ELSE User_ID END
+	      INTO oMessage, oUserID
+	      FROM users 
+	     WHERE (User_Name = TRIM(iUsername) 
+		   OR Email = TRIM(iUsername)) 
+	       AND `Password` = iPassword
+	     LIMIT 1; -- you better protect yourself from duplicates
+	    SET oMessage = IFNULL(oMessage, 'Invalid username and password');
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_GET_USERS_PERMISSION` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_GET_USERS_PERMISSION` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_GET_USERS_PERMISSION`(
+	IN iUsername VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oRoleCode VARCHAR(50)
+    )
+BEGIN
+	SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
+           CASE WHEN `STATUS` = 0 THEN NULL ELSE Role_Code END
+	      INTO oMessage, oRoleCode
+	      FROM v_users 
+	     WHERE (User_Name = TRIM(iUsername) 
+		   OR Email = TRIM(iUsername))
+	     LIMIT 1; -- you better protect yourself from duplicates
+	    SET oMessage = IFNULL(oMessage, 'No permission to access the site');
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_INS_APPRAISAL_ASSETS_JOB` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_ASSETS_JOB` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_APPRAISAL_ASSETS_JOB`(
+	IN p_appraisal_assets_code VARCHAR(200), 
+        IN p_village VARCHAR(200),
+        IN p_alley VARCHAR(200),
+        in p_road VARCHAR(200),
+        IN p_district_id int,
+        IN p_amphur_id int,
+        in p_province_id int,
+        in p_detailed_location text,
+        in p_asset_type_id int,
+        in p_assessment_methods_id int,
+        in p_rights_of_access_id int,
+        in p_paint_the_town_id int,
+        IN p_create_by VARCHAR(20)
+    )
+BEGIN
+	INSERT INTO APPRAISAL_ASSETS_JOB
+	(
+		APPRAISAL_ASSETS_CODE, 
+		VILLAGE, 
+		ALLEY, 
+		ROAD, 
+		DISTRICT_ID, 
+		AMPHUR_ID,
+		PROVINCE_ID,
+		DETAILED_LOCATION,
+		ASSET_TYPE_ID,
+		ASSESSMENT_METHODS_ID,
+		RIGHTS_OF_ACCESS_ID,
+		PAINT_THE_TOWN_ID,
+		CREATE_BY   
+	)
+	VALUES 
+	( 
+		p_appraisal_assets_code, 
+		p_village, 
+		p_alley, 
+		p_road, 
+		p_district_id,
+		p_amphur_id,
+		p_province_id,
+		p_detailed_location,
+		p_asset_type_id,
+		p_assessment_methods_id,
+		p_rights_of_access_id,
+		p_paint_the_town_id,
+		p_create_by
+	) ; 
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_INS_UPLOAD_PICTURE` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_UPLOAD_PICTURE` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_UPLOAD_PICTURE`(
+	IN p_appraisal_assets_id int, 
+        IN p_upload_type_id INT,
+        IN p_image_path VARCHAR(250),
+        IN p_file_name VARCHAR(100),
+        IN p_description text,
+        IN p_sequence int,
+        IN p_create_by VARCHAR(20)
+    )
+BEGIN
+	INSERT INTO IMAGE_ASSETS
+	(
+		APPRAISAL_ASSETS_ID, 
+		UPLOAD_TYPE_ID, 
+		IMAGE_PATH, 
+		FILE_NAME, 
+		DESCRIPTION,
+		SEQUENCE,
+		CREATE_BY
+	)
+	VALUES 
+	( 
+		p_appraisal_assets_id, 
+		p_upload_type_id, 
+		p_image_path, 
+		p_file_name, 
+		p_description,
+		p_sequence,
+		p_create_by
+	) ; 
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_INS_USERS` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_USERS` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_USERS`(
+	IN p_user_name VARCHAR(20), 
+        IN p_password VARCHAR(100),
+        In p_roleid int,
+        in p_citizenid varchar(20),
+        in p_name varchar(250),
+        in p_email VARCHAR(150),
+        IN p_phone VARCHAR(20),
+        in p_create_by VARCHAR(20)
+    )
+BEGIN
+	INSERT INTO USERS
+	(
+		USER_NAME, 
+		password, 
+		ROLE_ID, 
+		CITIZEN_ID, 
+		NAME, 
+		EMAIL,
+		PHONE,
+		CREATE_BY   
+	)
+	VALUES 
+	( 
+		p_user_name, 
+		p_password, 
+		p_roleid, 
+		p_citizenid, 
+		p_name,
+		p_email,
+		p_phone,
+		p_create_by
+	) ; 
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_UPD_UPLOAD_PICTURE` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_UPLOAD_PICTURE` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_UPLOAD_PICTURE`(
+	IN p_appraisal_assets_id INT, 
+        IN p_upload_type_id INT,
+        IN p_image_path VARCHAR(250),
+        IN p_file_name VARCHAR(100),
+        IN p_description TEXT,
+        IN p_sequence INT,
+        IN p_update_by VARCHAR(20)
+    )
+BEGIN
+	UPDATE IMAGE_ASSETS
+	SET IMAGE_PATH = p_image_path, 
+		FILE_NAME = p_file_name,
+		DESCRIPTION = p_description,
+		PHONE = p_phone,
+		UPDATE_DATE = CURRENT_TIMESTAMP,
+		UPDATE_BY = p_update_by
+	WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
+		AND UPLOAD_TYPE_ID = p_upload_type_id 
+		AND SEQUENCE = p_sequence;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_UPD_USERS` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_USERS`(
+	IN p_user_name VARCHAR(20), 
+	IN p_roleid INT,
+        IN p_name VARCHAR(250),
+        IN p_email VARCHAR(150),
+        IN p_phone VARCHAR(20),
+        IN p_update_by VARCHAR(20)
+    )
+BEGIN
+	UPDATE USERS
+	SET ROLE_ID = p_roleid, 
+		NAME = p_name,
+		EMAIL = p_email,
+		PHONE = p_phone,
+		UPDATE_DATE = CURRENT_TIMESTAMP,
+		UPDATE_BY = p_update_by
+	WHERE USER_NAME = p_user_name;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_UPD_USERS_CHANGE_PWD` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS_CHANGE_PWD` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS_CHANGE_PWD`(
+	IN iUserID VARCHAR(50),
+        IN iOldPassword VARCHAR(50),
+        IN iNewPassword VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oUserID INT)
+BEGIN
+	SELECT CASE WHEN `Password` = md5(iOldPassword) THEN 'Old Password Incorrect' ELSE 'Success' END,
+		CASE WHEN `Password` = MD5(iOldPassword) THEN NULL ELSE UserID END
+	      INTO oMessage, oUserID
+	      FROM users 
+	     WHERE iUserID = TRIM(iUserID) 
+	       AND `Password` = iOldPassword
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF (oUserID > 0) THEN
+	    UPDATE users SET `Password` = iNewPassword 
+	    WHERE iUserID = TRIM(iUserID);
+	end IF;
+	SET oMessage = IFNULL(oMessage, 'Update password success');
+    END */$$
+DELIMITER ;
+
+/*Table structure for table `v_amphur` */
+
+DROP TABLE IF EXISTS `v_amphur`;
+
+/*!50001 DROP VIEW IF EXISTS `v_amphur` */;
+/*!50001 DROP TABLE IF EXISTS `v_amphur` */;
+
+/*!50001 CREATE TABLE  `v_amphur`(
+ `AMPHUR_ID` int(5) ,
+ `AMPHUR_CODE` varchar(4) ,
+ `AMPHUR_NAME` varchar(150) ,
+ `AMPHUR_NAME_ENG` varchar(150) ,
+ `GEO_ID` int(5) ,
+ `PROVINCE_ID` int(5) ,
+ `STATUS` tinyint(1) 
+)*/;
+
+/*Table structure for table `v_district` */
+
+DROP TABLE IF EXISTS `v_district`;
+
+/*!50001 DROP VIEW IF EXISTS `v_district` */;
+/*!50001 DROP TABLE IF EXISTS `v_district` */;
+
+/*!50001 CREATE TABLE  `v_district`(
+ `DISTRICT_ID` int(5) ,
+ `DISTRICT_CODE` varchar(6) ,
+ `DISTRICT_NAME` varchar(150) ,
+ `AMPHUR_ID` int(5) ,
+ `PROVINCE_ID` int(5) ,
+ `GEO_ID` int(5) ,
+ `STATUS` tinyint(1) 
+)*/;
+
+/*Table structure for table `v_province` */
+
+DROP TABLE IF EXISTS `v_province`;
+
+/*!50001 DROP VIEW IF EXISTS `v_province` */;
+/*!50001 DROP TABLE IF EXISTS `v_province` */;
+
+/*!50001 CREATE TABLE  `v_province`(
+ `PROVINCE_ID` int(5) ,
+ `PROVINCE_CODE` varchar(2) ,
+ `PROVINCE_NAME` varchar(150) ,
+ `PROVINCE_NAME_ENG` varchar(150) ,
+ `GEO_ID` int(5) ,
+ `STATUS` tinyint(1) 
+)*/;
+
+/*Table structure for table `v_users` */
+
+DROP TABLE IF EXISTS `v_users`;
+
+/*!50001 DROP VIEW IF EXISTS `v_users` */;
+/*!50001 DROP TABLE IF EXISTS `v_users` */;
+
+/*!50001 CREATE TABLE  `v_users`(
+ `USER_ID` int(11) ,
+ `USER_NAME` varchar(20) ,
+ `PASSWORD` varchar(100) ,
+ `ROLE_ID` int(11) ,
+ `STATUS` int(1) ,
+ `CITIZEN_ID` varchar(20) ,
+ `NAME` varchar(250) ,
+ `EMAIL` varchar(150) ,
+ `PHONE` varchar(20) ,
+ `LAST_LOGIN` timestamp ,
+ `DELETE_FLAG` tinyint(1) ,
+ `CREATE_DATE` timestamp ,
+ `UPDATE_DATE` timestamp ,
+ `DELETE_DATE` timestamp ,
+ `CREATE_BY` varchar(100) ,
+ `UPDATE_BY` varchar(100) ,
+ `DELETE_BY` varchar(100) ,
+ `ROLE_CODE` varchar(10) ,
+ `ROLE_NAME` varchar(100) 
+)*/;
+
+/*View structure for view v_amphur */
+
+/*!50001 DROP TABLE IF EXISTS `v_amphur` */;
+/*!50001 DROP VIEW IF EXISTS `v_amphur` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`amphur`.`GEO_ID` AS `GEO_ID`,`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`amphur`.`STATUS` AS `STATUS` from `amphur` where (`amphur`.`STATUS` = 1)) */;
+
+/*View structure for view v_district */
+
+/*!50001 DROP TABLE IF EXISTS `v_district` */;
+/*!50001 DROP VIEW IF EXISTS `v_district` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_district` AS (select `district`.`DISTRICT_ID` AS `DISTRICT_ID`,`district`.`DISTRICT_CODE` AS `DISTRICT_CODE`,`district`.`DISTRICT_NAME` AS `DISTRICT_NAME`,`district`.`AMPHUR_ID` AS `AMPHUR_ID`,`district`.`PROVINCE_ID` AS `PROVINCE_ID`,`district`.`GEO_ID` AS `GEO_ID`,`district`.`STATUS` AS `STATUS` from `district` where (`district`.`STATUS` = 1)) */;
+
+/*View structure for view v_province */
+
+/*!50001 DROP TABLE IF EXISTS `v_province` */;
+/*!50001 DROP VIEW IF EXISTS `v_province` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `province`.`PROVINCE_ID` AS `PROVINCE_ID`,`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`province`.`GEO_ID` AS `GEO_ID`,`province`.`STATUS` AS `STATUS` from `province` where (`province`.`STATUS` = 1)) */;
+
+/*View structure for view v_users */
+
+/*!50001 DROP TABLE IF EXISTS `v_users` */;
+/*!50001 DROP VIEW IF EXISTS `v_users` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_users` AS (select `users`.`USER_ID` AS `USER_ID`,`users`.`USER_NAME` AS `USER_NAME`,`users`.`PASSWORD` AS `PASSWORD`,`users`.`ROLE_ID` AS `ROLE_ID`,`users`.`STATUS` AS `STATUS`,`users`.`CITIZEN_ID` AS `CITIZEN_ID`,`users`.`NAME` AS `NAME`,`users`.`EMAIL` AS `EMAIL`,`users`.`PHONE` AS `PHONE`,`users`.`LAST_LOGIN` AS `LAST_LOGIN`,`users`.`DELETE_FLAG` AS `DELETE_FLAG`,`users`.`CREATE_DATE` AS `CREATE_DATE`,`users`.`UPDATE_DATE` AS `UPDATE_DATE`,`users`.`DELETE_DATE` AS `DELETE_DATE`,`users`.`CREATE_BY` AS `CREATE_BY`,`users`.`UPDATE_BY` AS `UPDATE_BY`,`users`.`DELETE_BY` AS `DELETE_BY`,`role`.`ROLE_CODE` AS `ROLE_CODE`,`role`.`ROLE_NAME` AS `ROLE_NAME` from (`users` join `role` on((`users`.`ROLE_ID` = `role`.`ROLE_ID`)))) */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
