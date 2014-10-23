@@ -1,7 +1,112 @@
 ﻿@{
     ViewBag.Title = "ข้อมูลที่ตั้งทรัพย์สิน";
-    ViewBag.Header = "ข้อมูลที่ตั้งทรัพย์สิน";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageAssetDetail</h2>
+<div class="panel-heading"><label>ข้อมูลที่ตั้งทรัพย์สิน</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+         <div class="form-group">
+            <label class="textbox-inline">
+                <label>ชื่อหมู่บ้าน</label>
+                @Html.TextBox("txtHomeName","", new { @class = "form-control ui-wizard-content" })
+            </label>
+            <label class="textbox-inline">
+                <label>ซอย</label>
+                 @Html.TextBox("txtHomeSoi","", new { @class = "form-control ui-wizard-content" })
+            </label>
+             <label class="textbox-inline">
+                <label>ถนน</label>
+                 @Html.TextBox("txtHomeRoad","", new { @class = "form-control ui-wizard-content" })
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline">
+                <label>อำเภอ</label>
+                <select class="form-control" style="width:205px">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline">
+                <label>ตำบล</label>
+                <select class="form-control" style="width:205px">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+             <label class="textbox-inline">
+                <label>จังหวัด</label>
+                <select class="form-control" style="width:205px">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>รายละเอียดที่ตั้ง</label>
+            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>ประเภทของทรัพย์สิน</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>วิธีการประเมิน</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>สิทธิการเข้าออก</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>สีตาม พรบ.ผังเมือง</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button fa-save" style="float:right" value="บันทึก" />
+        </div>
+        
+    </div>
+}
+</div>

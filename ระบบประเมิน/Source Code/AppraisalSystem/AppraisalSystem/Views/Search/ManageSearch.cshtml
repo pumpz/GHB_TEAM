@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "ManageSearch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel-heading"><label>ค้นหางาน</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-4 col-md-offset-4">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>อำเภอ</label>
+            <select class="form-control">
+                <option>เลือกอำเภอที่ต้องการค้นหา</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ตำบล</label>
+            <select class="form-control">
+                <option>เลือกตำบลที่ต้องการค้นหา</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right" value="ค้นหางาน" />
+        </div>
+    </div>
+}
+</div>
