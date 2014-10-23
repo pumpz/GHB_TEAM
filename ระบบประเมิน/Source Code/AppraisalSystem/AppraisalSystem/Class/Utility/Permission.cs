@@ -11,8 +11,7 @@ namespace AppraisalSystem.Utility
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (ContentHelpers.Isnull(HttpContext.Current.Session["UserID"]) || 
-                Convert.ToInt32(HttpContext.Current.Session["UserID"]) <= 0)
+            if (ContentHelpers.Isnull(HttpContext.Current.Session["UserName"]))
             {
                 // check if a new session id was generated
                 filterContext.Result = new RedirectResult("~/Account/LogOn");
