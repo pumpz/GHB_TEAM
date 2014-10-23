@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    
+    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/mint-admin.css")" rel="stylesheet" type="text/css" />
+    <style type="text/css">
+        .login-copyright {
+            color: #999999;
+            font-size: 11px;
+            margin: 0 auto;
+            padding: 10px 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        @RenderBody()
+    </div>
+    <div class="login-copyright"> 2014 © CMU. Software Engineering. </div>
+</body>
+</html>

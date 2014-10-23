@@ -34,11 +34,11 @@ namespace AppraisalSystem.Models
 
     public class LogOnModel
     {
-        [Required]
+        [Required(ErrorMessage = "กรุณากรอก รหัสพนักงาน / ชื่อผู้ใช้")]
         [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "กรุณากรอก รหัสสำหรับเข้าใช้งานระบบ")]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสผู้ใช้งาน")]
         public string Password { get; set; }
