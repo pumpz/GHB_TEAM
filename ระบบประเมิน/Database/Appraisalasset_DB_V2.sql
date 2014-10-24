@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v9.02 
-MySQL - 5.5.27 : Database - appraisalasset
+MySQL - 5.6.21-log : Database - appraisalasset
 *********************************************************************
 */
 
@@ -365,7 +365,7 @@ CREATE TABLE `users` (
   `EMAIL` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `PHONE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `LAST_LOGIN` timestamp NULL DEFAULT NULL,
-  `DELETE_FLAG` tinyint(1) NOT NULL DEFAULT '1',
+  `DELETE_FLAG` tinyint(1) NOT NULL DEFAULT '0',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATE_DATE` timestamp NULL DEFAULT NULL,
   `DELETE_DATE` timestamp NULL DEFAULT NULL,
@@ -379,11 +379,8 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-<<<<<<< HEAD
-=======
-insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,1,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,NULL,1,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,1,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,NULL,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
 
->>>>>>> origin/master
 /* Procedure structure for procedure `USP_DEL_UPLOAD_PICTURE` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_DEL_UPLOAD_PICTURE` */;
@@ -414,7 +411,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_USERS`(
-	IN p_user_name VARCHAR(20),
+	IN p_user_id INT,
 	IN p_delete_by VARCHAR(20)
     )
 BEGIN
@@ -422,12 +419,10 @@ BEGIN
 	SET DELETE_FLAG = 1, 
 		DELETE_DATE = CURRENT_TIMESTAMP,
 		DELETE_BY = p_delete_by
-	WHERE USER_NAME = p_user_name;
+	WHERE USER_ID = p_user_id;
     END */$$
 DELIMITER ;
 
-<<<<<<< HEAD
-=======
 /* Procedure structure for procedure `USP_GET_USERS_LOGIN` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_GET_USERS_LOGIN` */;
@@ -446,7 +441,7 @@ BEGIN
 	      FROM users 
 	     WHERE (User_Name = TRIM(iUsername) 
 		   OR Email = TRIM(iUsername)) 
-	       AND `Password` = iPassword
+	       AND `Password` = iPassword AND DELETE_FLAG = 0
 	     LIMIT 1; -- you better protect yourself from duplicates
 	    SET oMessage = IFNULL(oMessage, 'Invalid username and password');
     END */$$
@@ -475,7 +470,6 @@ BEGIN
     END */$$
 DELIMITER ;
 
->>>>>>> origin/master
 /* Procedure structure for procedure `USP_INS_APPRAISAL_ASSETS_JOB` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_ASSETS_JOB` */;
@@ -495,41 +489,54 @@ DELIMITER $$
         in p_assessment_methods_id int,
         in p_rights_of_access_id int,
         in p_paint_the_town_id int,
-        IN p_create_by VARCHAR(20)
+        IN p_create_by VARCHAR(20),
+        OUT oMessage VARCHAR(50),
+        OUT oAppJob INT
     )
 BEGIN
-	INSERT INTO APPRAISAL_ASSETS_JOB
-	(
-		APPRAISAL_ASSETS_CODE, 
-		VILLAGE, 
-		ALLEY, 
-		ROAD, 
-		DISTRICT_ID, 
-		AMPHUR_ID,
-		PROVINCE_ID,
-		DETAILED_LOCATION,
-		ASSET_TYPE_ID,
-		ASSESSMENT_METHODS_ID,
-		RIGHTS_OF_ACCESS_ID,
-		PAINT_THE_TOWN_ID,
-		CREATE_BY   
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_code, 
-		p_village, 
-		p_alley, 
-		p_road, 
-		p_district_id,
-		p_amphur_id,
-		p_province_id,
-		p_detailed_location,
-		p_asset_type_id,
-		p_assessment_methods_id,
-		p_rights_of_access_id,
-		p_paint_the_town_id,
-		p_create_by
-	) ; 
+	SELECT CASE WHEN APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code) THEN 'Duplicate appraisal job' ELSE 'Success' END,
+		CASE WHEN `STATUS` = 0 THEN NULL ELSE APPRAISAL_ASSETS_ID END
+		INTO oMessage, oAppJob
+	      FROM APPRAISAL_ASSETS_JOB
+	      WHERE APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code)
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oAppJob)) THEN
+		INSERT INTO APPRAISAL_ASSETS_JOB
+		(
+			APPRAISAL_ASSETS_CODE, 
+			VILLAGE, 
+			ALLEY, 
+			ROAD, 
+			DISTRICT_ID, 
+			AMPHUR_ID,
+			PROVINCE_ID,
+			DETAILED_LOCATION,
+			ASSET_TYPE_ID,
+			ASSESSMENT_METHODS_ID,
+			RIGHTS_OF_ACCESS_ID,
+			PAINT_THE_TOWN_ID,
+			CREATE_BY   
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_code, 
+			p_village, 
+			p_alley, 
+			p_road, 
+			p_district_id,
+			p_amphur_id,
+			p_province_id,
+			p_detailed_location,
+			p_asset_type_id,
+			p_assessment_methods_id,
+			p_rights_of_access_id,
+			p_paint_the_town_id,
+			p_create_by
+		) ;
+	SET oAppJob = LAST_INSERT_ID();
+	ELSE
+		SET oMessage = IFNULL(oMessage, 'Duplicate appraisal job inactive');
+	END IF; 
     END */$$
 DELIMITER ;
 
@@ -586,31 +593,44 @@ DELIMITER $$
         in p_name varchar(250),
         in p_email VARCHAR(150),
         IN p_phone VARCHAR(20),
-        in p_create_by VARCHAR(20)
+        in p_create_by VARCHAR(20),
+        OUT oMessage VARCHAR(50),
+        OUT oUserID int
     )
 BEGIN
-	INSERT INTO USERS
-	(
-		USER_NAME, 
-		password, 
-		ROLE_ID, 
-		CITIZEN_ID, 
-		NAME, 
-		EMAIL,
-		PHONE,
-		CREATE_BY   
-	)
-	VALUES 
-	( 
-		p_user_name, 
-		p_password, 
-		p_roleid, 
-		p_citizenid, 
-		p_name,
-		p_email,
-		p_phone,
-		p_create_by
-	) ; 
+	SELECT CASE WHEN USER_NAME = TRIM(p_user_name) THEN 'Duplicate user name' ELSE 'Success' END,
+		CASE WHEN `STATUS` = 0 THEN NULL ELSE User_ID END
+		INTO oMessage, oUserID
+	      FROM users
+	      WHERE User_Name = TRIM(p_user_name) AND DELETE_FLAG = 0
+	     LIMIT 1; -- you better protect yourself from duplicates
+	if(ISNULL(oUserID)) Then
+		INSERT INTO USERS
+		(
+			USER_NAME, 
+			password, 
+			ROLE_ID, 
+			CITIZEN_ID, 
+			NAME, 
+			EMAIL,
+			PHONE,
+			CREATE_BY   
+		)
+		VALUES 
+		( 
+			p_user_name, 
+			p_password, 
+			p_roleid, 
+			p_citizenid, 
+			p_name,
+			p_email,
+			p_phone,
+			p_create_by
+		) ; 
+		set oUserID = last_insert_id();
+	ELSE
+		set oMessage = IFNULL(oMessage, 'User name inactive');
+	end If;
     END */$$
 DELIMITER ;
 
@@ -651,6 +671,7 @@ DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_USERS`(
 	IN p_user_name VARCHAR(20), 
+	IN p_password varchar(50),
 	IN p_roleid INT,
         IN p_name VARCHAR(250),
         IN p_email VARCHAR(150),
@@ -658,19 +679,31 @@ DELIMITER $$
         IN p_update_by VARCHAR(20)
     )
 BEGIN
-	UPDATE USERS
-	SET ROLE_ID = p_roleid, 
-		NAME = p_name,
-		EMAIL = p_email,
-		PHONE = p_phone,
-		UPDATE_DATE = CURRENT_TIMESTAMP,
-		UPDATE_BY = p_update_by
-	WHERE USER_NAME = p_user_name;
+	if(isnull(p_password)) THEN
+		UPDATE USERS
+		SET ROLE_ID = p_roleid, 
+			`NAME` = p_name,
+			EMAIL = p_email,
+			PHONE = p_phone,
+			UPDATE_DATE = CURRENT_TIMESTAMP,
+			UPDATE_BY = p_update_by
+		WHERE USER_NAME = p_user_name AND DELETE_FLAG = 0;
+	
+	ELSE
+		UPDATE USERS
+		SET `PASSWORD` = p_password,
+			ROLE_ID = p_roleid, 
+			`NAME` = p_name,
+			EMAIL = p_email,
+			PHONE = p_phone,
+			UPDATE_DATE = CURRENT_TIMESTAMP,
+			UPDATE_BY = p_update_by
+		WHERE USER_NAME = p_user_name AND DELETE_FLAG = 0;
+	END IF;
+	
     END */$$
 DELIMITER ;
 
-<<<<<<< HEAD
-=======
 /* Procedure structure for procedure `USP_UPD_USERS_CHANGE_PWD` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS_CHANGE_PWD` */;
@@ -678,28 +711,53 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS_CHANGE_PWD`(
-	IN iUserID VARCHAR(50),
+	IN iUserName VARCHAR(50),
         IN iOldPassword VARCHAR(50),
         IN iNewPassword VARCHAR(50),
+        IN iUpdateBy VARCHAR(50),
         OUT oMessage VARCHAR(50),
 	OUT oUserID INT)
 BEGIN
 	SELECT CASE WHEN `Password` = md5(iOldPassword) THEN 'Old Password Incorrect' ELSE 'Success' END,
-		CASE WHEN `Password` = MD5(iOldPassword) THEN NULL ELSE UserID END
+		CASE WHEN `STATUS` = MD5(iOldPassword) THEN NULL ELSE UserID END
 	      INTO oMessage, oUserID
 	      FROM users 
-	     WHERE iUserID = TRIM(iUserID) 
+	     WHERE User_Name = TRIM(iUserName) 
 	       AND `Password` = iOldPassword
 	     LIMIT 1; -- you better protect yourself from duplicates
 	IF (oUserID > 0) THEN
-	    UPDATE users SET `Password` = iNewPassword 
+	    UPDATE users 
+	    SET `Password` = iNewPassword,
+			Update_date = current_timestamp,
+			Update_by = iUpdateBy
 	    WHERE iUserID = TRIM(iUserID);
+	    SET oMessage = IFNULL(oMessage, 'Update password success');
+	else
+	    SET oMessage = IFNULL(oMessage, 'Update password unsuccess');
 	end IF;
-	SET oMessage = IFNULL(oMessage, 'Update password success');
+	
     END */$$
 DELIMITER ;
 
->>>>>>> origin/master
+/* Procedure structure for procedure `USP_UPD_USERS_LOCK` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS_LOCK` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS_LOCK`(
+	iUserID int,
+	iUpdateBy VARCHAR(20)
+    )
+BEGIN
+	UPDATE USERS
+	SET `STATUS` = 0, 
+		UPDATE_DATE = CURRENT_TIMESTAMP,
+		UPDATE_BY = iUpdateBy
+	WHERE User_ID = iUserID AND DELETE_FLAG = 0;
+    END */$$
+DELIMITER ;
+
 /*Table structure for table `v_amphur` */
 
 DROP TABLE IF EXISTS `v_amphur`;
@@ -750,8 +808,6 @@ DROP TABLE IF EXISTS `v_province`;
  `STATUS` tinyint(1) 
 )*/;
 
-<<<<<<< HEAD
-=======
 /*Table structure for table `v_users` */
 
 DROP TABLE IF EXISTS `v_users`;
@@ -781,37 +837,25 @@ DROP TABLE IF EXISTS `v_users`;
  `ROLE_NAME` varchar(100) 
 )*/;
 
->>>>>>> origin/master
 /*View structure for view v_amphur */
 
 /*!50001 DROP TABLE IF EXISTS `v_amphur` */;
 /*!50001 DROP VIEW IF EXISTS `v_amphur` */;
 
-<<<<<<< HEAD
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `appraisalasset`.`amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`appraisalasset`.`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`appraisalasset`.`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`appraisalasset`.`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`appraisalasset`.`amphur`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`amphur`.`STATUS` AS `STATUS` from `amphur` where (`appraisalasset`.`amphur`.`STATUS` = 1)) */;
-=======
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`amphur`.`GEO_ID` AS `GEO_ID`,`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`amphur`.`STATUS` AS `STATUS` from `amphur` where (`amphur`.`STATUS` = 1)) */;
->>>>>>> origin/master
 
 /*View structure for view v_district */
 
 /*!50001 DROP TABLE IF EXISTS `v_district` */;
 /*!50001 DROP VIEW IF EXISTS `v_district` */;
 
-<<<<<<< HEAD
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_district` AS (select `appraisalasset`.`district`.`DISTRICT_ID` AS `DISTRICT_ID`,`appraisalasset`.`district`.`DISTRICT_CODE` AS `DISTRICT_CODE`,`appraisalasset`.`district`.`DISTRICT_NAME` AS `DISTRICT_NAME`,`appraisalasset`.`district`.`AMPHUR_ID` AS `AMPHUR_ID`,`appraisalasset`.`district`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`district`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`district`.`STATUS` AS `STATUS` from `district` where (`appraisalasset`.`district`.`STATUS` = 1)) */;
-=======
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_district` AS (select `district`.`DISTRICT_ID` AS `DISTRICT_ID`,`district`.`DISTRICT_CODE` AS `DISTRICT_CODE`,`district`.`DISTRICT_NAME` AS `DISTRICT_NAME`,`district`.`AMPHUR_ID` AS `AMPHUR_ID`,`district`.`PROVINCE_ID` AS `PROVINCE_ID`,`district`.`GEO_ID` AS `GEO_ID`,`district`.`STATUS` AS `STATUS` from `district` where (`district`.`STATUS` = 1)) */;
->>>>>>> origin/master
 
 /*View structure for view v_province */
 
 /*!50001 DROP TABLE IF EXISTS `v_province` */;
 /*!50001 DROP VIEW IF EXISTS `v_province` */;
 
-<<<<<<< HEAD
-/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `appraisalasset`.`province`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`appraisalasset`.`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`appraisalasset`.`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`appraisalasset`.`province`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`province`.`STATUS` AS `STATUS` from `province` where (`appraisalasset`.`province`.`STATUS` = 1)) */;
-=======
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `province`.`PROVINCE_ID` AS `PROVINCE_ID`,`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`province`.`GEO_ID` AS `GEO_ID`,`province`.`STATUS` AS `STATUS` from `province` where (`province`.`STATUS` = 1)) */;
 
 /*View structure for view v_users */
@@ -820,7 +864,6 @@ DROP TABLE IF EXISTS `v_users`;
 /*!50001 DROP VIEW IF EXISTS `v_users` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_users` AS (select `users`.`USER_ID` AS `USER_ID`,`users`.`USER_NAME` AS `USER_NAME`,`users`.`PASSWORD` AS `PASSWORD`,`users`.`ROLE_ID` AS `ROLE_ID`,`users`.`STATUS` AS `STATUS`,`users`.`CITIZEN_ID` AS `CITIZEN_ID`,`users`.`NAME` AS `NAME`,`users`.`EMAIL` AS `EMAIL`,`users`.`PHONE` AS `PHONE`,`users`.`LAST_LOGIN` AS `LAST_LOGIN`,`users`.`DELETE_FLAG` AS `DELETE_FLAG`,`users`.`CREATE_DATE` AS `CREATE_DATE`,`users`.`UPDATE_DATE` AS `UPDATE_DATE`,`users`.`DELETE_DATE` AS `DELETE_DATE`,`users`.`CREATE_BY` AS `CREATE_BY`,`users`.`UPDATE_BY` AS `UPDATE_BY`,`users`.`DELETE_BY` AS `DELETE_BY`,`role`.`ROLE_CODE` AS `ROLE_CODE`,`role`.`ROLE_NAME` AS `ROLE_NAME` from (`users` join `role` on((`users`.`ROLE_ID` = `role`.`ROLE_ID`)))) */;
->>>>>>> origin/master
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

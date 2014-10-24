@@ -149,6 +149,26 @@ namespace AppraisalSystem.Utility
                 return Convert.ToDouble(currency).ToString("#,##0.00");
         }
 
+        public static string Encode(string str)
+        {
+            if (IsNotnull(str))
+            {
+                byte[] encbuff = System.Text.Encoding.UTF8.GetBytes(str);
+                return Convert.ToBase64String(encbuff);
+            }
+            return "";
+        }
+
+        public static string Decode(string str)
+        {
+            if (IsNotnull(str))
+            {
+                byte[] decbuff = Convert.FromBase64String(str);
+                return System.Text.Encoding.UTF8.GetString(decbuff);
+            }
+            return "";
+        }
+
         public static string getShortParam(object obj, int width)
         {
             string shortTopic = string.Empty;

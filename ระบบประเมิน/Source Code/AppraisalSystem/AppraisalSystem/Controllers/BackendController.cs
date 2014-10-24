@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppraisalSystem.Utility;
+using AppraisalSystem.Models;
+using System.Collections;
 
 namespace AppraisalSystem.Controllers
 {
     public class BackendController : Controller
     {
+        public IMembershipService MembershipService { get; set; }
+
         //
         // GET: /Backend/
 
@@ -23,6 +28,235 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult ManagePermissions()
         {
+            return View();
+        }
+
+        // **************************************
+        // URL: /Backend/Register
+        // **************************************
+
+        public ActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Permission]
+        public ActionResult Register(RegisterModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    // Attempt to register the user
+                    Hashtable process = MembershipService.CreateUser(model, userName);
+                    if (Convert.ToBoolean(process["Status"]))
+                    {
+                        return RedirectToAction("", "");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", Convert.ToString(process["Message"]));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View(model);
+        }
+
+        // **************************************
+        // URL: /Backend/Update
+        // **************************************
+
+        public ActionResult UpdateUser(int id)
+        {
+            UserModel user = null;
+            try
+            {
+                user = MembershipService.GetUsersByID(id);
+                if (ContentHelpers.Isnull(user))
+                {
+                    ModelState.AddModelError("", "Data not found");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(user);
+        }
+
+        [HttpPost]
+        [Permission]
+        public ActionResult UpdateUser(RegisterModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    // Attempt to register the user
+                    bool process = MembershipService.UpdateUser(model, userName);
+                    if (process)
+                    {
+                        return RedirectToAction("", "");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Update user unsuccess");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View(model);
+        }
+
+        // **************************************
+        // URL: /Backend/Delete
+        // **************************************
+
+        [Authorize]
+        [HttpPost]
+        [Permission]
+        public ActionResult DeleteUser(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    if (MembershipService.DeleteUser(id, userName))
+                    {
+                        return RedirectToAction("");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Lock user unsuccess.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Not request user id.");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View();
+        }
+
+        // **************************************
+        // URL: /Backend/ChangePassword
+        // **************************************
+
+        [Authorize]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Permission]
+        public ActionResult ChangePassword(ChangePasswordModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    if (MembershipService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword, userName))
+                    {
+                        return RedirectToAction("");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View(model);
+        }
+
+        // **************************************
+        // URL: /Backend/Lock
+        // **************************************
+
+        [Authorize]
+        [HttpPost]
+        [Permission]
+        public ActionResult LockUser(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    if (MembershipService.LockUser(id, userName))
+                    {
+                        return RedirectToAction("");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Lock user unsuccess.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Not request user id.");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View();
+        }
+
+        // **************************************
+        // URL: /Backend/GetUserList
+        // **************************************
+
+        [Authorize]
+        [HttpPost]
+        [Permission]
+        public ActionResult GetUserList(string keyword)
+        {
+            try
+            {
+                string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                List<UserModel> userList = MembershipService.GetUsers(keyword);
+                if (ContentHelpers.IsNotnull(userList) && userList.Count > 0)
+                {
+                    ViewData["UserList"] = userList;
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Search data not found.");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
             return View();
         }
     }
