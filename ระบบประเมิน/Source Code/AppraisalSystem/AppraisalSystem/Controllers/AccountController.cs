@@ -83,9 +83,12 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult LogOff()
         {
-            FormsService.SignOut();
-
-            return RedirectToAction("Index", "Home");
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            if (Request.IsAuthenticated)
+            {
+                FormsService.SignOut(userName);
+            }
+            return RedirectToAction("LogOn", "Account");
         }
     }
 }

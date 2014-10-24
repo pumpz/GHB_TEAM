@@ -134,6 +134,7 @@ namespace AppraisalSystem.Models
         Boolean DeleteUser(int userId, string delBy);
         Boolean ChangePassword(string userName, string oldPassword, string newPassword, string updateBy);
         Boolean LockUser(int userId, string updateBy);
+        Boolean LogOut(string userName);
         List<UserModel> GetUsers(string keyword);
         UserModel GetUsersByID(int id);
     }
@@ -523,6 +524,60 @@ namespace AppraisalSystem.Models
             return process;
         }
 
+        [DataObjectMethod(DataObjectMethodType.Update)]
+        public Boolean LogOut(string userName)
+        {
+            if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
+
+            // The underlying ChangePassword() will throw an exception rather
+            // than return false in certain failure scenarios.
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            bool process = false;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_UPD_USERS_LOGOUT, conn, tran))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("iUserName", MySqlDbType.VarChar).Value = userName;
+
+                        int excute = cmd.ExecuteNonQuery();
+                        //
+                        if (excute > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return process;
+        }
+
         [DataObjectMethod(DataObjectMethodType.Fill)]
         public List<UserModel> GetUsers(string keyword)
         {
@@ -656,7 +711,7 @@ namespace AppraisalSystem.Models
     public interface IFormsAuthenticationService
     {
         void SignIn(string userName, bool createPersistentCookie);
-        void SignOut();
+        void SignOut(string userName);
     }
 
     public class FormsAuthenticationService : IFormsAuthenticationService
@@ -669,9 +724,14 @@ namespace AppraisalSystem.Models
             FormsAuthentication.SetAuthCookie(userName, createPersistentCookie);
         }
 
-        public void SignOut()
+        public void SignOut(string userName)
         {
             FormsAuthentication.SignOut();
+            IMembershipService MembershipService = new AccountMembershipService();
+            if (!MembershipService.LogOut(userName))
+            {
+                throw new Exception("Logout unsuccess");
+            }
         }
     }
     #endregion

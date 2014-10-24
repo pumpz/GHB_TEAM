@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USP_UPD_USERS_LOGOUT.
+        /// </summary>
+        internal static string USP_UPD_USERS_LOGOUT {
+            get {
+                return ResourceManager.GetString("USP_UPD_USERS_LOGOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM V_USERS.
         /// </summary>
         internal static string VIEW_USERS {

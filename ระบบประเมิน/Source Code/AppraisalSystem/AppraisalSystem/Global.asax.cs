@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using AppraisalSystem.Utility;
+using AppraisalSystem.Models;
 
 namespace AppraisalSystem
 {
@@ -12,6 +14,8 @@ namespace AppraisalSystem
 
     public class MvcApplication : System.Web.HttpApplication
     {
+        public IFormsAuthenticationService FormsService { get; set; }
+
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -35,6 +39,24 @@ namespace AppraisalSystem
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+        }
+
+        protected void Session_Start(object sender, EventArgs e)
+        {
+            // Code that runs when a new session is started
+            System.Diagnostics.Debug.WriteLine("Session_Start");
+            string sessionId = Session.SessionID;
+        }
+
+        protected void Session_End(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine("Session_End");
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            if (Request.IsAuthenticated)
+            {
+                FormsService.SignOut(userName);
+            }
+            Session.Abandon();
         }
     }
 }
