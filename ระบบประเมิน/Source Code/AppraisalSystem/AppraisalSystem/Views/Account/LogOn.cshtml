@@ -1,21 +1,52 @@
 ﻿@model AppraisalSystem.Models.LogOnModel
 
 @{
-    ViewBag.Title = "Log On";
+    Layout = "~/Views/Shared/_LayoutLogOn.cshtml";
 }
 
-<h2>Log On</h2>
-<p>
-    Please enter your username and password. @Html.ActionLink("Register", "Register") if you don't have an account.
-</p>
-
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
-
-@using (Html.BeginForm()) {
-    <div>
+@*@Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")*@
+@using (Html.BeginForm("LogOn", "Account"))
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@ViewBag.Title</h3>
+                    </div>
+                    <div class="panel-body">
+                        @Html.ValidationSummary(true)
+                        <fieldset>
+                            <div class="form-group">
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "รหัสพนักงาน" })
+                                <div class="form-group has-error">
+                                    @Html.ValidationMessageFor(m => m.UserName, "", new { @class = "control-label", @for = "inputError" })
+                                </div>
+                                @*<input class="form-control" placeholder="E-mail" name="email" autofocus="" type="email">*@
+                            </div>
+                            <div class="form-group">
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "รหัสผ่านเข้าใช้งาน" })
+                                <div class="form-group has-error">
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "control-label", @for = "inputError" })
+                                </div>
+                                @*<input class="form-control" placeholder="Password" name="password" value="" type="password">*@
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    @Html.CheckBoxFor(m => m.RememberMe)@Html.LabelFor(m => m.RememberMe)
+                                    @*<input name="remember" value="Remember Me" type="checkbox">Remember Me*@
+                                </label>
+                            </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <input type="submit" value="เข้าสู่ระบบ" class="btn btn-lg btn-primary btn-block" />
+                            @*<a href="@Url.Content("~/Home/Manage")" class="btn btn-lg btn-primary btn-block">Login</a>*@
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div>
         <fieldset>
             <legend>Account Information</legend>
 
@@ -44,5 +75,5 @@
                 <input type="submit" value="Log On" />
             </p>
         </fieldset>
-    </div>
+    </div>*@
 }

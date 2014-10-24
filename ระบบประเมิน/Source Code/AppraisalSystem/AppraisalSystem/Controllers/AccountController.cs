@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 using AppraisalSystem.Models;
+using System.Collections;
 
 namespace AppraisalSystem.Controllers
 {
@@ -31,32 +32,46 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult LogOn()
         {
+            ViewBag.Title = String.Format(Resources.ConfigResource.PROJECT_TITLE_NAME, " : เข้าใช้งาน");
             return View();
         }
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn(LogOnModel model)
         {
-            if (ModelState.IsValid)
+            ViewBag.Title = String.Format(Resources.ConfigResource.PROJECT_TITLE_NAME, " : เข้าใช้งาน");
+            try
             {
-                if (MembershipService.ValidateUser(model.UserName, model.Password))
+                if (ModelState.IsValid)
                 {
-                    FormsService.SignIn(model.UserName, model.RememberMe);
-                    if (Url.IsLocalUrl(returnUrl))
+                    Hashtable process = MembershipService.ValidateUser(model.UserName, model.Password);
+                    if (Convert.ToBoolean(process["Status"]))
                     {
-                        return Redirect(returnUrl);
+                        FormsService.SignIn(model.UserName, model.RememberMe);
+                        switch (Convert.ToString(process["RoleCode"]))
+                        {
+                            case "ADMIN":
+                                return RedirectToAction("Manage", "Backend");
+                            case "VALUER":
+                                return RedirectToAction("Manage", "Home");
+                            case "CHECKER":
+                                return RedirectToAction("Search", "Search");
+                            default:
+                                ModelState.AddModelError("MESSAGE", "ไม่มีสิทธิ์ในการเข้าใช้งานระบบ");
+                                break;
+                        }
                     }
                     else
                     {
-                        return RedirectToAction("Index", "Home");
+                        ModelState.AddModelError("MESSAGE", Convert.ToString(process["Message"]));
                     }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                }
             }
-
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -78,7 +93,7 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult Register()
         {
-            ViewBag.PasswordLength = MembershipService.MinPasswordLength;
+            //ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View();
         }
 
@@ -88,21 +103,21 @@ namespace AppraisalSystem.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
+            //    MembershipCreateStatus createStatus = MembershipService.CreateUser(model.UserName, model.Password, model.Email);
 
-                if (createStatus == MembershipCreateStatus.Success)
-                {
-                    FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
-                }
+            //    if (createStatus == MembershipCreateStatus.Success)
+            //    {
+            //        FormsService.SignIn(model.UserName, false /* createPersistentCookie */);
+            //        return RedirectToAction("Index", "Home");
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError("", AccountValidation.ErrorCodeToString(createStatus));
+            //    }
             }
 
-            // If we got this far, something failed, redisplay form
-            ViewBag.PasswordLength = MembershipService.MinPasswordLength;
+            //// If we got this far, something failed, redisplay form
+            //ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View(model);
         }
 
@@ -113,7 +128,7 @@ namespace AppraisalSystem.Controllers
         [Authorize]
         public ActionResult ChangePassword()
         {
-            ViewBag.PasswordLength = MembershipService.MinPasswordLength;
+            //ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View();
         }
 
@@ -134,7 +149,7 @@ namespace AppraisalSystem.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ViewBag.PasswordLength = MembershipService.MinPasswordLength;
+            //ViewBag.PasswordLength = MembershipService.MinPasswordLength;
             return View(model);
         }
 

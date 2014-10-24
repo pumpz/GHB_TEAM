@@ -11,7 +11,7 @@ namespace AppraisalSystem.Controllers
         //
         // GET: /Search/
 
-        public ActionResult Search()
+        public ActionResult ManageSearch()
         {
             return View();
         }

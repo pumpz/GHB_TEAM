@@ -120,4 +120,10 @@
   <data name="PAGING_DEFAULT" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="PASSWORD_DEFAULT" xml:space="preserve">
+    <value>P@ssw0rd</value>
+  </data>
+  <data name="PROJECT_TITLE_NAME" xml:space="preserve">
+    <value>ระบบประเมินทรัพย์สิน {0}</value>
+  </data>
 </root>

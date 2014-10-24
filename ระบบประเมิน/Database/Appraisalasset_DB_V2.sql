@@ -372,13 +372,18 @@ CREATE TABLE `users` (
   `CREATE_BY` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `UPDATE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `DELETE_BY` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`USER_ID`),
+  PRIMARY KEY (`USER_ID`,`ROLE_ID`),
   KEY `FK_users` (`ROLE_ID`),
   CONSTRAINT `FK_users` FOREIGN KEY (`ROLE_ID`) REFERENCES `role` (`ROLE_ID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `users` */
 
+<<<<<<< HEAD
+=======
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,1,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,NULL,1,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,1,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+
+>>>>>>> origin/master
 /* Procedure structure for procedure `USP_DEL_UPLOAD_PICTURE` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_DEL_UPLOAD_PICTURE` */;
@@ -421,6 +426,56 @@ BEGIN
     END */$$
 DELIMITER ;
 
+<<<<<<< HEAD
+=======
+/* Procedure structure for procedure `USP_GET_USERS_LOGIN` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_GET_USERS_LOGIN` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_GET_USERS_LOGIN`(
+	IN iUsername VARCHAR(50),
+        IN iPassword VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oUserID INT)
+BEGIN
+	SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
+           CASE WHEN `STATUS` = 0 THEN NULL ELSE User_ID END
+	      INTO oMessage, oUserID
+	      FROM users 
+	     WHERE (User_Name = TRIM(iUsername) 
+		   OR Email = TRIM(iUsername)) 
+	       AND `Password` = iPassword
+	     LIMIT 1; -- you better protect yourself from duplicates
+	    SET oMessage = IFNULL(oMessage, 'Invalid username and password');
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_GET_USERS_PERMISSION` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_GET_USERS_PERMISSION` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_GET_USERS_PERMISSION`(
+	IN iUsername VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oRoleCode VARCHAR(50)
+    )
+BEGIN
+	SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
+           CASE WHEN `STATUS` = 0 THEN NULL ELSE Role_Code END
+	      INTO oMessage, oRoleCode
+	      FROM v_users 
+	     WHERE (User_Name = TRIM(iUsername) 
+		   OR Email = TRIM(iUsername))
+	     LIMIT 1; -- you better protect yourself from duplicates
+	    SET oMessage = IFNULL(oMessage, 'No permission to access the site');
+    END */$$
+DELIMITER ;
+
+>>>>>>> origin/master
 /* Procedure structure for procedure `USP_INS_APPRAISAL_ASSETS_JOB` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_ASSETS_JOB` */;
@@ -614,6 +669,37 @@ BEGIN
     END */$$
 DELIMITER ;
 
+<<<<<<< HEAD
+=======
+/* Procedure structure for procedure `USP_UPD_USERS_CHANGE_PWD` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS_CHANGE_PWD` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS_CHANGE_PWD`(
+	IN iUserID VARCHAR(50),
+        IN iOldPassword VARCHAR(50),
+        IN iNewPassword VARCHAR(50),
+        OUT oMessage VARCHAR(50),
+	OUT oUserID INT)
+BEGIN
+	SELECT CASE WHEN `Password` = md5(iOldPassword) THEN 'Old Password Incorrect' ELSE 'Success' END,
+		CASE WHEN `Password` = MD5(iOldPassword) THEN NULL ELSE UserID END
+	      INTO oMessage, oUserID
+	      FROM users 
+	     WHERE iUserID = TRIM(iUserID) 
+	       AND `Password` = iOldPassword
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF (oUserID > 0) THEN
+	    UPDATE users SET `Password` = iNewPassword 
+	    WHERE iUserID = TRIM(iUserID);
+	end IF;
+	SET oMessage = IFNULL(oMessage, 'Update password success');
+    END */$$
+DELIMITER ;
+
+>>>>>>> origin/master
 /*Table structure for table `v_amphur` */
 
 DROP TABLE IF EXISTS `v_amphur`;
@@ -664,26 +750,77 @@ DROP TABLE IF EXISTS `v_province`;
  `STATUS` tinyint(1) 
 )*/;
 
+<<<<<<< HEAD
+=======
+/*Table structure for table `v_users` */
+
+DROP TABLE IF EXISTS `v_users`;
+
+/*!50001 DROP VIEW IF EXISTS `v_users` */;
+/*!50001 DROP TABLE IF EXISTS `v_users` */;
+
+/*!50001 CREATE TABLE  `v_users`(
+ `USER_ID` int(11) ,
+ `USER_NAME` varchar(20) ,
+ `PASSWORD` varchar(100) ,
+ `ROLE_ID` int(11) ,
+ `STATUS` int(1) ,
+ `CITIZEN_ID` varchar(20) ,
+ `NAME` varchar(250) ,
+ `EMAIL` varchar(150) ,
+ `PHONE` varchar(20) ,
+ `LAST_LOGIN` timestamp ,
+ `DELETE_FLAG` tinyint(1) ,
+ `CREATE_DATE` timestamp ,
+ `UPDATE_DATE` timestamp ,
+ `DELETE_DATE` timestamp ,
+ `CREATE_BY` varchar(100) ,
+ `UPDATE_BY` varchar(100) ,
+ `DELETE_BY` varchar(100) ,
+ `ROLE_CODE` varchar(10) ,
+ `ROLE_NAME` varchar(100) 
+)*/;
+
+>>>>>>> origin/master
 /*View structure for view v_amphur */
 
 /*!50001 DROP TABLE IF EXISTS `v_amphur` */;
 /*!50001 DROP VIEW IF EXISTS `v_amphur` */;
 
+<<<<<<< HEAD
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `appraisalasset`.`amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`appraisalasset`.`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`appraisalasset`.`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`appraisalasset`.`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`appraisalasset`.`amphur`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`amphur`.`STATUS` AS `STATUS` from `amphur` where (`appraisalasset`.`amphur`.`STATUS` = 1)) */;
+=======
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`amphur`.`GEO_ID` AS `GEO_ID`,`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`amphur`.`STATUS` AS `STATUS` from `amphur` where (`amphur`.`STATUS` = 1)) */;
+>>>>>>> origin/master
 
 /*View structure for view v_district */
 
 /*!50001 DROP TABLE IF EXISTS `v_district` */;
 /*!50001 DROP VIEW IF EXISTS `v_district` */;
 
+<<<<<<< HEAD
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_district` AS (select `appraisalasset`.`district`.`DISTRICT_ID` AS `DISTRICT_ID`,`appraisalasset`.`district`.`DISTRICT_CODE` AS `DISTRICT_CODE`,`appraisalasset`.`district`.`DISTRICT_NAME` AS `DISTRICT_NAME`,`appraisalasset`.`district`.`AMPHUR_ID` AS `AMPHUR_ID`,`appraisalasset`.`district`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`district`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`district`.`STATUS` AS `STATUS` from `district` where (`appraisalasset`.`district`.`STATUS` = 1)) */;
+=======
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_district` AS (select `district`.`DISTRICT_ID` AS `DISTRICT_ID`,`district`.`DISTRICT_CODE` AS `DISTRICT_CODE`,`district`.`DISTRICT_NAME` AS `DISTRICT_NAME`,`district`.`AMPHUR_ID` AS `AMPHUR_ID`,`district`.`PROVINCE_ID` AS `PROVINCE_ID`,`district`.`GEO_ID` AS `GEO_ID`,`district`.`STATUS` AS `STATUS` from `district` where (`district`.`STATUS` = 1)) */;
+>>>>>>> origin/master
 
 /*View structure for view v_province */
 
 /*!50001 DROP TABLE IF EXISTS `v_province` */;
 /*!50001 DROP VIEW IF EXISTS `v_province` */;
 
+<<<<<<< HEAD
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `appraisalasset`.`province`.`PROVINCE_ID` AS `PROVINCE_ID`,`appraisalasset`.`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`appraisalasset`.`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`appraisalasset`.`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`appraisalasset`.`province`.`GEO_ID` AS `GEO_ID`,`appraisalasset`.`province`.`STATUS` AS `STATUS` from `province` where (`appraisalasset`.`province`.`STATUS` = 1)) */;
+=======
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `province`.`PROVINCE_ID` AS `PROVINCE_ID`,`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`province`.`GEO_ID` AS `GEO_ID`,`province`.`STATUS` AS `STATUS` from `province` where (`province`.`STATUS` = 1)) */;
+
+/*View structure for view v_users */
+
+/*!50001 DROP TABLE IF EXISTS `v_users` */;
+/*!50001 DROP VIEW IF EXISTS `v_users` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_users` AS (select `users`.`USER_ID` AS `USER_ID`,`users`.`USER_NAME` AS `USER_NAME`,`users`.`PASSWORD` AS `PASSWORD`,`users`.`ROLE_ID` AS `ROLE_ID`,`users`.`STATUS` AS `STATUS`,`users`.`CITIZEN_ID` AS `CITIZEN_ID`,`users`.`NAME` AS `NAME`,`users`.`EMAIL` AS `EMAIL`,`users`.`PHONE` AS `PHONE`,`users`.`LAST_LOGIN` AS `LAST_LOGIN`,`users`.`DELETE_FLAG` AS `DELETE_FLAG`,`users`.`CREATE_DATE` AS `CREATE_DATE`,`users`.`UPDATE_DATE` AS `UPDATE_DATE`,`users`.`DELETE_DATE` AS `DELETE_DATE`,`users`.`CREATE_BY` AS `CREATE_BY`,`users`.`UPDATE_BY` AS `UPDATE_BY`,`users`.`DELETE_BY` AS `DELETE_BY`,`role`.`ROLE_CODE` AS `ROLE_CODE`,`role`.`ROLE_NAME` AS `ROLE_NAME` from (`users` join `role` on((`users`.`ROLE_ID` = `role`.`ROLE_ID`)))) */;
+>>>>>>> origin/master
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

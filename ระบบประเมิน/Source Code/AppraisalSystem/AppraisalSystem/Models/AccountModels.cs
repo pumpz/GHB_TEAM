@@ -7,6 +7,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using System.Configuration;
+using MySql.Data.MySqlClient;
+using System.Collections;
+using System.Data;
+using AppraisalSystem.Utility;
 
 namespace AppraisalSystem.Models
 {
@@ -34,11 +39,11 @@ namespace AppraisalSystem.Models
 
     public class LogOnModel
     {
-        [Required]
+        [Required(ErrorMessage = "กรุณากรอก รหัสพนักงาน / ชื่อผู้ใช้")]
         [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "กรุณากรอก รหัสสำหรับเข้าใช้งานระบบ")]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสผู้ใช้งาน")]
         public string Password { get; set; }
@@ -101,55 +106,154 @@ namespace AppraisalSystem.Models
 
     public interface IMembershipService
     {
-        int MinPasswordLength { get; }
-
-        bool ValidateUser(string userName, string password);
-        MembershipCreateStatus CreateUser(string userName, string password, string email);
-        bool ChangePassword(string userName, string oldPassword, string newPassword);
+        Hashtable ValidateUser(string userName, string password);
+        Boolean CreateUser(RegisterModel register, String createBy);
+        Boolean ChangePassword(string userName, string oldPassword, string newPassword);
     }
 
     public class AccountMembershipService : IMembershipService
     {
-        private readonly MembershipProvider _provider;
-
-        public AccountMembershipService()
-            : this(null)
+        private static string GetConnectionString()
         {
+            return ConfigurationManager.ConnectionStrings
+                ["ConnectionString"].ConnectionString;
         }
 
-        public AccountMembershipService(MembershipProvider provider)
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public Hashtable ValidateUser(string userName, string password)
         {
-            _provider = provider ?? Membership.Provider;
-        }
-
-        public int MinPasswordLength
-        {
-            get
+            if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
+            if (String.IsNullOrEmpty(password)) throw new ArgumentException("Value cannot be null or empty.", "password");
+            MySqlConnection conn = null;
+            MySqlCommand cmd = null;
+            Hashtable result = new Hashtable();
+            bool process = false;
+            string msg = "";
+            try
             {
-                return _provider.MinRequiredPasswordLength;
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+                    using (cmd = new MySqlCommand(Resources.SQLResource.USP_GET_USERS_LOGIN, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("iUsername", MySqlDbType.VarChar).Value = userName;
+                        cmd.Parameters.Add("iPassword", MySqlDbType.VarChar).Value = ContentHelpers.MD5Hash(password);
+                        cmd.Parameters.Add(new MySqlParameter("oMessage", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(new MySqlParameter("oUserID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
+                        cmd.ExecuteScalar();
+                        
+                        int userId = cmd.Parameters["oUserID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oUserID"].Value);
+                        if (userId > 0)
+                        {
+                            using (cmd = new MySqlCommand(Resources.SQLResource.USP_GET_USERS_PERMISSION, conn))
+                            {
+                                cmd.CommandType = CommandType.StoredProcedure;
+                                cmd.Parameters.Clear();
+                                cmd.Parameters.Add("iUsername", MySqlDbType.VarChar).Value = userName;
+                                cmd.Parameters.Add(new MySqlParameter("oMessage", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
+                                cmd.Parameters.Add(new MySqlParameter("oRoleCode", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
+                                cmd.ExecuteScalar();
+
+                                string roleCode = cmd.Parameters["oRoleCode"].Value == System.DBNull.Value ? "" :
+                                                        Convert.ToString(cmd.Parameters["oRoleCode"].Value);
+                                if (ContentHelpers.IsNotnull(roleCode))
+                                {
+                                    result["RoleCode"] = roleCode;
+                                    process = true;
+                                }
+                            }
+                        }
+                        msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
+                    }
+                }
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            result["Status"] = process;
+            result["Message"] = msg;
+            return result;
         }
 
-        public bool ValidateUser(string userName, string password)
+        public Boolean CreateUser(RegisterModel register, String createBy)
         {
-            if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
-            if (String.IsNullOrEmpty(password)) throw new ArgumentException("Value cannot be null or empty.", "password");
+            if (String.IsNullOrEmpty(register.UserName)) throw new ArgumentException("Value cannot be null or empty.", "username");
+            if (String.IsNullOrEmpty(register.Email)) throw new ArgumentException("Value cannot be null or empty.", "email");
+            if (String.IsNullOrEmpty(register.CitizenID)) throw new ArgumentException("Value cannot be null or empty.", "citizen");
+            if (String.IsNullOrEmpty(createBy)) throw new ArgumentException("Value cannot be null or empty.", "createBy");
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            bool process = false;
+            string msg = "";
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
 
-            return _provider.ValidateUser(userName, password);
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_INS_USERS, conn, tran))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("p_user_name", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_password", MySqlDbType.VarChar).Value = ContentHelpers.Isnull(register.Password) ? 
+                                                                                        ContentHelpers.MD5Hash(Resources.ConfigResource.PASSWORD_DEFAULT) : 
+                                                                                        ContentHelpers.MD5Hash(register.Password);
+                        cmd.Parameters.Add("p_roleid", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_citizenid", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_name", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_email", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_phone", MySqlDbType.VarChar).Value = register.UserName;
+                        cmd.Parameters.Add("p_create_by", MySqlDbType.VarChar).Value = register.UserName;
+
+                        cmd.Parameters.Add(new MySqlParameter("oMessage", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(new MySqlParameter("oUserID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
+                        cmd.ExecuteScalar();
+                        //
+                        int userId = cmd.Parameters["oUserID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oUserID"].Value);
+                        if (userId > 0)
+                        {
+                            tran.Commit();
+                        }
+                        msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return process;
         }
 
-        public MembershipCreateStatus CreateUser(string userName, string password, string email)
-        {
-            if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
-            if (String.IsNullOrEmpty(password)) throw new ArgumentException("Value cannot be null or empty.", "password");
-            if (String.IsNullOrEmpty(email)) throw new ArgumentException("Value cannot be null or empty.", "email");
-
-            MembershipCreateStatus status;
-            _provider.CreateUser(userName, password, email, null, null, true, null, out status);
-            return status;
-        }
-
-        public bool ChangePassword(string userName, string oldPassword, string newPassword)
+        public Boolean ChangePassword(string userName, string oldPassword, string newPassword)
         {
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
             if (String.IsNullOrEmpty(oldPassword)) throw new ArgumentException("Value cannot be null or empty.", "oldPassword");
@@ -159,8 +263,8 @@ namespace AppraisalSystem.Models
             // than return false in certain failure scenarios.
             try
             {
-                MembershipUser currentUser = _provider.GetUser(userName, true /* userIsOnline */);
-                return currentUser.ChangePassword(oldPassword, newPassword);
+                //MembershipUser currentUser = _provider.GetUser(userName, true /* userIsOnline */);
+                //return currentUser.ChangePassword(oldPassword, newPassword);
             }
             catch (ArgumentException)
             {
@@ -170,6 +274,7 @@ namespace AppraisalSystem.Models
             {
                 return false;
             }
+            return false;
         }
     }
 
@@ -185,6 +290,7 @@ namespace AppraisalSystem.Models
         {
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
 
+            HttpContext.Current.Session["UserName"] = userName;
             FormsAuthentication.SetAuthCookie(userName, createPersistentCookie);
         }
 

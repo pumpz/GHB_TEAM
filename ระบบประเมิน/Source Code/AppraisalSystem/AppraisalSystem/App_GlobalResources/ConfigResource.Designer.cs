@@ -68,5 +68,23 @@ namespace Resources {
                 return ResourceManager.GetString("PAGING_DEFAULT", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to P@ssw0rd.
+        /// </summary>
+        internal static string PASSWORD_DEFAULT {
+            get {
+                return ResourceManager.GetString("PASSWORD_DEFAULT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ระบบประเมินทรัพย์สิน {0}.
+        /// </summary>
+        internal static string PROJECT_TITLE_NAME {
+            get {
+                return ResourceManager.GetString("PROJECT_TITLE_NAME", resourceCulture);
+            }
+        }
     }
 }
