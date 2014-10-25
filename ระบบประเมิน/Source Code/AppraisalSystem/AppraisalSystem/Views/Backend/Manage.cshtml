@@ -1,7 +1,65 @@
-﻿@{
+﻿@model IEnumerable<AppraisalSystem.Models.UserModel>
+
+@{
     ViewBag.Title = "การจัดการผู้ใช้งาน";
     ViewBag.Header = "การจัดการผู้ใช้งาน";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>การจัดการผู้ใช้งาน</h2>
+@using (Html.BeginForm())
+{ 
+ @Html.TextBox("txtSearchKeyword", Convert.ToString(TempData["isKeyWord"]))
+ <input type="submit" value="ค้นหา" />
+ <input type="button" value="เพิ่มผู้ใช้งาน" onclick="location.href='@Url.Action("register", "backend")'" />
+ <table>
+    <tr>
+    <th>
+                   
+                </th><th>
+                   
+                </th>
+                <th>
+                    ชื่อผู้ใช้งาน
+                </th>
+                 <th>
+                    สิทธิ์ผู้ใช้งาน
+                </th>
+                 <th>
+                    ชื่อ-นามสกุล
+                </th>
+                 <th>
+                    เลขบัตรประชาชน
+                </th>
+                <th>
+                    อีเมลล์
+                </th>
+                <th>
+                   เบอร์โทรศัพท์
+                </th>
+              
+            </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td> @Html.ActionLink("Update", "UpdateUser", new { id = item.UserID })</td>
+             
+             @if (item.Status == 1)
+             {
+                <td> Active </td>
+             }
+             else
+             {
+              <td> Inactive </td>
+             }
+             
+            <td>@item.UserName </td>
+             <td>@item.RoleName</td>
+             <td>@item.Name</td>
+             <td>@item.CitizenID</td>
+              <td>@item.Email</td>
+               <td>@item.Phone</td>
+        </tr>
+    }
+</table>
+     
+}

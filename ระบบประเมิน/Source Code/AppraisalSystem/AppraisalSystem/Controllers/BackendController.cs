@@ -6,24 +6,48 @@ using System.Web.Mvc;
 using AppraisalSystem.Utility;
 using AppraisalSystem.Models;
 using System.Collections;
+using System.Web.Routing;
+
+
+
+
 
 namespace AppraisalSystem.Controllers
 {
     public class BackendController : Controller
     {
         public IMembershipService MembershipService { get; set; }
+        protected override void Initialize(RequestContext requestContext)
+        {
+            if (MembershipService == null) { MembershipService = new AccountMembershipService(); }
 
+            base.Initialize(requestContext);
+        }
         //
         // GET: /Backend/
 
         public ActionResult Index()
         {
+
             return View();
         }
 
         public ActionResult Manage()
         {
-            return View();
+
+            List<UserModel> users = MembershipService.GetUsers(null);
+
+            return View(users);
+        }
+
+
+        [HttpPost]
+        public ActionResult Manage(FormCollection collection)
+        {
+            string keyword = collection.Get("txtSearchKeyword");
+            List<UserModel> users = MembershipService.GetUsers(keyword);
+
+            return View(users);
         }
 
         public ActionResult ManagePermissions()
@@ -37,6 +61,8 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult Register()
         {
+            var roles = MembershipService.GetAllRole();
+            ViewData["Role"] = roles;
             return View();
         }
 
@@ -53,7 +79,7 @@ namespace AppraisalSystem.Controllers
                     Hashtable process = MembershipService.CreateUser(model, userName);
                     if (Convert.ToBoolean(process["Status"]))
                     {
-                        return RedirectToAction("", "");
+                        return RedirectToAction("backend", "manage");
                     }
                     else
                     {

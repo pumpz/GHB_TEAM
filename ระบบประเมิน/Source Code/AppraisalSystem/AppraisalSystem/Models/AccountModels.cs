@@ -99,7 +99,9 @@ namespace AppraisalSystem.Models
 
     public class UserModel
     {
+        [Display(Name = "รหัสผู้ใช้งาน")]
         public int UserID { get; set; }
+        [Display(Name = "ชื่อผู้ใช้งาน")]
         public string UserName { get; set; }
         public int RoleID { get; set; }
         public string RoleCode { get; set; }
@@ -117,6 +119,12 @@ namespace AppraisalSystem.Models
         public string Create_By { get; set; }
         public string Update_By { get; set; }
         public string Delete_By { get; set; }
+    }
+    public class RoleModel
+    {
+        public int RoleID { get; set; }
+        public string RoleName { get; set; }
+       
     }
     #endregion
 
@@ -137,6 +145,7 @@ namespace AppraisalSystem.Models
         Boolean LogOut(string userName);
         List<UserModel> GetUsers(string keyword);
         UserModel GetUsersByID(int id);
+        List<RoleModel> GetAllRole();
     }
 
     public class AccountMembershipService : IMembershipService
@@ -599,7 +608,7 @@ namespace AppraisalSystem.Models
                     {
                         if (ContentHelpers.IsNotnull(keyword))
                         {
-                            cmd.CommandText += string.Format(" WHERE USER_NAME LIKE '{0}' OR CITIZEN_ID LIKE '{0}' OR NAME LIKE '{0}'", keyword);
+                            cmd.CommandText += string.Format(" WHERE USER_NAME LIKE '%{0}%' OR CITIZEN_ID LIKE '%{0}%' OR NAME LIKE '%{0}%'", keyword);
                         }
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
@@ -705,6 +714,57 @@ namespace AppraisalSystem.Models
                 conn.Dispose();
             }
             return UserItem;
+        }
+        [DataObjectMethod(DataObjectMethodType.Fill)]
+        public List<RoleModel> GetAllRole()
+        {
+            // The underlying ChangePassword() will throw an exception rather
+            // than return false in certain failure scenarios.
+            MySqlConnection conn = null;
+            List<RoleModel> roles = new List<RoleModel>();
+            RoleModel role = null;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_ROLES, conn))
+                    {
+                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            if (dr.HasRows)
+                            {
+                                while (dr.Read())
+                                {
+                                    role = new RoleModel();
+                                    role.RoleID = dr["ROLE_ID"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["ROLE_ID"]);
+                                    role.RoleName = dr["ROLE_NAME"] == System.DBNull.Value ? "" : Convert.ToString(dr["ROLE_NAME"]);
+                                    roles.Add(role);
+                                   
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return roles;
         }
     }
 
