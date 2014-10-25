@@ -365,7 +365,6 @@ CREATE TABLE `users` (
   `EMAIL` varchar(150) COLLATE utf8_unicode_ci DEFAULT NULL,
   `PHONE` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `LAST_LOGIN` timestamp NULL DEFAULT NULL,
-  `USER_LOGIN` int(11) NOT NULL DEFAULT '0',
   `DELETE_FLAG` tinyint(1) NOT NULL DEFAULT '0',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATE_DATE` timestamp NULL DEFAULT NULL,
@@ -380,7 +379,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,0,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-10-24 22:17:38',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042',NULL,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,NULL,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,NULL,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
 
 /* Procedure structure for procedure `USP_DEL_UPLOAD_PICTURE` */
 
@@ -433,36 +432,18 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_GET_USERS_LOGIN`(
 	IN iUsername VARCHAR(50),
         IN iPassword VARCHAR(50),
-        OUT oMessage VARCHAR(100),
+        OUT oMessage VARCHAR(50),
 	OUT oUserID INT)
 BEGIN
-	declare isLogIn boolean;
-	SELECT CASE WHEN USER_LOGIN = 1 THEN 'This user is active in the system' ELSE 'Success' END,
-		   CASE WHEN USER_LOGIN = 1 THEN false ELSE true END
-		      INTO oMessage, isLogIn
-		      FROM users 
-		     WHERE (User_Name = TRIM(iUsername) 
-			   OR Email = TRIM(iUsername))
-			   AND DELETE_FLAG = 0
-		     LIMIT 1; -- you better protect yourself from duplicates
-	if(isLogIn) then
-		SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
-		   CASE WHEN `STATUS` = 0 THEN NULL ELSE User_ID END
-		      INTO oMessage, oUserID
-		      FROM users 
-		     WHERE (User_Name = TRIM(iUsername) 
-			   OR Email = TRIM(iUsername)) 
-		       AND `Password` = iPassword AND DELETE_FLAG = 0
-		     LIMIT 1; -- you better protect yourself from duplicates
-		if(oUserID > 0) THEN
-			UPDATE USERS
-			SET USER_LOGIN = 1,
-				LAST_LOGIN = CURRENT_TIMESTAMP
-			WHERE User_ID = oUserID AND DELETE_FLAG = 0;
-		ELSE
-			SET oMessage = IFNULL(oMessage, 'Invalid username and password');
-		END IF;
-	END IF;
+	SELECT CASE WHEN `STATUS` = 0 THEN 'Inactive account' ELSE 'Success' END,
+           CASE WHEN `STATUS` = 0 THEN NULL ELSE User_ID END
+	      INTO oMessage, oUserID
+	      FROM users 
+	     WHERE (User_Name = TRIM(iUsername) 
+		   OR Email = TRIM(iUsername)) 
+	       AND `Password` = iPassword AND DELETE_FLAG = 0
+	     LIMIT 1; -- you better protect yourself from duplicates
+	    SET oMessage = IFNULL(oMessage, 'Invalid username and password');
     END */$$
 DELIMITER ;
 
@@ -774,21 +755,6 @@ BEGIN
 		UPDATE_DATE = CURRENT_TIMESTAMP,
 		UPDATE_BY = iUpdateBy
 	WHERE User_ID = iUserID AND DELETE_FLAG = 0;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_UPD_USERS_LOGOUT` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_USERS_LOGOUT` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS_LOGOUT`(
-	IN iUserName VARCHAR(50))
-BEGIN
-	UPDATE USERS
-	SET USER_LOGIN = 0
-	WHERE USER_NAME = iUserName AND DELETE_FLAG = 0;
     END */$$
 DELIMITER ;
 
