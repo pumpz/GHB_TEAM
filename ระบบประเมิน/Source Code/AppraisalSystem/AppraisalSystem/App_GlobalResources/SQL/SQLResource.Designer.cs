@@ -131,5 +131,13 @@ namespace Resources {
                 return ResourceManager.GetString("VIEW_USERS", resourceCulture);
             }
         }
+
+        internal static string VIEW_ROLES
+        {
+            get
+            {
+                return ResourceManager.GetString("VIEW_ROLES", resourceCulture);
+            }
+        }
     }
 }

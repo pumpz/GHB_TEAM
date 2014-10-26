@@ -61,6 +61,60 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to แก้ไขข้อมูล.
+        /// </summary>
+        internal static string BtnEdit {
+            get {
+                return ResourceManager.GetString("BtnEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to แก้ไขรูป.
+        /// </summary>
+        internal static string BtnEditPics {
+            get {
+                return ResourceManager.GetString("BtnEditPics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print to PDF.
+        /// </summary>
+        internal static string BtnExportPDF {
+            get {
+                return ResourceManager.GetString("BtnExportPDF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to กลับหน้าหลัก.
+        /// </summary>
+        internal static string BtnPrev {
+            get {
+                return ResourceManager.GetString("BtnPrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to บันทึกข้อมูล.
+        /// </summary>
+        internal static string BtnSubmit {
+            get {
+                return ResourceManager.GetString("BtnSubmit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to บันทึกรูป.
+        /// </summary>
+        internal static string BtnSubmitPics {
+            get {
+                return ResourceManager.GetString("BtnSubmitPics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 10.
         /// </summary>
         internal static string PAGING_DEFAULT {

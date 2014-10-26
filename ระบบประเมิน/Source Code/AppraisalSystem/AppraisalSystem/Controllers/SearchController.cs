@@ -16,6 +16,12 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ManageSearch(FormCollection val)
+        {
+            return RedirectToAction("SearchResult", "Search");
+        }
+
         public ActionResult SearchResult()
         {
             return View();

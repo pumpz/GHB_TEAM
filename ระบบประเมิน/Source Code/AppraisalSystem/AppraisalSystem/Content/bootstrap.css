@@ -35,6 +35,23 @@
     -   triple-borders          - arguments: Color One: #3C3C3C, Color Two: #999999, Color Three: #000000, Radius: 0
 
 ------------------------------------------------------------- */
+
+
+.fieldHeader100
+{
+    width:100px;    
+}
+
+.fieldHeader150
+{
+    width:150px;    
+}
+
+.ddlForHeader100
+{
+    width:225px;    
+}
+
 /* BACKGROUND GRADIENT */
 /* BACKGROUND SIZE */
 /* BORDER RADIUS */

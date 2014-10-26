@@ -8,7 +8,7 @@
 <div class="panel-body">
 @using (Html.BeginForm())
 {
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="form-group">
             <label>หมายเลขงาน</label>
             <input class="form-control ui-wizard-content">
@@ -243,6 +243,8 @@
                         <option>5</option>
                     </select>
                 </label>
+             </div>
+             <div class="form-group">
                 <label class="textbox-inline">
                     <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
                 </label>
@@ -275,20 +277,25 @@
             <label class="textbox-inline">หักค่าเสื่อม%<br/>
                  @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
             </label>
-            <label class="textbox-inline"><br/>
+       </div>
+       <div class="form-group">
+            <label class="textbox-inline">
+                <label style="width:140px;">&nbsp;</label>
+            </label>
+            <label class="textbox-inline">
                 <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
             </label>
             <label class="textbox-inline">
                 <label><br/>=&nbsp;</label>
             </label>
-            <label class="textbox-inline"><br/>
+            <label class="textbox-inline">
                 @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
             </label>
         </div>
-        <div class="form-group">
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+         <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
         </div>
     </div>
 }
