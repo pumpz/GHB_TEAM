@@ -1,7 +1,385 @@
 ﻿@{
     ViewBag.Title = "ตารางเปรียบเทียบ";
-    ViewBag.Header = "ตารางเปรียบเทียบ";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageCompareAsset</h2>
+<div class="panel-heading"><label>ตารางเปรียบเทียบ</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>ตารางเปรียบเทียบข้อมูล</label>
+        </div>
+        <div class="form-group">
+            <table id="dataTables-example" class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="dataTables-example_info">
+                <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="รายละเอียดการวิเคราะห์" aria-sort="ascending">รายละเอียดการวิเคราะห์</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
+                </thead>
+                <tbody>
+                <tr class="gradeA odd">
+                        <td class="sorting_1">ราคาสำรวจ / หน่วย</td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">ราคาที่พิจารณาเหมาะสม บาท/หน่วย</td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                    </tr><tr class="gradeA odd">
+                        <td class="sorting_1">แหล่งข้อมูล</td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">เบอร์โทร.</td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                    </tr><tr class="gradeA odd">
+                        <td class="sorting_1">ขนาดเนื้อที่</td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                        <td class="center  "><input class="form-control ui-wizard-content"></td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">รูปทรงข้อมูล</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr></tbody>
+            </table>
+            <table id="dataTables-example" class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="dataTables-example_info">
+                <thead>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ปัจจัยที่พิจาณาเปรียบเทียบ" aria-sort="ascending">ปัจจัยที่พิจาณาเปรียบเทียบ</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
+                </thead>
+                <tbody>
+                <tr class="gradeA odd">
+                        <td class="sorting_1">1.สภาพแวดล้อม/ทำเลที่ตั้ง</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">2.ลักษณะและสภาพของทรัพย์สิน</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA odd">
+                        <td class="sorting_1">3.ลักษณะและสภาพทางเข้าออก</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">3.ลักษณะและสภาพทางเข้าออก</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA odd">
+                        <td class="sorting_1">4.ระบบสาธารรณูปโภค</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">5.ข้อจำกัดและการใช้ประโยชน์ตามกฎหมาย</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr><tr class="gradeA even">
+                        <td class="sorting_1">6.สภาพคล่องในการซื้อขายเปลี่ยนมือ</td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                        <td class="  "> 
+                            <select class="form-control">
+                                <option>โปรดเลือก</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </td>
+                    </tr></tbody>
+            </table>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+        </div>
+        
+    </div>
+}
+</div>

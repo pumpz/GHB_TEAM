@@ -1,7 +1,295 @@
 ﻿@{
     ViewBag.Title = "สิ่งปลูกสร้าง";
-    ViewBag.Header = "สิ่งปลูกสร้าง";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageMaterial</h2>
+<div class="panel-heading"><label>สิ่งปลูกสร้าง</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>หมายเลขสป.</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>สภาพสิ่งปลูกสร้าง</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline fieldHeader150">
+                <label>ประเภทอาคาร</label>
+            </label>
+            <label class="textbox-inline ddlForHeader100">
+                <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline fieldHeader150">
+                <label>จำนวนชั้น</label>
+            </label>
+            <label class="textbox-inline ddlForHeader100">
+                 <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline fieldHeader150">
+                <label>สภาพสิ่งปลูกสร้าง</label>
+            </label>
+            <label class="textbox-inline ddlForHeader100">
+                <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline fieldHeader150">
+                <label>อายุอาคาร</label>
+            </label>
+            <label class="textbox-inline ddlForHeader100">
+                 <input class="form-control ui-wizard-content">
+            </label>
+        </div>
+        <div class="form-group">
+            <label>รายละเอียดสิ่งปลูกสร้าง</label>
+            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="well">
+            <div class="form-group">
+                <label>รายละเอียดสิ่งปลูกสร้าง(โครงสร้าง):</label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>โครงสร้าง</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control ">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>เสา</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>โครงหลังคา</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>วัสดุมุงฯ</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>ฝ้าเพดาน</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>ผนังภายนอก</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>ผนังภายใน</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>บันได</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="well">
+            <div class="form-group">
+                <label>รายละเอียดสิ่งปลูกสร้าง(ภายใน):</label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline">
+                    <label>ห้อง/จำนวน</label>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+            </div>
+            <div class="form-group">
+                 <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+            </div>
+            <div class="form-group">
+                 <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline">
+                    <label>ขนาดสิ่งปลูกสร้าง</label>
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline">
+                     <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline">
+                    <label>x&nbsp;</label>
+                </label>
+                <label class="textbox-inline">
+                     <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline">
+                    <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+                </label>
+                <label class="textbox-inline">
+                    <label>=&nbsp;</label>
+                </label>
+                <label class="textbox-inline">
+                    @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="textbox-inline">
+                <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
+            </label>
+            <label class="textbox-inline">พื้นที่ทั้งหมด<br/>
+                 @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+            </label>
+            <label class="textbox-inline">
+                <label><br/>x&nbsp;</label>
+            </label>
+            <label class="textbox-inline">ราคาต่อตร.ม.<br/>
+                 @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+            </label>
+            <label class="textbox-inline">
+                <label><br/>-&nbsp;</label>
+            </label>
+            <label class="textbox-inline">หักค่าเสื่อม%<br/>
+                 @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+            </label>
+            <label class="textbox-inline"><br/>
+                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+            </label>
+            <label class="textbox-inline">
+                <label><br/>=&nbsp;</label>
+            </label>
+            <label class="textbox-inline"><br/>
+                @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+            </label>
+        </div>
+        <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+        </div>
+    </div>
+}
+</div>

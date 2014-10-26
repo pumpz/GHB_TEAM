@@ -1,7 +1,144 @@
 ﻿@{
     ViewBag.Title = "สรุปราคา";
-    ViewBag.Header = "สรุปราคา";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManagePrice</h2>
+<div class="panel-heading"><label>สรุปราคา</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-10">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div> 
+        <div class="well">
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>ชื่อหมู่บ้าน</label>
+                </label>
+                <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+                <label class="textbox-inline fieldHeader100">
+                    <label>ซอย</label>
+                </label>
+                <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+                <label class="textbox-inline fieldHeader100">
+                    <label>ถนน</label>
+                </label>
+                <label class="textbox-inline">
+                    <input class="form-control ui-wizard-content">
+                </label>
+            </div>
+            <div class="form-group">
+                <label class="textbox-inline fieldHeader100">
+                    <label>อำเภอ</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                    <select class="form-control ">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline fieldHeader100">
+                    <label>ตำบล</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                     <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline fieldHeader100">
+                    <label>จังหวัด</label>
+                </label>
+                <label class="textbox-inline ddlForHeader100">
+                     <select class="form-control ">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>รายละเอียดที่ตั้ง</label>
+                 @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label>ประเภทของทรัพย์สิน</label>
+                <input class="form-control ui-wizard-content">
+            </div>
+            <div class="form-group">
+                <label>วิธีการประเมิน</label>
+                <input class="form-control ui-wizard-content">
+            </div>
+            <div class="form-group">
+                <label>สิทธิการเข้าออก</label>
+                <input class="form-control ui-wizard-content">
+            </div>
+            <div class="form-group">
+                <label>สีตาม พรบ.ผังเมือง</label>
+                <input class="form-control ui-wizard-content">
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="well">
+             <div class="form-group">
+                <label class="textbox-inline">
+                    <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
+                </label>
+                <label class="textbox-inline">&nbsp;<br/>
+                     <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline">
+                    <label><br/>x&nbsp;</label>
+                </label>
+                <label class="textbox-inline">มูลค่าสุทธิ<br/>
+                     <select class="form-control">
+                        <option>โปรดเลือก</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <label class="textbox-inline"><br/>
+                    <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+                </label>
+                <label class="textbox-inline">
+                    <label><br/>=&nbsp;</label>
+                </label>
+                <label class="textbox-inline"><br/>
+                    @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+         <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+        </div>
+    </div>
+}
+</div>

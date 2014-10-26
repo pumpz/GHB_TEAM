@@ -1,7 +1,180 @@
 ﻿@{
     ViewBag.Title = "เอกสารสิทธิ์";
-    ViewBag.Header = "เอกสารสิทธิ์";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageAssetDoc</h2>
+<div class="panel-heading"><label>เอกสารสิทธิ์</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>ประเภทเอกสารสิทธิ์</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>เลขที่เอกสารสิทธิ์</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>เลขที่ดิน</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>หน้าสำรวจ</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>เล่ม/หน้า</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>ระวางเลขที่</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>สภาพที่ดิน</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ภาระติดพัน</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ผู้ถือกรรมสิทธิ์</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>ผู้ทรงสิทธิ์</label>
+            <input class="form-control ui-wizard-content">
+        </div>
+        <div class="form-group">
+            <label>จังหวัด</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>อำเภอ</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>ตำบล</label>
+            <select class="form-control">
+                <option>โปรดเลือก</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline">
+                <label>&nbsp;<br/><br/>เนื้อที่</label>
+            </label>
+            <label class="textbox-inline">ไร่<br/>
+                <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline">งาน<br/>
+                 <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline">วา<br/>
+                 <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline">
+                <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
+            </label>
+            <label class="textbox-inline">&nbsp;<br/>
+                 <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline">
+                <label><br/>x&nbsp;</label>
+            </label>
+            <label class="textbox-inline">(ราคาประเมินที่เหมาะสม)<br/>
+                 <select class="form-control">
+                    <option>โปรดเลือก</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+            <label class="textbox-inline"><br/>
+                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+            </label>
+            <label class="textbox-inline">
+                <label><br/>=&nbsp;</label>
+            </label>
+            <label class="textbox-inline"><br/>
+                @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+            </label>
+            
+        </div>
+         <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+        </div>
+        
+    </div>
+}
+</div>

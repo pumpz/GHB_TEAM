@@ -1,7 +1,47 @@
 ﻿@{
     ViewBag.Title = "รูปเอกสารสิทธิ์";
-    ViewBag.Header = "รูปเอกสารสิทธิ์";
+    ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>ManageAssetDocPic</h2>
+<div class="panel-heading"><label>รูปเอกสารสิทธิ์</label></div>
+<div class="panel-body">
+@using (Html.BeginForm())
+{
+    <div class="col-md-8">
+        <div class="form-group">
+            <label>หมายเลขงาน</label>
+            <input class="form-control ui-wizard-content">
+        </div> 
+        <div class="form-group">
+            <label>รูปเอกสารสิทธิ์</label>
+            <input type="file">
+        </div>
+        <div class="form-group">
+            <label>คำอธิบายรูปภาพ</label>
+            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>รูปเอกสารสิทธิ์</label>
+            <input type="file">
+        </div>
+        <div class="form-group">
+            <label>คำอธิบายรูปภาพ</label>
+            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label>รูปเอกสารสิทธิ์</label>
+            <input type="file">
+        </div>
+        <div class="form-group">
+            <label>คำอธิบายรูปภาพ</label>
+            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+        </div>
+         <div class="form-group">
+            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> บันทึกรูป</button>
+            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> แก้ไขรูป</button>
+            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> Print to PDF</button>
+        </div>
+    </div>
+}
+</div>
