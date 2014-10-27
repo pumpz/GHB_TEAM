@@ -75,7 +75,7 @@ namespace AppraisalSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName = "1";
+                    string userName = "system";
                     // Attempt to register the user
                     Hashtable process = MembershipService.CreateUser(model, userName);
                     if (Convert.ToBoolean(process["Status"]))
@@ -139,7 +139,7 @@ namespace AppraisalSystem.Controllers
                 if (ModelState.IsValid)
                 {
                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                string userName = "1";
+                    string userName = "system";
                     // Attempt to register the user
                     bool process = MembershipService.UpdateUser(model, userName);
                     if (process)
@@ -164,19 +164,19 @@ namespace AppraisalSystem.Controllers
         // URL: /Backend/Delete
         // **************************************
 
-        [Authorize]
-        [HttpPost]
-        [Permission]
+     //   [Authorize]
+     //   [Permission]
         public ActionResult DeleteUser(int id)
         {
             try
             {
-                if (id <= 0)
+                if (id > 0)
                 {
-                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                   // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    string userName ="system";
                     if (MembershipService.DeleteUser(id, userName))
                     {
-                        return RedirectToAction("");
+                        return RedirectToAction("manage", "backend");
                     }
                     else
                     {
@@ -238,19 +238,19 @@ namespace AppraisalSystem.Controllers
         // URL: /Backend/Lock
         // **************************************
 
-        [Authorize]
-        [HttpPost]
-        [Permission]
+      //  [Authorize]
+      //  [Permission]
         public ActionResult LockUser(int id)
         {
             try
             {
-                if (id <= 0)
+                if (id > 0)
                 {
-                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    string userName = "system";
                     if (MembershipService.LockUser(id, userName))
                     {
-                        return RedirectToAction("");
+                        return RedirectToAction("manage", "backend");
                     }
                     else
                     {

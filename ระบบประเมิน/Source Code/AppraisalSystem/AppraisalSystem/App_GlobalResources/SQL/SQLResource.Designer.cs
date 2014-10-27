@@ -115,6 +115,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USP_UPD_USERS_LOCK.
+        /// </summary>
+        internal static string USP_UPD_USERS_LOCK {
+            get {
+                return ResourceManager.GetString("USP_UPD_USERS_LOCK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_UPD_USERS_LOGOUT.
         /// </summary>
         internal static string USP_UPD_USERS_LOGOUT {
@@ -124,19 +133,20 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_ROLES.
+        /// </summary>
+        internal static string VIEW_ROLES {
+            get {
+                return ResourceManager.GetString("VIEW_ROLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM V_USERS.
         /// </summary>
         internal static string VIEW_USERS {
             get {
                 return ResourceManager.GetString("VIEW_USERS", resourceCulture);
-            }
-        }
-
-        internal static string VIEW_ROLES
-        {
-            get
-            {
-                return ResourceManager.GetString("VIEW_ROLES", resourceCulture);
             }
         }
     }

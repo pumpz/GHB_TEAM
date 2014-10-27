@@ -498,7 +498,7 @@ namespace AppraisalSystem.Models
 
                     tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_UPD_USERS_CHANGE_PWD, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_UPD_USERS_LOCK, conn, tran))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -642,6 +642,7 @@ namespace AppraisalSystem.Models
                                     UserItem.Create_By = dr["CREATE_BY"] == System.DBNull.Value ? "" : Convert.ToString(dr["CREATE_BY"]);
                                     UserItem.Update_By = dr["UPDATE_BY"] == System.DBNull.Value ? "" : Convert.ToString(dr["UPDATE_BY"]);
                                     UserItem.Delete_By = dr["DELETE_BY"] == System.DBNull.Value ? "" : Convert.ToString(dr["DELETE_BY"]);
+                                    UserItem.Status = dr["STATUS"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["STATUS"]);
                                     UserItemList.Add(UserItem);
                                 }
                             }
