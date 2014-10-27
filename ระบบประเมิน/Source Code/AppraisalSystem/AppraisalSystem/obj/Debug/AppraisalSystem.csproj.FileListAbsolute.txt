@@ -12,3 +12,9 @@ E:\NUM_WORKS\DOTNET\GHB_TEAM\ระบบประเมิน\Source Code\Appra
 E:\NUM_WORKS\DOTNET\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
 E:\NUM_WORKS\DOTNET\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
 E:\NUM_WORKS\DOTNET\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.dll
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\MySql.Data.dll
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
+C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb

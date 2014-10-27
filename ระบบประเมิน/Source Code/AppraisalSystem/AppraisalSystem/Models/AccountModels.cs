@@ -59,7 +59,7 @@ namespace AppraisalSystem.Models
         [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
 
-        [Required]
+    
         [ValidatePasswordLength]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสผู้ใช้งาน")]
@@ -74,7 +74,6 @@ namespace AppraisalSystem.Models
         [Display(Name = "สิทธิ์ในการเข้าถึงระบบ")]
         public int RoleID { get; set; }
 
-        [Required]
         [Display(Name = "สถานะ")]
         public int Status { get; set; }
 
@@ -89,7 +88,7 @@ namespace AppraisalSystem.Models
         public string Name { get; set; }
 
         [DataType(DataType.EmailAddress)]
-        [Display(Name = "อีเมลย์")]
+        [Display(Name = "อีเมลล์")]
         public string Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]
@@ -866,7 +865,7 @@ namespace AppraisalSystem.Models
         public override bool IsValid(object value)
         {
             string valueAsString = value as string;
-            return (valueAsString != null && valueAsString.Length >= _minCharacters);
+            return (valueAsString == null || valueAsString.Length >= _minCharacters);
         }
 
         public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)

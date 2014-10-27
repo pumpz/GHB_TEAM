@@ -67,19 +67,20 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
-        [Permission]
+  //      [Permission]
         public ActionResult Register(RegisterModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    string userName = "1";
                     // Attempt to register the user
                     Hashtable process = MembershipService.CreateUser(model, userName);
                     if (Convert.ToBoolean(process["Status"]))
                     {
-                        return RedirectToAction("backend", "manage");
+                        return RedirectToAction("manage", "backend");
                     }
                     else
                     {
@@ -102,6 +103,7 @@ namespace AppraisalSystem.Controllers
         public ActionResult UpdateUser(int id)
         {
             UserModel user = null;
+            RegisterModel reg = new RegisterModel();
             try
             {
                 user = MembershipService.GetUsersByID(id);
@@ -109,28 +111,40 @@ namespace AppraisalSystem.Controllers
                 {
                     ModelState.AddModelError("", "Data not found");
                 }
+                else
+                {
+                    reg.CitizenID = user.CitizenID;
+                    reg.Email = user.Email;
+                    reg.Name = user.Name;
+                    reg.Phone = user.Phone;
+                    reg.RoleID = user.RoleID;
+                    reg.Status = user.Status;
+                    reg.UserName = user.UserName;
+                }
             }
             catch (Exception e)
             {
                 ModelState.AddModelError(String.Empty, e.Message);
             }
-            return View(user);
+            return View(reg);
         }
 
+      
         [HttpPost]
-        [Permission]
+        //[Permission]
         public ActionResult UpdateUser(RegisterModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                   // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                string userName = "1";
                     // Attempt to register the user
                     bool process = MembershipService.UpdateUser(model, userName);
                     if (process)
                     {
-                        return RedirectToAction("", "");
+                        return RedirectToAction("manage", "backend");
                     }
                     else
                     {

@@ -1,21 +1,18 @@
 ﻿@model AppraisalSystem.Models.RegisterModel
 
-@{ 
-    ViewBag.Title = "Register";
+@{
+    ViewBag.Title = "UpdateUser";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h2>Create a new Account</h2>
+<h2>Update Account</h2>
 
 
-@using (Html.BeginForm("Register", "Backend", FormMethod.Post))
+@using (Html.BeginForm("UpdateUser", "Backend", FormMethod.Post))
 {
-    @Html.ValidationSummary(true, "Account creation was unsuccessful. Please correct the errors and try again.")
-    <div>
-        <fieldset>
-        
-
-            <div class="editor-label">
+    @Html.ValidationSummary(true)
+    <fieldset>
+         <div class="editor-label">
                 @Html.LabelFor(m => m.UserName)
             </div>
             <div class="editor-field">
@@ -58,7 +55,6 @@
             </div>
             <div class="editor-field">
                 @Html.PasswordFor(m => m.Password)
-                @Html.ValidationMessageFor(m => m.Password)
             </div>
 
             <div class="editor-label">
@@ -66,7 +62,6 @@
             </div>
             <div class="editor-field">
                 @Html.PasswordFor(m => m.ConfirmPassword)
-                @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
             <div class="editor-label">
                 @Html.LabelFor(m => m.RoleID)
@@ -75,10 +70,11 @@
                @Html.TextBoxFor(m => m.RoleID)
             </div>
 
-            <p>
-                <input type="submit" value="บันทึก" />
-                <input type="button" value="กลับหน้าหลัก" onclick="location.href='@Url.Action("manage", "backend")'" />
-            </p>
-        </fieldset>
-    </div>
+        <p>
+            <input type="submit" value="แก้ไขข้อมูล" />
+            <input type="button" value="กลับหน้าหลัก" onclick="location.href='@Url.Action("manage", "backend")'" />
+        </p>
+    </fieldset>
 }
+
+
