@@ -117,6 +117,42 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GET_APPRAISAL_DETAIL_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+  </data>
+  <data name="GET_APPRAISAL_JOB_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM APPRAISAL_ASSETS_JOB WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+  </data>
+  <data name="GET_COMPARE_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM COMPARE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+  </data>
+  <data name="GET_IMAGE_ASSETS_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM IMAGE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND UPLOAD_TYPE_ID = :UploadTypeID AND STATUS = 1</value>
+  </data>
+  <data name="GET_LOCATION_ASSETS_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM LOCATION_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+  </data>
+  <data name="GET_MAP_ASSETS_BY_ID" xml:space="preserve">
+    <value>SELECT * FROM MAP_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+  </data>
+  <data name="USP_DEL_APPRAISAL_DETAIL" xml:space="preserve">
+    <value>USP_DEL_APPRAISAL_DETAIL</value>
+  </data>
+  <data name="USP_DEL_APPRAISAL_JOB" xml:space="preserve">
+    <value>USP_DEL_APPRAISAL_JOB</value>
+  </data>
+  <data name="USP_DEL_COMPARE_ASSET" xml:space="preserve">
+    <value>USP_DEL_COMPARE_ASSET</value>
+  </data>
+  <data name="USP_DEL_LOCATION_ASSET" xml:space="preserve">
+    <value>USP_DEL_LOCATION_ASSET</value>
+  </data>
+  <data name="USP_DEL_MAP" xml:space="preserve">
+    <value>USP_DEL_MAP</value>
+  </data>
+  <data name="USP_DEL_UPLOAD_PICTURE" xml:space="preserve">
+    <value>USP_DEL_UPLOAD_PICTURE</value>
+  </data>
   <data name="USP_DEL_USERS" xml:space="preserve">
     <value>USP_DEL_USERS</value>
   </data>
@@ -126,8 +162,26 @@
   <data name="USP_GET_USERS_PERMISSION" xml:space="preserve">
     <value>USP_GET_USERS_PERMISSION</value>
   </data>
+  <data name="USP_INS_UPLOAD_PICTURE" xml:space="preserve">
+    <value>USP_INS_UPLOAD_PICTURE</value>
+  </data>
   <data name="USP_INS_USERS" xml:space="preserve">
     <value>USP_INS_USERS</value>
+  </data>
+  <data name="USP_MNG_APPRAISAL_DETAIL" xml:space="preserve">
+    <value>USP_MNG_APPRAISAL_DETAIL</value>
+  </data>
+  <data name="USP_MNG_APPRAISAL_JOB" xml:space="preserve">
+    <value>USP_MNG_APPRAISAL_JOB</value>
+  </data>
+  <data name="USP_MNG_COMPARE_ASSET" xml:space="preserve">
+    <value>USP_MNG_COMPARE_ASSET</value>
+  </data>
+  <data name="USP_MNG_LOCATION_ASSET" xml:space="preserve">
+    <value>USP_MNG_LOCATION_ASSET</value>
+  </data>
+  <data name="USP_MNG_MAP" xml:space="preserve">
+    <value>USP_MNG_MAP</value>
   </data>
   <data name="USP_UPD_USERS" xml:space="preserve">
     <value>USP_UPD_USERS</value>
@@ -141,10 +195,25 @@
   <data name="USP_UPD_USERS_LOGOUT" xml:space="preserve">
     <value>USP_UPD_USERS_LOGOUT</value>
   </data>
+  <data name="VIEW_AMPHUR" xml:space="preserve">
+    <value>SELECT * FROM V_AMPHUR</value>
+  </data>
+  <data name="VIEW_DISTRICT" xml:space="preserve">
+    <value>SELECT * FROM V_DISTRICT</value>
+  </data>
+  <data name="VIEW_FILTER" xml:space="preserve">
+    <value>SELECT * FROM V_FILTER</value>
+  </data>
+  <data name="VIEW_PROVINCE" xml:space="preserve">
+    <value>SELECT * FROM V_PROVINCE</value>
+  </data>
   <data name="VIEW_ROLES" xml:space="preserve">
     <value>SELECT * FROM V_ROLES</value>
   </data>
   <data name="VIEW_USERS" xml:space="preserve">
     <value>SELECT * FROM V_USERS</value>
+  </data>
+  <data name="V_APPRAISAL_LIST" xml:space="preserve">
+    <value>SELECT * FROM V_APPRAISAL_LIST</value>
   </data>
 </root>

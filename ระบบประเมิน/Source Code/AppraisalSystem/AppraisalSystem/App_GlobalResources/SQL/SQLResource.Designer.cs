@@ -61,6 +61,114 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_APPRAISAL_DETAIL_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_APPRAISAL_DETAIL_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_JOB WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_APPRAISAL_JOB_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_APPRAISAL_JOB_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_COMPARE_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_COMPARE_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM IMAGE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND UPLOAD_TYPE_ID = :UploadTypeID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_IMAGE_ASSETS_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_IMAGE_ASSETS_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM LOCATION_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_LOCATION_ASSETS_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_LOCATION_ASSETS_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM MAP_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        /// </summary>
+        internal static string GET_MAP_ASSETS_BY_ID {
+            get {
+                return ResourceManager.GetString("GET_MAP_ASSETS_BY_ID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_APPRAISAL_DETAIL.
+        /// </summary>
+        internal static string USP_DEL_APPRAISAL_DETAIL {
+            get {
+                return ResourceManager.GetString("USP_DEL_APPRAISAL_DETAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_APPRAISAL_JOB.
+        /// </summary>
+        internal static string USP_DEL_APPRAISAL_JOB {
+            get {
+                return ResourceManager.GetString("USP_DEL_APPRAISAL_JOB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_COMPARE_ASSET.
+        /// </summary>
+        internal static string USP_DEL_COMPARE_ASSET {
+            get {
+                return ResourceManager.GetString("USP_DEL_COMPARE_ASSET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_LOCATION_ASSET.
+        /// </summary>
+        internal static string USP_DEL_LOCATION_ASSET {
+            get {
+                return ResourceManager.GetString("USP_DEL_LOCATION_ASSET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_MAP.
+        /// </summary>
+        internal static string USP_DEL_MAP {
+            get {
+                return ResourceManager.GetString("USP_DEL_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_DEL_UPLOAD_PICTURE.
+        /// </summary>
+        internal static string USP_DEL_UPLOAD_PICTURE {
+            get {
+                return ResourceManager.GetString("USP_DEL_UPLOAD_PICTURE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_DEL_USERS.
         /// </summary>
         internal static string USP_DEL_USERS {
@@ -88,11 +196,65 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USP_INS_UPLOAD_PICTURE.
+        /// </summary>
+        internal static string USP_INS_UPLOAD_PICTURE {
+            get {
+                return ResourceManager.GetString("USP_INS_UPLOAD_PICTURE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_INS_USERS.
         /// </summary>
         internal static string USP_INS_USERS {
             get {
                 return ResourceManager.GetString("USP_INS_USERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_APPRAISAL_DETAIL.
+        /// </summary>
+        internal static string USP_MNG_APPRAISAL_DETAIL {
+            get {
+                return ResourceManager.GetString("USP_MNG_APPRAISAL_DETAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_APPRAISAL_JOB.
+        /// </summary>
+        internal static string USP_MNG_APPRAISAL_JOB {
+            get {
+                return ResourceManager.GetString("USP_MNG_APPRAISAL_JOB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_COMPARE_ASSET.
+        /// </summary>
+        internal static string USP_MNG_COMPARE_ASSET {
+            get {
+                return ResourceManager.GetString("USP_MNG_COMPARE_ASSET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_LOCATION_ASSET.
+        /// </summary>
+        internal static string USP_MNG_LOCATION_ASSET {
+            get {
+                return ResourceManager.GetString("USP_MNG_LOCATION_ASSET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_MAP.
+        /// </summary>
+        internal static string USP_MNG_MAP {
+            get {
+                return ResourceManager.GetString("USP_MNG_MAP", resourceCulture);
             }
         }
         
@@ -133,6 +295,42 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_AMPHUR.
+        /// </summary>
+        internal static string VIEW_AMPHUR {
+            get {
+                return ResourceManager.GetString("VIEW_AMPHUR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_DISTRICT.
+        /// </summary>
+        internal static string VIEW_DISTRICT {
+            get {
+                return ResourceManager.GetString("VIEW_DISTRICT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_FILTER.
+        /// </summary>
+        internal static string VIEW_FILTER {
+            get {
+                return ResourceManager.GetString("VIEW_FILTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_PROVINCE.
+        /// </summary>
+        internal static string VIEW_PROVINCE {
+            get {
+                return ResourceManager.GetString("VIEW_PROVINCE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM V_ROLES.
         /// </summary>
         internal static string VIEW_ROLES {
@@ -147,6 +345,15 @@ namespace Resources {
         internal static string VIEW_USERS {
             get {
                 return ResourceManager.GetString("VIEW_USERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_APPRAISAL_LIST.
+        /// </summary>
+        internal static string V_APPRAISAL_LIST {
+            get {
+                return ResourceManager.GetString("V_APPRAISAL_LIST", resourceCulture);
             }
         }
     }

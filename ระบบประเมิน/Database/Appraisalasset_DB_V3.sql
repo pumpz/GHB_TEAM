@@ -120,10 +120,10 @@ CREATE TABLE `compare_assets` (
   `CHARACTERISTICS_ACCESS_ID` int(11) NOT NULL DEFAULT '0',
   `UTILITIES_ID` int(11) NOT NULL DEFAULT '0',
   `TERMS_ID` int(11) NOT NULL DEFAULT '0',
-  `NOTE` text COLLATE utf8_unicode_ci,
   `LIQUIDITY_ID` int(11) NOT NULL DEFAULT '0',
   `SEQUENCE` int(11) NOT NULL DEFAULT '0',
-  `DELETE_FLAG` tinyint(1) NOT NULL DEFAULT '1',
+  `NOTE` text COLLATE utf8_unicode_ci,
+  `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATE_DATE` timestamp NULL DEFAULT NULL,
   `DELETE_DATE` timestamp NULL DEFAULT NULL,
@@ -171,11 +171,11 @@ CREATE TABLE `filter_data` (
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`FILTER_ID`),
   UNIQUE KEY `FILTER_ID` (`FILTER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `filter_data` */
 
-insert  into `filter_data`(`FILTER_ID`,`FILTER_TYPE_ID`,`FILTER_VALUE`,`FILTER_TEXT`,`STATUS`,`CREATE_DATE`) values (1,1,'1','ที่ดิน',1,'2014-10-05 21:38:46'),(2,1,'2','ที่ดินพร้อมสิ่งปลูกสร้าง',1,'2014-10-05 21:39:13'),(3,1,'3','ตึกแถว',1,'2014-10-05 21:39:44'),(4,2,'1','เปรียบเทียบราคาตลาด',1,'2014-10-05 21:40:35'),(5,2,'2','เปรียบเทียบราคาต้นทุน',1,'2014-10-05 21:40:55'),(6,3,'1','ทางสาธารณะ',1,'2014-10-05 21:41:23'),(7,3,'2','ที่จัดสรร',1,'2014-10-05 21:41:39'),(8,4,'1','สีแพงพาณิชยกรรม',1,'2014-10-05 21:42:23'),(9,4,'2','สีส้มที่อยู่อาศัยหนาแน่นมาก',1,'2014-10-05 21:42:37'),(10,4,'3','สีเหลืองที่อยู่อาศัยหนาแน่นปานกลาง',1,'2014-10-05 21:42:48'),(11,5,'1','โฉนด',1,'2014-10-05 21:45:25'),(12,6,'1','ถม',1,'2014-10-05 21:45:38'),(13,6,'2','ไม่ถม',1,'2014-10-05 21:54:45'),(14,7,'1','คสล',1,'2014-10-05 21:55:02'),(15,7,'2','ครึ่งตึกครึ่งไม้',1,'2014-10-05 21:55:16'),(16,7,'3','ไม้',1,'2014-10-05 21:55:45'),(17,8,'1','ใหม่',1,'2014-10-05 21:55:58'),(18,8,'2','ปานกลาง',1,'2014-10-05 21:56:08'),(19,8,'3','เก่า',1,'2014-10-06 09:48:59'),(20,9,'1','คสล',1,'2014-10-06 09:49:07'),(21,9,'2','ไม้',1,'2014-10-06 09:49:13'),(22,9,'3','เหล็ก',1,'2014-10-06 11:05:29'),(23,10,'1','ซีแพค',1,'2014-10-06 11:06:53'),(24,10,'2','ลอนคู่',1,'2014-10-06 11:07:00'),(25,11,'1','ยิปซั่มบอร์ด',1,'2014-10-06 11:14:31'),(26,11,'2','คสล',1,'2014-10-06 11:14:50'),(27,12,'1','คสล ทาสี',1,'2014-10-06 11:15:30'),(28,12,'2','คสล ไม่ทาสี',1,'2014-10-06 11:15:40'),(29,12,'3','ไม้',1,'2014-10-06 11:15:46'),(30,13,'1','คสล',1,'2014-10-06 11:17:30'),(31,13,'2','ไม้',1,'2014-10-06 11:20:01'),(32,14,'1','สี่เหลี่ยม',1,'2014-10-06 11:20:17'),(33,14,'2','หลายเหลี่ยม',1,'2014-10-06 11:20:28'),(34,15,'1','ถนนหลัก',1,'2014-10-06 11:20:42'),(35,15,'2','ถนนรอง',1,'2014-10-06 11:20:49'),(36,15,'3','ซอยย่อย',1,'2014-10-06 11:20:58'),(37,16,'1','ถนนลาดยาง-คอนกรีต',1,'2014-10-06 11:22:03'),(38,16,'2','ถนนลูกรัง',1,'2014-10-06 11:22:10'),(39,17,'1','ปานกลาง',1,'2014-10-06 11:24:19'),(40,17,'2','ต่ำ',1,'2014-10-06 11:24:25'),(41,17,'3','สูง',1,'2014-10-06 11:24:34');
+insert  into `filter_data`(`FILTER_ID`,`FILTER_TYPE_ID`,`FILTER_VALUE`,`FILTER_TEXT`,`STATUS`,`CREATE_DATE`) values (1,1,'1','ที่ดิน',1,'2014-10-05 21:38:46'),(2,1,'2','ที่ดินพร้อมสิ่งปลูกสร้าง',1,'2014-10-05 21:39:13'),(3,1,'3','ตึกแถว',1,'2014-10-05 21:39:44'),(4,2,'1','เปรียบเทียบราคาตลาด',1,'2014-10-05 21:40:35'),(5,2,'2','เปรียบเทียบราคาต้นทุน',1,'2014-10-05 21:40:55'),(6,3,'1','ทางสาธารณะ',1,'2014-10-05 21:41:23'),(7,3,'2','ที่จัดสรร',1,'2014-10-05 21:41:39'),(8,4,'1','สีแพงพาณิชยกรรม',1,'2014-10-05 21:42:23'),(9,4,'2','สีส้มที่อยู่อาศัยหนาแน่นมาก',1,'2014-10-05 21:42:37'),(10,4,'3','สีเหลืองที่อยู่อาศัยหนาแน่นปานกลาง',1,'2014-10-05 21:42:48'),(11,5,'1','โฉนด',1,'2014-10-05 21:45:25'),(12,6,'1','ถม',1,'2014-10-05 21:45:38'),(13,6,'2','ไม่ถม',1,'2014-10-05 21:54:45'),(14,7,'1','คสล',1,'2014-10-05 21:55:02'),(15,7,'2','ครึ่งตึกครึ่งไม้',1,'2014-10-05 21:55:16'),(16,7,'3','ไม้',1,'2014-10-05 21:55:45'),(17,8,'1','ใหม่',1,'2014-10-05 21:55:58'),(18,8,'2','ปานกลาง',1,'2014-10-05 21:56:08'),(19,8,'3','เก่า',1,'2014-10-06 09:48:59'),(20,9,'1','คสล',1,'2014-10-06 09:49:07'),(21,9,'2','ไม้',1,'2014-10-06 09:49:13'),(22,9,'3','เหล็ก',1,'2014-10-06 11:05:29'),(23,10,'1','ซีแพค',1,'2014-10-06 11:06:53'),(24,10,'2','ลอนคู่',1,'2014-10-06 11:07:00'),(25,11,'1','ยิปซั่มบอร์ด',1,'2014-10-06 11:14:31'),(26,11,'2','คสล',1,'2014-10-06 11:14:50'),(27,12,'1','คสล ทาสี',1,'2014-10-06 11:15:30'),(28,12,'2','คสล ไม่ทาสี',1,'2014-10-06 11:15:40'),(29,12,'3','ไม้',1,'2014-10-06 11:15:46'),(30,13,'1','คสล',1,'2014-10-06 11:17:30'),(31,13,'2','ไม้',1,'2014-10-06 11:20:01'),(32,14,'1','สี่เหลี่ยม',1,'2014-10-06 11:20:17'),(33,14,'2','หลายเหลี่ยม',1,'2014-10-06 11:20:28'),(34,15,'1','ถนนหลัก',1,'2014-10-06 11:20:42'),(35,15,'2','ถนนรอง',1,'2014-10-06 11:20:49'),(36,15,'3','ซอยย่อย',1,'2014-10-06 11:20:58'),(37,16,'1','ถนนลาดยาง-คอนกรีต',1,'2014-10-06 11:22:03'),(38,16,'2','ถนนลูกรัง',1,'2014-10-06 11:22:10'),(39,17,'1','ปานกลาง',1,'2014-10-06 11:24:19'),(40,17,'2','ต่ำ',1,'2014-10-06 11:24:25'),(41,17,'3','สูง',1,'2014-10-06 11:24:34'),(42,18,'1','มี',1,'2014-10-29 22:42:46'),(43,18,'2','ไม่มี',1,'2014-10-29 22:43:04');
 
 /*Table structure for table `filter_type` */
 
@@ -188,11 +188,11 @@ CREATE TABLE `filter_type` (
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`FILTER_TYPE_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `filter_type` */
 
-insert  into `filter_type`(`FILTER_TYPE_ID`,`FILTER_TYPE_CODE`,`FILTER_TYPE_NAME`,`STATUS`,`CREATE_DATE`) values (1,'000001','ASSET_TYPE',1,'2014-10-05 21:34:21'),(2,'000002','ASSESSMENT_METHOD',1,'2014-10-05 21:35:04'),(3,'000003','RIGHT_OF_ACCESS',1,'2014-10-05 21:35:44'),(4,'000004','PAINT_THE_TOWN',1,'2014-10-05 21:36:09'),(5,'000005','TYPE_OF_DOCUMENT',1,'2014-10-05 21:43:41'),(6,'000006','CONDITION_LAND',1,'2014-10-05 21:45:00'),(7,'000007','BUILDING_TYPE',1,'2014-10-05 21:46:27'),(8,'000008','CONDITION_BUILDING',1,'2014-10-05 21:46:42'),(9,'000009','STRUCTURE',1,'2014-10-05 21:50:24'),(10,'000010','MATERIALS',1,'2014-10-05 21:50:38'),(11,'000011','CEILING',1,'2014-10-05 21:50:45'),(12,'000012','EX-INTERIOR_WALLS',1,'2014-10-05 21:51:17'),(13,'000013','STAIR',1,'2014-10-05 21:51:49'),(14,'000014','SHAPE_INFORMATION',1,'2014-10-05 21:52:23'),(15,'000015','ENVIRONMENT',1,'2014-10-05 21:52:40'),(16,'000016','CHARACTERISTICS_ACCESS',1,'2014-10-05 21:52:58'),(17,'000017','UTILITIES',1,'2014-10-06 11:22:49');
+insert  into `filter_type`(`FILTER_TYPE_ID`,`FILTER_TYPE_CODE`,`FILTER_TYPE_NAME`,`STATUS`,`CREATE_DATE`) values (1,'000001','ASSET_TYPE',1,'2014-10-05 21:34:21'),(2,'000002','ASSESSMENT_METHOD',1,'2014-10-05 21:35:04'),(3,'000003','RIGHT_OF_ACCESS',1,'2014-10-05 21:35:44'),(4,'000004','PAINT_THE_TOWN',1,'2014-10-05 21:36:09'),(5,'000005','TYPE_OF_DOCUMENT',1,'2014-10-05 21:43:41'),(6,'000006','CONDITION_LAND',1,'2014-10-05 21:45:00'),(7,'000007','BUILDING_TYPE',1,'2014-10-05 21:46:27'),(8,'000008','CONDITION_BUILDING',1,'2014-10-05 21:46:42'),(9,'000009','STRUCTURE',1,'2014-10-05 21:50:24'),(10,'000010','MATERIALS',1,'2014-10-05 21:50:38'),(11,'000011','CEILING',1,'2014-10-05 21:50:45'),(12,'000012','EX-INTERIOR_WALLS',1,'2014-10-05 21:51:17'),(13,'000013','STAIR',1,'2014-10-05 21:51:49'),(14,'000014','SHAPE_INFORMATION',1,'2014-10-05 21:52:23'),(15,'000015','ENVIRONMENT',1,'2014-10-05 21:52:40'),(16,'000016','CHARACTERISTICS_ACCESS',1,'2014-10-05 21:52:58'),(17,'000017','UTILITIES',1,'2014-10-06 11:22:49'),(18,'000018','ISCONDITION',1,'2014-10-29 22:42:26');
 
 /*Table structure for table `geography` */
 
@@ -221,6 +221,7 @@ CREATE TABLE `image_assets` (
   `FILE_NAME` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `DESCRIPTION` text COLLATE utf8_unicode_ci,
   `SEQUENCE` int(11) NOT NULL DEFAULT '0',
+  `NOTE` text COLLATE utf8_unicode_ci,
   `STATUS` tinyint(1) NOT NULL DEFAULT '1',
   `CREATE_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UPDATE_DATE` timestamp NULL DEFAULT NULL,
@@ -382,7 +383,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-10-29 18:25:54',0,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-10-29 18:21:57',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-10-29 18:16:50',0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-10-29 18:42:22',0,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-10-29 18:48:11',1,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-10-29 18:45:43',1,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
 
 /* Procedure structure for procedure `USP_DEL_APPRAISAL_DETAIL` */
 
@@ -428,13 +429,13 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_COMPARE_ASSET`(
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_DEL_COMPARE_ASSET`(
 	IN p_compare_asset_id int,
 	in p_delete_by varchar(100)
     )
 BEGIN
 	UPDATE `compare_assets`
-	SET `DELETE_FLAG` = 0, 
+	SET `STATUS` = 0, 
 		DELETE_DATE = CURRENT_TIMESTAMP,
 		DELETE_BY = p_delete_by
 	WHERE `COMPARE_ASSETS_ID` = p_compare_asset_id;
@@ -508,7 +509,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_USERS`(
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_DEL_USERS`(
 	IN p_user_id INT,
 	IN p_delete_by VARCHAR(20)
     )
@@ -586,397 +587,6 @@ BEGIN
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `USP_INS_APPRAISAL_ASSETS_JOB` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_ASSETS_JOB` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_APPRAISAL_ASSETS_JOB`(
-	IN p_appraisal_assets_code VARCHAR(200), 
-        IN p_village VARCHAR(200),
-        IN p_alley VARCHAR(200),
-        in p_road VARCHAR(200),
-        IN p_district_id int,
-        IN p_amphur_id int,
-        in p_province_id int,
-        in p_detailed_location text,
-        in p_asset_type_id int,
-        in p_assessment_methods_id int,
-        in p_rights_of_access_id int,
-        in p_paint_the_town_id int,
-        IN p_create_by VARCHAR(20)
-    )
-BEGIN
-	INSERT INTO APPRAISAL_ASSETS_JOB
-	(
-		APPRAISAL_ASSETS_CODE, 
-		VILLAGE, 
-		ALLEY, 
-		ROAD, 
-		DISTRICT_ID, 
-		AMPHUR_ID,
-		PROVINCE_ID,
-		DETAILED_LOCATION,
-		ASSET_TYPE_ID,
-		ASSESSMENT_METHODS_ID,
-		RIGHTS_OF_ACCESS_ID,
-		PAINT_THE_TOWN_ID,
-		CREATE_BY   
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_code, 
-		p_village, 
-		p_alley, 
-		p_road, 
-		p_district_id,
-		p_amphur_id,
-		p_province_id,
-		p_detailed_location,
-		p_asset_type_id,
-		p_assessment_methods_id,
-		p_rights_of_access_id,
-		p_paint_the_town_id,
-		p_create_by
-	) ; 
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_INS_APPRAISAL_DETAIL` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_DETAIL` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_INS_APPRAISAL_DETAIL`(
-	in p_appraisal_assets_id int,
-	in p_type_of_document_id int,
-	in p_no varchar(100),
-	in p_survey varchar(100),
-	in p_book_or_page varchar(100),
-	in p_tc_no varchar(100),
-	in p_condition_land_id int,
-	in p_courting_the_burden tinyint,
-	in p_ownership varchar(200),
-	in p_rightsholder varchar(200),
-	in p_procince_id int,
-	in p_amphur_id int,
-	in p_district_id int,
-	in p_rai_area int,
-	in p_ngaan_area int,
-	in p_wa_area int,
-	in p_total_area double,
-	in p_appraisal double,
-	IN p_create_by varchar(100),
-        OUT oAppraisalDetailID INT
-    )
-BEGIN
-	INSERT INTO `appraisal_assets_detail`
-	(
-		`APPRAISAL_ASSETS_ID`,
-		`TYPE_OF_DOCUMENT_ID`,
-		`NO`,
-		`SURVEY`,
-		`BOOK_OR_PAGE`,
-		`TC_NO`,
-		`CONDITION_LAND_ID`,
-		`COURTING_THE_BURDEN`,
-		`OWNERSHIP`,
-		`RIGHTSHOLDER`,
-		`PROVINCE_ID`,
-		`AMPHUR_ID`,
-		`DISTRICT_ID`,
-		`RAI_AREA`,
-		`NGAAN_AREA`,
-		`WA_AREA`,
-		`TOTAL_AREA`,
-		`APPRAISAL`,
-		`CREATE_BY`
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_id,
-		p_type_of_document_id,
-		p_no,
-		p_survey,
-		p_book_or_page,
-		p_tc_no,
-		p_condition_land_id,
-		p_courting_the_burden,
-		p_ownership,
-		p_rightsholder,
-		p_procince_id,
-		p_amphur_id,
-		p_district_id,
-		p_rai_area,
-		p_ngaan_area,
-		p_wa_area,
-		p_total_area,
-		p_appraisal,
-		p_create_by
-	) ; 
-	SET oAppraisalDetailID = LAST_INSERT_ID();
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_INS_APPRAISAL_JOB` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_APPRAISAL_JOB` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_INS_APPRAISAL_JOB`(
-	in p_appraisal_assets_code varchar(200),
-	in p_village varchar(200),
-	in p_allry varchar(200),
-	in p_road varchar(200),
-	in p_district_id int,
-	in p_amphur_id int,
-	in p_province_id int,
-	in p_detailed_location text,
-	in p_asset_type_id int,
-	in p_assessment_mthods_id int,
-	in p_rights_of_access_id int,
-	in p_paint_the_town_id int,
-	in p_create_by varchar(100),
-        OUT oMessage VARCHAR(50),
-        OUT oAppraisalID INT
-    )
-BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN 'Duplicate job code' ELSE 'Success' END,
-		CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN NULL ELSE `APPRAISAL_ASSETS_ID` END
-		INTO oMessage, oAppraisalID
-	      FROM `appraisal_assets_job`
-	      WHERE APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code) and `status` = 1
-	     LIMIT 1; -- you better protect yourself from duplicates
-	IF(ISNULL(oAppraisalID)) THEN
-		INSERT INTO appraisal_assets_job
-		(
-			`APPRAISAL_ASSETS_CODE`, 
-			`VILLAGE`, 
-			`ALLEY`, 
-			`ROAD`, 
-			`DISTRICT_ID`, 
-			`AMPHUR_ID`,
-			`PROVINCE_ID`,
-			`DETAILED_LOCATION`,
-			`ASSET_TYPE_ID`, 
-			`ASSESSMENT_METHODS_ID`,
-			`RIGHTS_OF_ACCESS_ID`,
-			`PAINT_THE_TOWN_ID`,
-			`CREATE_BY`
-		)
-		VALUES 
-		( 
-			p_appraisal_assets_code, 
-			p_village, 
-			p_allry, 
-			p_road, 
-			p_district_id,
-			p_amphur_id,
-			p_province_id,
-			p_detailed_location,
-			p_asset_type_id, 
-			p_assessment_mthods_id, 
-			p_rights_of_access_id, 
-			p_district_id,
-			p_paint_the_town_id,
-			p_create_by
-		) ; 
-		SET oAppraisalID = LAST_INSERT_ID();
-	ELSE
-		SET oMessage = IFNULL(oMessage, 'Duplicate job code: ' + p_appraisal_assets_code);
-	END IF;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_INS_COMPARE_ASSET` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_COMPARE_ASSET` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_COMPARE_ASSET`(
-	in p_appraisal_assets_id int,
-	in p_survey_price double,
-	in p_appropriate_price double,
-	in p_data_sourece varchar(100),
-	in p_phone varchar(100),
-	in p_size_area double,
-	In p_shape_infomation_id int,
-	in p_environment_id int,
-	in p_characteristics_assets_id int,
-	in p_characteristics_access_id int,
-	in p_utilities_id int,
-	in p_terms_id int,
-	in p_note text,
-	in p_liquidity_id int,
-	in p_squence int,
-	in p_create_by varchar(100),
-	out oCompareAssetID int
-    )
-BEGIN
-	INSERT INTO `compare_assets`
-	(
-		`APPRAISAL_ASSETS_ID`,
-		`SURVEY_PRICE`,
-		`APPROPRIATE_PRICE`,
-		`DATA_SOURCE`,
-		`PHONE`,
-		`SIZE_AREA`,
-		`SHAPE_INFORMATION_ID`,
-		`ENVIRONMENT_ID`,
-		`CHARACTERISTICS_ASSETS_ID`,
-		`CHARACTERISTICS_ACCESS_ID`,
-		`UTILITIES_ID`,
-		`TERMS_ID`,
-		`NOTE`,
-		`LIQUIDITY_ID`,
-		`SEQUENCE`,
-		`CREATE_BY`
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_id,
-		p_survey_price,
-		p_appropriate_price,
-		p_data_sourece,
-		p_phone,
-		p_size_area,
-		p_shape_infomation_id,
-		p_environment_id,
-		p_characteristics_assets_id,
-		p_characteristics_access_id,
-		p_utilities_id,
-		p_terms_id,
-		p_note,
-		p_liquidity_id,
-		p_squence,
-		p_create_by
-	) ; 
-	SET oCompareAssetID = LAST_INSERT_ID();
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_INS_LOCATION_ASSET` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_LOCATION_ASSET` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_LOCATION_ASSET`(
-	in p_appraisal_assets_id int,
-	in p_no_building varchar(10),
-	in p_building_type_id int,
-	in p_floor int,
-	in p_condition_building_id int,
-	in p_building_age double,
-	in p_structure_id int,
-	in p_pole_id int,
-	in p_roof_id int,
-	in p_materials_id int,
-	in p_ceiling_id int,
-	in p_exterior_walls_id int,
-	in p_interior_walls_id int,
-	in p_stair_id int,
-	in p_room_1 varchar(100),
-	in p_room_2 VARCHAR(100),
-	IN p_room_3 VARCHAR(100),
-	in p_width double,
-	in p_high double,
-	In p_price_per_meter double,
-	in p_depreciation double,
-	in p_create_by varchar(100),
-	out oAssetsLocationID int
-    )
-BEGIN
-	INSERT INTO `location_assets`
-	(
-		`APPRAISAL_ASSETS_ID`,
-		`NO_BUILDINGS`,
-		`BUILDING_TYPE_ID`,
-		`FLOOR`,
-		`CONDITION_BUILDING_ID`,
-		`BUILDING_AGE`,
-		`STRUCTURE_ID`,
-		`POLE_ID`,
-		`ROOF_ID`,
-		`MATERIALS_ID`,
-		`CEILING_ID`,
-		`EXTERIOR_WALLS_ID`,
-		`INTERIOR_WALLS_ID`,
-		`STAIR_ID`,
-		`ROOM_1`,
-		`ROOM_2`,
-		`ROOM_3`,
-		`WIDTH`,
-		`HIGH`,
-		`PRICE_PER_METER`,
-		`DEPRECIATION`,
-		`CREATE_BY`
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_id,
-		p_no_building,
-		p_building_type_id,
-		p_floor,
-		p_condition_building_id,
-		p_building_age,
-		p_structure_id,
-		p_pole_id,
-		p_roof_id,
-		p_materials_id,
-		p_ceiling_id,
-		p_exterior_walls_id,
-		p_interior_walls_id,
-		p_stair_id,
-		p_room_1,
-		p_room_2,
-		p_room_3,
-		p_width,
-		p_high,
-		p_price_per_meter,
-		p_depreciation,
-		p_create_by
-	) ; 
-	SET oAssetsLocationID = LAST_INSERT_ID();
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_INS_MAP` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_MAP` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_INS_MAP`(
-	in p_appraisal_id int,
-	in p_latitude varchar(100),
-	in p_longtitude varchar(100),
-	in p_create_by varchar(100),
-	out oMapAssetID int
-    )
-BEGIN
-	INSERT INTO map_assets
-	(
-		`APPRAISAL_ASSETS_ID`,
-		`LATITUDE`,
-		`LONGITUDE`,
-		`CREATE_BY`
-	)
-	VALUES 
-	( 
-		p_appraisal_id, 
-		p_latitude, 
-		p_longtitude, 
-		p_create_by
-	) ; 
-	SET oMapAssetID = LAST_INSERT_ID();
-    END */$$
-DELIMITER ;
-
 /* Procedure structure for procedure `USP_INS_UPLOAD_PICTURE` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_UPLOAD_PICTURE` */;
@@ -984,35 +594,59 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_UPLOAD_PICTURE`(
-	IN p_appraisal_assets_id int, 
+	IN p_appraisal_asset_id int, 
         IN p_upload_type_id INT,
         IN p_image_path VARCHAR(250),
         IN p_file_name VARCHAR(100),
         IN p_description text,
         IN p_sequence int,
-        IN p_create_by VARCHAR(20)
+        IN p_note text,
+        IN p_mng_by VARCHAR(20),
+        OUT oImageAssetID int
     )
 BEGIN
-	INSERT INTO IMAGE_ASSETS
-	(
-		APPRAISAL_ASSETS_ID, 
-		UPLOAD_TYPE_ID, 
-		IMAGE_PATH, 
-		FILE_NAME, 
-		DESCRIPTION,
-		SEQUENCE,
-		CREATE_BY
-	)
-	VALUES 
-	( 
-		p_appraisal_assets_id, 
-		p_upload_type_id, 
-		p_image_path, 
-		p_file_name, 
-		p_description,
-		p_sequence,
-		p_create_by
-	) ; 
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `IMAGE_ASSETS_ID` END
+		INTO oImageAssetID
+	      FROM IMAGE_ASSETS
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `SEQUENCE` = p_sequence AND `status` = 1
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oImageAssetID)) THEN
+		INSERT INTO IMAGE_ASSETS
+		(
+			APPRAISAL_ASSETS_ID, 
+			UPLOAD_TYPE_ID, 
+			IMAGE_PATH, 
+			FILE_NAME, 
+			DESCRIPTION,
+			SEQUENCE,
+			NOTE,
+			CREATE_BY
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_id, 
+			p_upload_type_id, 
+			p_image_path, 
+			p_file_name, 
+			p_description,
+			p_sequence,
+			p_note,
+			p_mng_by
+		); 
+		SET oImageAssetID = LAST_INSERT_ID();
+	ELSE
+		UPDATE IMAGE_ASSETS
+		SET IMAGE_PATH = p_image_path, 
+			FILE_NAME = p_file_name,
+			DESCRIPTION = p_description,
+			PHONE = p_phone,
+			NOTE = p_note,
+			UPDATE_DATE = CURRENT_TIMESTAMP,
+			UPDATE_BY = p_mng_by
+		WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
+			AND UPLOAD_TYPE_ID = p_upload_type_id 
+			AND SEQUENCE = p_sequence;
+	END IF;
     END */$$
 DELIMITER ;
 
@@ -1022,7 +656,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_USERS`(
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_INS_USERS`(
 	IN p_user_name VARCHAR(20), 
         IN p_password VARCHAR(100),
         In p_roleid int,
@@ -1071,257 +705,459 @@ BEGIN
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `USP_UPD_APPRAISAL_DETAIL` */
+/* Procedure structure for procedure `USP_MNG_APPRAISAL_DETAIL` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_APPRAISAL_DETAIL` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_APPRAISAL_DETAIL`(
-	IN p_appraisal_detail_id int,
-	IN p_appraisal_assets_id INT,
-	IN p_type_of_document_id INT,
-	IN p_no VARCHAR(100),
-	IN p_survey VARCHAR(100),
-	IN p_book_or_page VARCHAR(100),
-	IN p_tc_no VARCHAR(100),
-	IN p_condition_land_id INT,
-	IN p_courting_the_burden TINYINT,
-	IN p_ownership VARCHAR(200),
-	IN p_rightsholder VARCHAR(200),
-	IN p_procince_id INT,
-	IN p_amphur_id INT,
-	IN p_district_id INT,
-	IN p_rai_area INT,
-	IN p_ngaan_area INT,
-	IN p_wa_area INT,
-	IN p_total_area DOUBLE,
-	IN p_appraisal DOUBLE,
-	in p_update_by varchar(100)
-     )
-BEGIN
-	update `appraisal_assets_detail`
-	set `APPRAISAL_ASSETS_ID` = p_appraisal_assets_id,
-		`TYPE_OF_DOCUMENT_ID` = p_type_of_document_id,
-		`NO` = p_no,
-		`SURVEY` = p_survey,
-		`BOOK_OR_PAGE` = p_book_or_page,
-		`TC_NO` = p_tc_no,
-		`CONDITION_LAND_ID` = p_condition_land_id,
-		`COURTING_THE_BURDEN` = p_courting_the_burden,
-		`OWNERSHIP` = p_ownership,
-		`RIGHTSHOLDER` = p_rightsholder,
-		`PROVINCE_ID` = p_procince_id,
-		`AMPHUR_ID` = p_amphur_id,
-		`DISTRICT_ID` = p_district_id,
-		`RAI_AREA` = p_rai_area,
-		`NGAAN_AREA` = p_ngaan_area,
-		`WA_AREA` = p_wa_area,
-		`TOTAL_AREA` = p_total_area,
-		`APPRAISAL` = p_appraisal,
-		`UPDATE_DATE` = current_timestamp,
-		`UPDATE_BY` = p_update_by
-	where `ASSETS_DETAIL_ID` = p_appraisal_detail_id AND `STATUS` = 1;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_UPD_APPRAISAL_JOB` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_APPRAISAL_JOB` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_APPRAISAL_DETAIL` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_APPRAISAL_JOB`(
-	IN p_appraisal_assets_id int,
-	IN p_appraisal_assets_code VARCHAR(200),
-	IN p_village VARCHAR(200),
-	IN p_allry VARCHAR(200),
-	IN p_road VARCHAR(200),
-	IN p_district_id INT,
-	IN p_amphur_id INT,
-	IN p_province_id INT,
-	IN p_detailed_location TEXT,
-	IN p_asset_type_id INT,
-	IN p_assessment_mthods_id INT,
-	IN p_rights_of_access_id INT,
-	IN p_paint_the_town_id INT,
-	IN p_update_by VARCHAR(100)
-	)
-BEGIN
-	UPDATE `appraisal_assets_job`
-	SET `APPRAISAL_ASSETS_CODE` = p_appraisal_assets_code, 
-		`VILLAGE` = p_village,
-		`ALLEY` = p_allry,
-		`ROAD` = p_road,
-		`DISTRICT_ID` = p_district_id,
-		`AMPHUR_ID` = p_amphur_id,
-		`PROVINCE_ID` = p_province_id,
-		`DETAILED_LOCATION` = p_detailed_location,
-		`ASSET_TYPE_ID` = p_asset_type_id,
-		`ASSESSMENT_METHODS_ID` = p_assessment_mthods_id,
-		`RIGHTS_OF_ACCESS_ID` = p_rights_of_access_id,
-		`PAINT_THE_TOWN_ID` = p_paint_the_town_id,
-		`UPDATE_DATE` = CURRENT_TIMESTAMP,
-		`UPDATE_BY` = p_update_by
-	WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_assets_id AND `STATUS` = 1;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_UPD_COMPARE_ASSET` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_COMPARE_ASSET` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_COMPARE_ASSET`(
-	IN p_compare_assets_id INT,
-	IN p_survey_price DOUBLE,
-	IN p_appropriate_price DOUBLE,
-	IN p_data_sourece VARCHAR(100),
-	IN p_phone VARCHAR(100),
-	IN p_size_area DOUBLE,
-	IN p_shape_infomation_id INT,
-	IN p_environment_id INT,
-	IN p_characteristics_assets_id INT,
-	IN p_characteristics_access_id INT,
-	IN p_utilities_id INT,
-	IN p_terms_id INT,
-	IN p_note TEXT,
-	IN p_liquidity_id INT,
-	IN p_squence INT,
-	IN p_update_by VARCHAR(100),
-	OUT oCompareAssetID INT
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_APPRAISAL_DETAIL`(
+	in p_appraisal_asset_id int,
+	in p_type_of_document_id int,
+	in p_no varchar(100),
+	in p_survey varchar(100),
+	in p_book_or_page varchar(100),
+	in p_tc_no varchar(100),
+	in p_condition_land_id int,
+	in p_courting_the_burden tinyint,
+	in p_ownership varchar(200),
+	in p_rightsholder varchar(200),
+	in p_procince_id int,
+	in p_amphur_id int,
+	in p_district_id int,
+	in p_rai_area int,
+	in p_ngaan_area int,
+	in p_wa_area int,
+	in p_total_area double,
+	in p_appraisal double,
+	IN p_mng_by varchar(100),
+        OUT oAppraisalDetailID INT
     )
 BEGIN
-	UPDATE `compare_assets`
-	SET `SURVEY_PRICE` = p_survey_price,
-		`APPROPRIATE_PRICE` = p_appropriate_price,
-		`DATA_SOURCE` = p_data_sourece,
-		`PHONE` = p_phone,
-		`SIZE_AREA` = p_size_area,
-		`SHAPE_INFORMATION_ID` = p_shape_infomation_id,
-		`ENVIRONMENT_ID` = p_environment_id,
-		`CHARACTERISTICS_ASSETS_ID` = p_characteristics_assets_id,
-		`CHARACTERISTICS_ACCESS_ID` = p_characteristics_access_id,
-		`UTILITIES_ID` = p_utilities_id,
-		`TERMS_ID` = p_terms_id,
-		`NOTE` = p_note,
-		`LIQUIDITY_ID` = p_liquidity_id,
-		`SEQUENCE` = p_squence,
-		`CREATE_BY` = p_create_by
-	WHERE `COMPARE_ASSETS_ID` = p_compare_assets_id;
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `ASSETS_DETAIL_ID` END
+		INTO oAppraisalDetailID
+	      FROM `appraisal_assets_detail`
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `status` = 1
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oAppraisalDetailID)) THEN
+		INSERT INTO `appraisal_assets_detail`
+		(
+			`APPRAISAL_ASSETS_ID`,
+			`TYPE_OF_DOCUMENT_ID`,
+			`NO`,
+			`SURVEY`,
+			`BOOK_OR_PAGE`,
+			`TC_NO`,
+			`CONDITION_LAND_ID`,
+			`COURTING_THE_BURDEN`,
+			`OWNERSHIP`,
+			`RIGHTSHOLDER`,
+			`PROVINCE_ID`,
+			`AMPHUR_ID`,
+			`DISTRICT_ID`,
+			`RAI_AREA`,
+			`NGAAN_AREA`,
+			`WA_AREA`,
+			`TOTAL_AREA`,
+			`APPRAISAL`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_id,
+			p_type_of_document_id,
+			p_no,
+			p_survey,
+			p_book_or_page,
+			p_tc_no,
+			p_condition_land_id,
+			p_courting_the_burden,
+			p_ownership,
+			p_rightsholder,
+			p_procince_id,
+			p_amphur_id,
+			p_district_id,
+			p_rai_area,
+			p_ngaan_area,
+			p_wa_area,
+			p_total_area,
+			p_appraisal,
+			p_mng_by
+		) ; 
+		SET oAppraisalDetailID = LAST_INSERT_ID();
+	ELSE
+		UPDATE `appraisal_assets_detail`
+		SET `TYPE_OF_DOCUMENT_ID` = p_type_of_document_id,
+			`NO` = p_no,
+			`SURVEY` = p_survey,
+			`BOOK_OR_PAGE` = p_book_or_page,
+			`TC_NO` = p_tc_no,
+			`CONDITION_LAND_ID` = p_condition_land_id,
+			`COURTING_THE_BURDEN` = p_courting_the_burden,
+			`OWNERSHIP` = p_ownership,
+			`RIGHTSHOLDER` = p_rightsholder,
+			`PROVINCE_ID` = p_procince_id,
+			`AMPHUR_ID` = p_amphur_id,
+			`DISTRICT_ID` = p_district_id,
+			`RAI_AREA` = p_rai_area,
+			`NGAAN_AREA` = p_ngaan_area,
+			`WA_AREA` = p_wa_area,
+			`TOTAL_AREA` = p_total_area,
+			`APPRAISAL` = p_appraisal,
+			`UPDATE_DATE` = CURRENT_TIMESTAMP,
+			`UPDATE_BY` = p_mng_by
+		WHERE `ASSETS_DETAIL_ID` = oAppraisalDetailID
+			AND `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id
+			AND `STATUS` = 1;
+	END IF;
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `USP_UPD_LOCATION_ASSET` */
+/* Procedure structure for procedure `USP_MNG_APPRAISAL_JOB` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_LOCATION_ASSET` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_APPRAISAL_JOB` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_LOCATION_ASSET`(
-	IN p_asset_location_id INT,
-	IN p_no_building VARCHAR(10),
-	IN p_building_type_id INT,
-	IN p_floor INT,
-	IN p_condition_building_id INT,
-	IN p_building_age DOUBLE,
-	IN p_structure_id INT,
-	IN p_pole_id INT,
-	IN p_roof_id INT,
-	IN p_materials_id INT,
-	IN p_ceiling_id INT,
-	IN p_exterior_walls_id INT,
-	IN p_interior_walls_id INT,
-	IN p_stair_id INT,
-	IN p_room_1 VARCHAR(100),
-	IN p_room_2 VARCHAR(100),
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_APPRAISAL_JOB`(
+	in p_appraisal_assets_code varchar(200),
+	in p_village varchar(200),
+	in p_allry varchar(200),
+	in p_road varchar(200),
+	in p_district_id int,
+	in p_amphur_id int,
+	in p_province_id int,
+	in p_detailed_location text,
+	in p_asset_type_id int,
+	in p_assessment_mthods_id int,
+	in p_rights_of_access_id int,
+	in p_paint_the_town_id int,
+	in p_mng_by varchar(100),
+        OUT oMessage VARCHAR(50),
+        OUT oAppraisalID INT
+    )
+BEGIN
+	SELECT CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN 'Duplicate job code' ELSE 'Success' END,
+		CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN NULL ELSE `APPRAISAL_ASSETS_ID` END
+		INTO oMessage, oAppraisalID
+	      FROM `appraisal_assets_job`
+	      WHERE APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code) and `status` = 1
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oAppraisalID)) THEN
+		INSERT INTO appraisal_assets_job
+		(
+			`APPRAISAL_ASSETS_CODE`, 
+			`VILLAGE`, 
+			`ALLEY`, 
+			`ROAD`, 
+			`DISTRICT_ID`, 
+			`AMPHUR_ID`,
+			`PROVINCE_ID`,
+			`DETAILED_LOCATION`,
+			`ASSET_TYPE_ID`, 
+			`ASSESSMENT_METHODS_ID`,
+			`RIGHTS_OF_ACCESS_ID`,
+			`PAINT_THE_TOWN_ID`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_code, 
+			p_village, 
+			p_allry, 
+			p_road, 
+			p_district_id,
+			p_amphur_id,
+			p_province_id,
+			p_detailed_location,
+			p_asset_type_id, 
+			p_assessment_mthods_id, 
+			p_rights_of_access_id, 
+			p_district_id,
+			p_paint_the_town_id,
+			p_mng_by
+		) ; 
+		SET oAppraisalID = LAST_INSERT_ID();
+	ELSE
+		if(oMessage != "Success") THEN
+			SET oMessage = IFNULL(oMessage, 'Duplicate job code: ' + p_appraisal_assets_code);
+		ELSE
+			UPDATE `appraisal_assets_job`
+			SET `VILLAGE` = p_village,
+				`ALLEY` = p_allry,
+				`ROAD` = p_road,
+				`DISTRICT_ID` = p_district_id,
+				`AMPHUR_ID` = p_amphur_id,
+				`PROVINCE_ID` = p_province_id,
+				`DETAILED_LOCATION` = p_detailed_location,
+				`ASSET_TYPE_ID` = p_asset_type_id,
+				`ASSESSMENT_METHODS_ID` = p_assessment_mthods_id,
+				`RIGHTS_OF_ACCESS_ID` = p_rights_of_access_id,
+				`PAINT_THE_TOWN_ID` = p_paint_the_town_id,
+				`UPDATE_DATE` = CURRENT_TIMESTAMP,
+				`UPDATE_BY` = p_mng_by
+			WHERE `APPRAISAL_ASSETS_ID` = oAppraisalID AND `STATUS` = 1;
+		END IF;
+	END IF;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_MNG_COMPARE_ASSET` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_COMPARE_ASSET` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_COMPARE_ASSET`(
+	in p_appraisal_assets_id int,
+	in p_survey_price double,
+	in p_appropriate_price double,
+	in p_data_sourece varchar(100),
+	in p_phone varchar(100),
+	in p_size_area double,
+	In p_shape_infomation_id int,
+	in p_environment_id int,
+	in p_characteristics_assets_id int,
+	in p_characteristics_access_id int,
+	in p_utilities_id int,
+	in p_terms_id int,
+	in p_note text,
+	in p_liquidity_id int,
+	in p_squence int,
+	in p_mng_by varchar(100),
+	out oCompareAssetID int
+    )
+BEGIN
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `COMPARE_ASSETS_ID` END
+		INTO oCompareAssetID
+	      FROM `compare_assets`
+	      WHERE `SEQUENCE` = p_squence AND `STATUS` = 1 
+	     LIMIT 1; -- you better protect yourself from duplicates
+	if(isnull(oCompareAssetID)) THEN
+		INSERT INTO `compare_assets`
+		(
+			`APPRAISAL_ASSETS_ID`,
+			`SURVEY_PRICE`,
+			`APPROPRIATE_PRICE`,
+			`DATA_SOURCE`,
+			`PHONE`,
+			`SIZE_AREA`,
+			`SHAPE_INFORMATION_ID`,
+			`ENVIRONMENT_ID`,
+			`CHARACTERISTICS_ASSETS_ID`,
+			`CHARACTERISTICS_ACCESS_ID`,
+			`UTILITIES_ID`,
+			`TERMS_ID`,
+			`NOTE`,
+			`LIQUIDITY_ID`,
+			`SEQUENCE`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_id,
+			p_survey_price,
+			p_appropriate_price,
+			p_data_sourece,
+			p_phone,
+			p_size_area,
+			p_shape_infomation_id,
+			p_environment_id,
+			p_characteristics_assets_id,
+			p_characteristics_access_id,
+			p_utilities_id,
+			p_terms_id,
+			p_note,
+			p_liquidity_id,
+			p_squence,
+			p_mng_by
+		) ; 
+		SET oCompareAssetID = LAST_INSERT_ID();
+	ELSE
+		UPDATE `compare_assets`
+		SET `SURVEY_PRICE` = p_survey_price,
+			`APPROPRIATE_PRICE` = p_appropriate_price,
+			`DATA_SOURCE` = p_data_sourece,
+			`PHONE` = p_phone,
+			`SIZE_AREA` = p_size_area,
+			`SHAPE_INFORMATION_ID` = p_shape_infomation_id,
+			`ENVIRONMENT_ID` = p_environment_id,
+			`CHARACTERISTICS_ASSETS_ID` = p_characteristics_assets_id,
+			`CHARACTERISTICS_ACCESS_ID` = p_characteristics_access_id,
+			`UTILITIES_ID` = p_utilities_id,
+			`TERMS_ID` = p_terms_id,
+			`NOTE` = p_note,
+			`LIQUIDITY_ID` = p_liquidity_id,
+			`SEQUENCE` = p_squence,
+			`UPDATE_DATE` = CURRENT_TIMESTAMP,
+			`UPDATE_BY` = p_mng_by
+		WHERE `COMPARE_ASSETS_ID` = oCompareAssetID AND `SEQUENCE` = p_squence;
+	END IF;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_MNG_LOCATION_ASSET` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_LOCATION_ASSET` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_LOCATION_ASSET`(
+	in p_appraisal_assets_id int,
+	in p_no_building varchar(10),
+	in p_building_type_id int,
+	in p_floor int,
+	in p_condition_building_id int,
+	in p_building_age double,
+	in p_structure_id int,
+	in p_pole_id int,
+	in p_roof_id int,
+	in p_materials_id int,
+	in p_ceiling_id int,
+	in p_exterior_walls_id int,
+	in p_interior_walls_id int,
+	in p_stair_id int,
+	in p_room_1 varchar(100),
+	in p_room_2 VARCHAR(100),
 	IN p_room_3 VARCHAR(100),
-	IN p_width DOUBLE,
-	IN p_high DOUBLE,
-	IN p_price_per_meter DOUBLE,
-	IN p_depreciation DOUBLE,
-	IN p_update_by VARCHAR(100)
+	in p_width double,
+	in p_high double,
+	In p_price_per_meter double,
+	in p_depreciation double,
+	in p_mng_by varchar(100),
+	out oAssetsLocationID int
     )
 BEGIN
-	UPDATE `location_assets`
-	SET 
-		`APPRAISAL_ASSETS_ID` = p_appraisal_assets_id,
-		`NO_BUILDINGS` = p_no_building,
-		`BUILDING_TYPE_ID` = p_building_type_id,
-		`FLOOR` = p_floor,
-		`CONDITION_BUILDING_ID` = p_condition_building_id,
-		`BUILDING_AGE` = p_building_age,
-		`STRUCTURE_ID` = p_structure_id,
-		`POLE_ID` = p_pole_id,
-		`ROOF_ID` = p_roof_id,
-		`MATERIALS_ID` = p_materials_id,
-		`CEILING_ID` = p_ceiling_id,
-		`EXTERIOR_WALLS_ID` = p_exterior_walls_id,
-		`INTERIOR_WALLS_ID` = p_interior_walls_id,
-		`STAIR_ID` = p_stair_id,
-		`ROOM_1` = p_room_1,
-		`ROOM_2` = p_room_2,
-		`ROOM_3` = p_room_3,
-		`WIDTH` = p_width,
-		`HIGH` = p_high,
-		`PRICE_PER_METER` = p_price_per_meter,
-		`DEPRECIATION` = p_depreciation,
-		`UPDATE_DATE` = CURRENT_TIMESTAMP,
-		`UPDATE_BY` = p_update_by
-	WHERE `ASSETS_LOCATION_ID` = p_asset_location_id AND `STATUS` = 1;
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `ASSETS_LOCATION_ID` END
+		INTO oAssetsLocationID
+	      FROM `location_assets`
+	      WHERE `STATUS` = 1 
+	     LIMIT 1; -- you better protect yourself from duplicates
+	if(isnull(oAssetsLocationID)) THEN
+		INSERT INTO `location_assets`
+		(
+			`APPRAISAL_ASSETS_ID`,
+			`NO_BUILDINGS`,
+			`BUILDING_TYPE_ID`,
+			`FLOOR`,
+			`CONDITION_BUILDING_ID`,
+			`BUILDING_AGE`,
+			`STRUCTURE_ID`,
+			`POLE_ID`,
+			`ROOF_ID`,
+			`MATERIALS_ID`,
+			`CEILING_ID`,
+			`EXTERIOR_WALLS_ID`,
+			`INTERIOR_WALLS_ID`,
+			`STAIR_ID`,
+			`ROOM_1`,
+			`ROOM_2`,
+			`ROOM_3`,
+			`WIDTH`,
+			`HIGH`,
+			`PRICE_PER_METER`,
+			`DEPRECIATION`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_id,
+			p_no_building,
+			p_building_type_id,
+			p_floor,
+			p_condition_building_id,
+			p_building_age,
+			p_structure_id,
+			p_pole_id,
+			p_roof_id,
+			p_materials_id,
+			p_ceiling_id,
+			p_exterior_walls_id,
+			p_interior_walls_id,
+			p_stair_id,
+			p_room_1,
+			p_room_2,
+			p_room_3,
+			p_width,
+			p_high,
+			p_price_per_meter,
+			p_depreciation,
+			p_create_by
+		) ; 
+		SET oAssetsLocationID = LAST_INSERT_ID();
+	ELSE
+		UPDATE `location_assets`
+		SET `NO_BUILDINGS` = p_no_building,
+			`BUILDING_TYPE_ID` = p_building_type_id,
+			`FLOOR` = p_floor,
+			`CONDITION_BUILDING_ID` = p_condition_building_id,
+			`BUILDING_AGE` = p_building_age,
+			`STRUCTURE_ID` = p_structure_id,
+			`POLE_ID` = p_pole_id,
+			`ROOF_ID` = p_roof_id,
+			`MATERIALS_ID` = p_materials_id,
+			`CEILING_ID` = p_ceiling_id,
+			`EXTERIOR_WALLS_ID` = p_exterior_walls_id,
+			`INTERIOR_WALLS_ID` = p_interior_walls_id,
+			`STAIR_ID` = p_stair_id,
+			`ROOM_1` = p_room_1,
+			`ROOM_2` = p_room_2,
+			`ROOM_3` = p_room_3,
+			`WIDTH` = p_width,
+			`HIGH` = p_high,
+			`PRICE_PER_METER` = p_price_per_meter,
+			`DEPRECIATION` = p_depreciation,
+			`UPDATE_DATE` = CURRENT_TIMESTAMP,
+			`UPDATE_BY` = p_mng_by
+		WHERE `ASSETS_LOCATION_ID` = oAssetsLocationID AND `STATUS` = 1;
+	END IF;
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `USP_UPD_MAP` */
+/* Procedure structure for procedure `USP_MNG_MAP` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_MAP` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_MAP` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_MAP`(
-	in p_map_assets_id int,
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_MAP`(
+	in p_appraisal_asset_id int,
 	in p_latitude varchar(100),
-	in p_longitude varchar(100),
-	in p_update_by varchar(100)
+	in p_longtitude varchar(100),
+	in p_mng_by varchar(100),
+	out oMapAssetID int
     )
 BEGIN
-	UPDATE `map_assets`
-	SET `LATITUDE` = p_latitude, 
-		`LONGITUDE` = p_longitude,
-		UPDATE_DATE = CURRENT_TIMESTAMP,
-		UPDATE_BY = p_update_by
-	WHERE `MAP_ASSETS_ID` = p_map_assets_id 
-		AND `STATUS` = 1;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_UPD_UPLOAD_PICTURE` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_UPD_UPLOAD_PICTURE` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_UPLOAD_PICTURE`(
-	IN p_appraisal_assets_id INT, 
-        IN p_upload_type_id INT,
-        IN p_image_path VARCHAR(250),
-        IN p_file_name VARCHAR(100),
-        IN p_description TEXT,
-        IN p_sequence INT,
-        IN p_update_by VARCHAR(20)
-    )
-BEGIN
-	UPDATE IMAGE_ASSETS
-	SET IMAGE_PATH = p_image_path, 
-		FILE_NAME = p_file_name,
-		DESCRIPTION = p_description,
-		PHONE = p_phone,
-		UPDATE_DATE = CURRENT_TIMESTAMP,
-		UPDATE_BY = p_update_by
-	WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
-		AND UPLOAD_TYPE_ID = p_upload_type_id 
-		AND SEQUENCE = p_sequence;
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `MAP_ASSETS_ID` END
+		INTO oMapAssetID
+	      FROM `map_assets`
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `status` = 1
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oMapAssetID)) THEN
+		INSERT INTO map_assets
+		(
+			`APPRAISAL_ASSETS_ID`,
+			`LATITUDE`,
+			`LONGITUDE`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_id, 
+			p_latitude, 
+			p_longtitude, 
+			p_mng_by
+		) ; 
+		SET oMapAssetID = LAST_INSERT_ID();
+	ELSE
+		UPDATE `map_assets`
+		SET `LATITUDE` = p_latitude, 
+			`LONGITUDE` = p_longitude,
+			UPDATE_DATE = CURRENT_TIMESTAMP,
+			UPDATE_BY = p_mng_by
+		WHERE `MAP_ASSETS_ID` = oMapAssetID 
+			AND `STATUS` = 1;
+	END IF;
     END */$$
 DELIMITER ;
 
@@ -1331,7 +1167,7 @@ DELIMITER ;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_UPD_USERS`(
+/*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_UPD_USERS`(
 	IN p_user_name VARCHAR(20), 
 	IN p_password varchar(50),
 	IN p_roleid INT,
@@ -1453,6 +1289,105 @@ DROP TABLE IF EXISTS `v_amphur`;
  `STATUS` tinyint(1) 
 )*/;
 
+/*Table structure for table `v_appraisal_list` */
+
+DROP TABLE IF EXISTS `v_appraisal_list`;
+
+/*!50001 DROP VIEW IF EXISTS `v_appraisal_list` */;
+/*!50001 DROP TABLE IF EXISTS `v_appraisal_list` */;
+
+/*!50001 CREATE TABLE  `v_appraisal_list`(
+ `APPRAISAL_ASSETS_ID` int(11) ,
+ `APPRAISAL_ASSETS_CODE` varchar(200) ,
+ `ALLEY` varchar(200) ,
+ `ROAD` varchar(200) ,
+ `DISTRICT_ID` int(11) ,
+ `DISTRICT_NAME` varchar(150) ,
+ `AMPHUR_ID` int(11) ,
+ `AMPHUR_NAME` varchar(150) ,
+ `PROVINCE_ID` int(11) ,
+ `PROVINCE_NAME` varchar(150) ,
+ `DETAILED_LOCATION` text ,
+ `ASSET_TYPE_ID` int(11) ,
+ `ASSET_TYPE` varchar(100) ,
+ `ASSESSMENT_METHODS_ID` int(11) ,
+ `ASSESSMENT_METHODS` varchar(100) ,
+ `RIGHTS_OF_ACCESS_ID` int(11) ,
+ `RIGHTS_OF_ACCESS` varchar(100) ,
+ `PAINT_THE_TOWN_ID` int(11) ,
+ `PAINT_THE_TOWN` varchar(100) ,
+ `STATUS` tinyint(1) ,
+ `CREATE_DATE` timestamp ,
+ `TYPE_OF_DOCUMENT_ID` int(11) ,
+ `TYPE_OF_DOCUMENT` varchar(100) ,
+ `NO` varchar(100) ,
+ `SURVEY` varchar(100) ,
+ `BOOK_OR_PAGE` varchar(100) ,
+ `TC_NO` varchar(100) ,
+ `CONDITION_LAND_ID` int(100) ,
+ `CONDITION_LAND` varchar(100) ,
+ `COURTING_THE_BURDEN` tinyint(1) ,
+ `OWNERSHIP` varchar(200) ,
+ `RIGHTSHOLDER` varchar(200) ,
+ `RAI_AREA` int(11) ,
+ `NGAAN_AREA` int(11) ,
+ `WA_AREA` int(11) ,
+ `TOTAL_AREA` double ,
+ `APPRAISAL` double ,
+ `NO_BUILDINGS` varchar(10) ,
+ `BUILDING_TYPE_ID` int(11) ,
+ `BUILDING_TYPE` varchar(100) ,
+ `FLOOR` int(11) ,
+ `CONDITION_BUILDING_ID` int(11) ,
+ `CONDITION_BUILDING` varchar(100) ,
+ `BUILDING_AGE` double ,
+ `STRUCTURE_ID` int(11) ,
+ `STRUCTURE` varchar(100) ,
+ `POLE_ID` int(11) ,
+ `POLE` varchar(100) ,
+ `ROOF_ID` int(11) ,
+ `ROOF` varchar(100) ,
+ `MATERIALS_ID` int(11) ,
+ `MATERIALS` varchar(100) ,
+ `CEILING_ID` int(11) ,
+ `CEILING` varchar(100) ,
+ `EXTERIOR_WALLS_ID` int(11) ,
+ `EXTERIOR_WALLS` varchar(100) ,
+ `INTERIOR_WALLS_ID` int(11) ,
+ `INTERIOR_WALLS` varchar(100) ,
+ `STAIR_ID` int(11) ,
+ `STAIR` varchar(100) ,
+ `ROOM_1` varchar(100) ,
+ `ROOM_2` varchar(100) ,
+ `ROOM_3` varchar(100) ,
+ `WIDTH` double ,
+ `HIGH` double ,
+ `PRICE_PER_METER` double ,
+ `DEPRECIATION` double ,
+ `SURVEY_PRICE` double ,
+ `APPROPRIATE_PRICE` double ,
+ `DATA_SOURCE` varchar(100) ,
+ `PHONE` varchar(100) ,
+ `SIZE_AREA` double ,
+ `SHAPE_INFORMATION_ID` int(11) ,
+ `SHAPE_INFORMATION` varchar(100) ,
+ `ENVIRONMENT_ID` int(11) ,
+ `ENVIRONMENT` varchar(100) ,
+ `CHARACTERISTICS_ASSETS_ID` int(11) ,
+ `CHARACTERISTICS_ASSETS` varchar(100) ,
+ `CHARACTERISTICS_ACCESS_ID` int(11) ,
+ `CHARACTERISTICS_ACCESS` varchar(100) ,
+ `UTILITIES_ID` int(11) ,
+ `UTILITIES` varchar(100) ,
+ `TERMS_ID` int(11) ,
+ `TERMS` varchar(100) ,
+ `LIQUIDITY_ID` int(11) ,
+ `LIQUIDITY` varchar(100) ,
+ `SEQUENCE` int(11) ,
+ `LATITUDE` varchar(100) ,
+ `LONGITUDE` varchar(100) 
+)*/;
+
 /*Table structure for table `v_district` */
 
 DROP TABLE IF EXISTS `v_district`;
@@ -1501,6 +1436,26 @@ DROP TABLE IF EXISTS `v_province`;
  `STATUS` tinyint(1) 
 )*/;
 
+/*Table structure for table `v_roles` */
+
+DROP TABLE IF EXISTS `v_roles`;
+
+/*!50001 DROP VIEW IF EXISTS `v_roles` */;
+/*!50001 DROP TABLE IF EXISTS `v_roles` */;
+
+/*!50001 CREATE TABLE  `v_roles`(
+ `ROLE_ID` int(11) ,
+ `ROLE_CODE` varchar(10) ,
+ `ROLE_NAME` varchar(100) ,
+ `STATUS` tinyint(1) ,
+ `CREATE_DATE` timestamp ,
+ `UPDATE_DATE` timestamp ,
+ `DELETE_DATE` timestamp ,
+ `CREATE_BY` varchar(100) ,
+ `UPDATE_BY` varchar(100) ,
+ `DELETE_BY` varchar(100) 
+)*/;
+
 /*Table structure for table `v_users` */
 
 DROP TABLE IF EXISTS `v_users`;
@@ -1537,6 +1492,13 @@ DROP TABLE IF EXISTS `v_users`;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_amphur` AS (select `amphur`.`AMPHUR_ID` AS `AMPHUR_ID`,`amphur`.`AMPHUR_CODE` AS `AMPHUR_CODE`,`amphur`.`AMPHUR_NAME` AS `AMPHUR_NAME`,`amphur`.`AMPHUR_NAME_ENG` AS `AMPHUR_NAME_ENG`,`amphur`.`GEO_ID` AS `GEO_ID`,`amphur`.`PROVINCE_ID` AS `PROVINCE_ID`,`amphur`.`STATUS` AS `STATUS` from `amphur` where (`amphur`.`STATUS` = 1)) */;
 
+/*View structure for view v_appraisal_list */
+
+/*!50001 DROP TABLE IF EXISTS `v_appraisal_list` */;
+/*!50001 DROP VIEW IF EXISTS `v_appraisal_list` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_appraisal_list` AS (select `job`.`APPRAISAL_ASSETS_ID` AS `APPRAISAL_ASSETS_ID`,`job`.`APPRAISAL_ASSETS_CODE` AS `APPRAISAL_ASSETS_CODE`,`job`.`ALLEY` AS `ALLEY`,`job`.`ROAD` AS `ROAD`,`job`.`DISTRICT_ID` AS `DISTRICT_ID`,(select `district`.`DISTRICT_NAME` from `district` where (`district`.`DISTRICT_ID` = `job`.`DISTRICT_ID`)) AS `DISTRICT_NAME`,`job`.`AMPHUR_ID` AS `AMPHUR_ID`,(select `amphur`.`AMPHUR_NAME` from `amphur` where (`amphur`.`AMPHUR_ID` = `job`.`AMPHUR_ID`)) AS `AMPHUR_NAME`,`job`.`PROVINCE_ID` AS `PROVINCE_ID`,(select `province`.`PROVINCE_NAME` from `province` where (`province`.`PROVINCE_ID` = `job`.`PROVINCE_ID`)) AS `PROVINCE_NAME`,`job`.`DETAILED_LOCATION` AS `DETAILED_LOCATION`,`job`.`ASSET_TYPE_ID` AS `ASSET_TYPE_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ASSET_TYPE') and (`v_filter`.`FILTER_VALUE` = `job`.`ASSET_TYPE_ID`))) AS `ASSET_TYPE`,`job`.`ASSESSMENT_METHODS_ID` AS `ASSESSMENT_METHODS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ASSESSMENT_METHOD') and (`v_filter`.`FILTER_VALUE` = `job`.`ASSESSMENT_METHODS_ID`))) AS `ASSESSMENT_METHODS`,`job`.`RIGHTS_OF_ACCESS_ID` AS `RIGHTS_OF_ACCESS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'RIGHTS_OF_ACCESS') and (`v_filter`.`FILTER_VALUE` = `job`.`RIGHTS_OF_ACCESS_ID`))) AS `RIGHTS_OF_ACCESS`,`job`.`PAINT_THE_TOWN_ID` AS `PAINT_THE_TOWN_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'PAINT_THE_TOWN') and (`v_filter`.`FILTER_VALUE` = `job`.`PAINT_THE_TOWN_ID`))) AS `PAINT_THE_TOWN`,`job`.`STATUS` AS `STATUS`,`job`.`CREATE_DATE` AS `CREATE_DATE`,`detail`.`TYPE_OF_DOCUMENT_ID` AS `TYPE_OF_DOCUMENT_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'TYPE_OF_DOCUMENT') and (`v_filter`.`FILTER_VALUE` = `detail`.`TYPE_OF_DOCUMENT_ID`))) AS `TYPE_OF_DOCUMENT`,`detail`.`NO` AS `NO`,`detail`.`SURVEY` AS `SURVEY`,`detail`.`BOOK_OR_PAGE` AS `BOOK_OR_PAGE`,`detail`.`TC_NO` AS `TC_NO`,`detail`.`CONDITION_LAND_ID` AS `CONDITION_LAND_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'CONDITION_LAND') and (`v_filter`.`FILTER_VALUE` = `detail`.`CONDITION_LAND_ID`))) AS `CONDITION_LAND`,`detail`.`COURTING_THE_BURDEN` AS `COURTING_THE_BURDEN`,`detail`.`OWNERSHIP` AS `OWNERSHIP`,`detail`.`RIGHTSHOLDER` AS `RIGHTSHOLDER`,`detail`.`RAI_AREA` AS `RAI_AREA`,`detail`.`NGAAN_AREA` AS `NGAAN_AREA`,`detail`.`WA_AREA` AS `WA_AREA`,`detail`.`TOTAL_AREA` AS `TOTAL_AREA`,`detail`.`APPRAISAL` AS `APPRAISAL`,`location`.`NO_BUILDINGS` AS `NO_BUILDINGS`,`location`.`BUILDING_TYPE_ID` AS `BUILDING_TYPE_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'BUILDING_TYPE') and (`v_filter`.`FILTER_VALUE` = `location`.`BUILDING_TYPE_ID`))) AS `BUILDING_TYPE`,`location`.`FLOOR` AS `FLOOR`,`location`.`CONDITION_BUILDING_ID` AS `CONDITION_BUILDING_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'CONDITION_BUILDING') and (`v_filter`.`FILTER_VALUE` = `location`.`CONDITION_BUILDING_ID`))) AS `CONDITION_BUILDING`,`location`.`BUILDING_AGE` AS `BUILDING_AGE`,`location`.`STRUCTURE_ID` AS `STRUCTURE_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'STRUCTURE') and (`v_filter`.`FILTER_VALUE` = `location`.`STRUCTURE_ID`))) AS `STRUCTURE`,`location`.`POLE_ID` AS `POLE_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'STRUCTURE') and (`v_filter`.`FILTER_VALUE` = `location`.`POLE_ID`))) AS `POLE`,`location`.`ROOF_ID` AS `ROOF_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'STRUCTURE') and (`v_filter`.`FILTER_VALUE` = `location`.`ROOF_ID`))) AS `ROOF`,`location`.`MATERIALS_ID` AS `MATERIALS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'MATERIALS') and (`v_filter`.`FILTER_VALUE` = `location`.`MATERIALS_ID`))) AS `MATERIALS`,`location`.`CEILING_ID` AS `CEILING_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'CEILING') and (`v_filter`.`FILTER_VALUE` = `location`.`CEILING_ID`))) AS `CEILING`,`location`.`EXTERIOR_WALLS_ID` AS `EXTERIOR_WALLS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'EX-INTERIOR_WALLS') and (`v_filter`.`FILTER_VALUE` = `location`.`EXTERIOR_WALLS_ID`))) AS `EXTERIOR_WALLS`,`location`.`INTERIOR_WALLS_ID` AS `INTERIOR_WALLS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'EX-INTERIOR_WALLS') and (`v_filter`.`FILTER_VALUE` = `location`.`INTERIOR_WALLS_ID`))) AS `INTERIOR_WALLS`,`location`.`STAIR_ID` AS `STAIR_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'STAIR') and (`v_filter`.`FILTER_VALUE` = `location`.`STAIR_ID`))) AS `STAIR`,`location`.`ROOM_1` AS `ROOM_1`,`location`.`ROOM_2` AS `ROOM_2`,`location`.`ROOM_3` AS `ROOM_3`,`location`.`WIDTH` AS `WIDTH`,`location`.`HIGH` AS `HIGH`,`location`.`PRICE_PER_METER` AS `PRICE_PER_METER`,`location`.`DEPRECIATION` AS `DEPRECIATION`,`compare`.`SURVEY_PRICE` AS `SURVEY_PRICE`,`compare`.`APPROPRIATE_PRICE` AS `APPROPRIATE_PRICE`,`compare`.`DATA_SOURCE` AS `DATA_SOURCE`,`compare`.`PHONE` AS `PHONE`,`compare`.`SIZE_AREA` AS `SIZE_AREA`,`compare`.`SHAPE_INFORMATION_ID` AS `SHAPE_INFORMATION_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'SHAPE_INFORMATION') and (`v_filter`.`FILTER_VALUE` = `compare`.`SHAPE_INFORMATION_ID`))) AS `SHAPE_INFORMATION`,`compare`.`ENVIRONMENT_ID` AS `ENVIRONMENT_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ENVIRONMENT') and (`v_filter`.`FILTER_VALUE` = `compare`.`ENVIRONMENT_ID`))) AS `ENVIRONMENT`,`compare`.`CHARACTERISTICS_ASSETS_ID` AS `CHARACTERISTICS_ASSETS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'CONDITION_LAND') and (`v_filter`.`FILTER_VALUE` = `compare`.`CHARACTERISTICS_ASSETS_ID`))) AS `CHARACTERISTICS_ASSETS`,`compare`.`CHARACTERISTICS_ACCESS_ID` AS `CHARACTERISTICS_ACCESS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'CHARACTERISTICS_ACCESS') and (`v_filter`.`FILTER_VALUE` = `compare`.`CHARACTERISTICS_ACCESS_ID`))) AS `CHARACTERISTICS_ACCESS`,`compare`.`UTILITIES_ID` AS `UTILITIES_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'UTILITIES') and (`v_filter`.`FILTER_VALUE` = `compare`.`UTILITIES_ID`))) AS `UTILITIES`,`compare`.`TERMS_ID` AS `TERMS_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ISCONDITION') and (`v_filter`.`FILTER_VALUE` = `compare`.`TERMS_ID`))) AS `TERMS`,`compare`.`LIQUIDITY_ID` AS `LIQUIDITY_ID`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'UTILITIES') and (`v_filter`.`FILTER_VALUE` = `compare`.`LIQUIDITY_ID`))) AS `LIQUIDITY`,`compare`.`SEQUENCE` AS `SEQUENCE`,`map`.`LATITUDE` AS `LATITUDE`,`map`.`LONGITUDE` AS `LONGITUDE` from ((((`appraisal_assets_job` `job` join `appraisal_assets_detail` `detail` on((`job`.`APPRAISAL_ASSETS_ID` = `detail`.`APPRAISAL_ASSETS_ID`))) join `location_assets` `location` on((`job`.`APPRAISAL_ASSETS_ID` = `location`.`APPRAISAL_ASSETS_ID`))) join `compare_assets` `compare` on((`job`.`APPRAISAL_ASSETS_ID` = `compare`.`APPRAISAL_ASSETS_ID`))) join `map_assets` `map` on((`job`.`APPRAISAL_ASSETS_ID` = `map`.`APPRAISAL_ASSETS_ID`))) where ((`compare`.`SEQUENCE` = 1) and (`job`.`STATUS` = 1))) */;
+
 /*View structure for view v_district */
 
 /*!50001 DROP TABLE IF EXISTS `v_district` */;
@@ -1557,6 +1519,13 @@ DROP TABLE IF EXISTS `v_users`;
 /*!50001 DROP VIEW IF EXISTS `v_province` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `province`.`PROVINCE_ID` AS `PROVINCE_ID`,`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`province`.`GEO_ID` AS `GEO_ID`,`province`.`STATUS` AS `STATUS` from `province` where (`province`.`STATUS` = 1)) */;
+
+/*View structure for view v_roles */
+
+/*!50001 DROP TABLE IF EXISTS `v_roles` */;
+/*!50001 DROP VIEW IF EXISTS `v_roles` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_roles` AS (select `role`.`ROLE_ID` AS `ROLE_ID`,`role`.`ROLE_CODE` AS `ROLE_CODE`,`role`.`ROLE_NAME` AS `ROLE_NAME`,`role`.`STATUS` AS `STATUS`,`role`.`CREATE_DATE` AS `CREATE_DATE`,`role`.`UPDATE_DATE` AS `UPDATE_DATE`,`role`.`DELETE_DATE` AS `DELETE_DATE`,`role`.`CREATE_BY` AS `CREATE_BY`,`role`.`UPDATE_BY` AS `UPDATE_BY`,`role`.`DELETE_BY` AS `DELETE_BY` from `role`) */;
 
 /*View structure for view v_users */
 
