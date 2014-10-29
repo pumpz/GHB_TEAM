@@ -304,6 +304,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_APPRAISAL_LIST.
+        /// </summary>
+        internal static string VIEW_APPRAISAL_LIST {
+            get {
+                return ResourceManager.GetString("VIEW_APPRAISAL_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM V_DISTRICT.
         /// </summary>
         internal static string VIEW_DISTRICT {
@@ -345,15 +354,6 @@ namespace Resources {
         internal static string VIEW_USERS {
             get {
                 return ResourceManager.GetString("VIEW_USERS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM V_APPRAISAL_LIST.
-        /// </summary>
-        internal static string V_APPRAISAL_LIST {
-            get {
-                return ResourceManager.GetString("V_APPRAISAL_LIST", resourceCulture);
             }
         }
     }
