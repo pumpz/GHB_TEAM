@@ -613,9 +613,10 @@ namespace AppraisalSystem.Models
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_USERS, conn))
                     {
+                        cmd.CommandText += string.Format(" WHERE DELETE_FLAG =  0 ");
                         if (ContentHelpers.IsNotnull(keyword))
                         {
-                            cmd.CommandText += string.Format(" WHERE USER_NAME LIKE '%{0}%' OR CITIZEN_ID LIKE '%{0}%' OR NAME LIKE '%{0}%'", keyword);
+                            cmd.CommandText += string.Format(" AND USER_NAME LIKE '%{0}%' OR CITIZEN_ID LIKE '%{0}%' OR NAME LIKE '%{0}%'", keyword);
                         }
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {

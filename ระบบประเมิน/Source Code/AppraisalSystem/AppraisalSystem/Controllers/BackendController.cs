@@ -239,8 +239,8 @@ namespace AppraisalSystem.Controllers
         // **************************************
 
       //  [Authorize]
-      //  [Permission]
-        public ActionResult LockUser(int id)
+        //[Permission]
+        public ActionResult LockUser(int id,Boolean isLock)
         {
             try
             {
@@ -248,7 +248,7 @@ namespace AppraisalSystem.Controllers
                 {
                     // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
                     string userName = "system";
-                    if (MembershipService.LockUser(id, userName))
+                    if (MembershipService.LockUser(id, isLock, userName))
                     {
                         return RedirectToAction("manage", "backend");
                     }
