@@ -28,28 +28,28 @@
                 @Html.LabelFor(m => m.Name)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control ui-wizard-content" })
                 @Html.ValidationMessageFor(m => m.Name)
             </div>
              <div class="editor-label">
                 @Html.LabelFor(m => m.CitizenID)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.CitizenID)
+                @Html.TextBoxFor(m => m.CitizenID, new { @class = "form-control ui-wizard-content" })
                 @Html.ValidationMessageFor(m => m.CitizenID)
             </div>
             <div class="editor-label">
                 @Html.LabelFor(m => m.Email)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control ui-wizard-content" })
                 @Html.ValidationMessageFor(m => m.Email)
             </div>
                <div class="editor-label">
                 @Html.LabelFor(m => m.Phone)
             </div>
             <div class="editor-field">
-                @Html.TextBoxFor(m => m.Phone)
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control ui-wizard-content" })
                 @Html.ValidationMessageFor(m => m.Phone)
             </div>
 
