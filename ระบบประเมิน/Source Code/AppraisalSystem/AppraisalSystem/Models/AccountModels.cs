@@ -141,7 +141,7 @@ namespace AppraisalSystem.Models
         Boolean UpdateUser(RegisterModel register, string updateBy);
         Boolean DeleteUser(int userId, string delBy);
         Boolean ChangePassword(string userName, string oldPassword, string newPassword, string updateBy);
-        Boolean LockUser(int userId, string updateBy);
+        Boolean LockUser(int userId, Boolean isLock, string updateBy);
         Boolean LogOut(string userName);
         List<UserModel> GetUsers(string keyword);
         UserModel GetUsersByID(int id);
@@ -479,7 +479,7 @@ namespace AppraisalSystem.Models
         }
 
         [DataObjectMethod(DataObjectMethodType.Update)]
-        public Boolean LockUser(int userId, string updateBy)
+        public Boolean LockUser(int userId, Boolean isLock, string updateBy)
         {
             if (userId <= 0) throw new ArgumentException("Value cannot be null or empty.", "userId");
 
@@ -504,6 +504,14 @@ namespace AppraisalSystem.Models
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
                         cmd.Parameters.Add("iUserID", MySqlDbType.Int32).Value = userId;
+                        if (isLock)
+                        {
+                            cmd.Parameters.Add("iUnlock", MySqlDbType.Int32).Value = 0;
+                        }
+                        else
+                        {
+                            cmd.Parameters.Add("iUnlock", MySqlDbType.Int32).Value = 1;
+                        }
                         cmd.Parameters.Add("iUpdateBy", MySqlDbType.VarChar).Value = updateBy;
 
                         int excute = cmd.ExecuteNonQuery();
