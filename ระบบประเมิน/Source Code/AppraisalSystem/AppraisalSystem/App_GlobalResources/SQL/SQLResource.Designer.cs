@@ -61,7 +61,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE STATUS = 1.
         /// </summary>
         internal static string GET_APPRAISAL_DETAIL_BY_ID {
             get {
@@ -70,7 +70,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_JOB WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_JOB WHERE STATUS = 1.
         /// </summary>
         internal static string GET_APPRAISAL_JOB_BY_ID {
             get {
@@ -79,7 +79,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1.
         /// </summary>
         internal static string GET_COMPARE_BY_ID {
             get {
@@ -88,7 +88,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM IMAGE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND UPLOAD_TYPE_ID = :UploadTypeID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM IMAGE_ASSETS WHERE STATUS = 1.
         /// </summary>
         internal static string GET_IMAGE_ASSETS_BY_ID {
             get {
@@ -97,7 +97,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM LOCATION_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM LOCATION_ASSETS WHERE STATUS = 1.
         /// </summary>
         internal static string GET_LOCATION_ASSETS_BY_ID {
             get {
@@ -106,7 +106,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM MAP_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM MAP_ASSETS WHERE STATUS = 1.
         /// </summary>
         internal static string GET_MAP_ASSETS_BY_ID {
             get {
@@ -304,7 +304,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM V_APPRAISAL_LIST.
+        ///   Looks up a localized string similar to SELECT * FROM V_APPRAISAL_LIST WHERE 1=1.
         /// </summary>
         internal static string VIEW_APPRAISAL_LIST {
             get {

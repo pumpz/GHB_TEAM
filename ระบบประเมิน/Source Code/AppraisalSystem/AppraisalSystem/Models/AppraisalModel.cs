@@ -7,10 +7,12 @@ using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
 using AppraisalSystem.Utility;
+using System.Collections;
 
 namespace AppraisalSystem.Models
 {
     #region Models
+    [Serializable]
     public class AppraisalListsModel
     {
         public int appraisal_assets_id { set; get; }
@@ -83,12 +85,65 @@ namespace AppraisalSystem.Models
         public string longitude { set; get; }      
 
     }
+
+    [Serializable]
+    public class AppraisalJobModel
+    {
+        public int appraisal_assets_id { set; get; }
+        public string appraisal_assets_code { set; get; }
+        public string village { set; get; }
+        public string alley { set; get; }
+        public string road { set; get; }
+        public int district_id { set; get; }
+        public int amphur_id { set; get; }
+        public int province_id { set; get; }
+        public string detailed_location { set; get; }
+        public int asset_type_id { set; get; }
+        public int assessment_methods_id { set; get; }
+        public int rights_of_access_id { set; get; }
+        public int paint_the_town_id { set; get; }
+        public int status { set; get; }
+        public DateTime create_date { set; get; }
+        public DateTime update_date { set; get; }
+        public DateTime delete_date { set; get; }
+        public string create_by { set; get; }
+        public string update_by { set; get; }
+        public string delete_by { set; get; }
+    }
+
+    [Serializable]
+    public class AppraisalDetailModel
+    {
+    }
+
+    [Serializable]
+    public class CompareAssetModel
+    {
+    }
+
+    [Serializable]
+    public class LocationAssetModel
+    {
+    }
+
+    [Serializable]
+    public class MapAssetModel
+    {
+    }
+
+    [Serializable]
+    public class UploadPictureAssetModel
+    {
+    }
     #endregion
 
     #region Services
     public interface IAppraisalService
     {
         List<AppraisalListsModel> GetAppraisalLists(string appraisalCode, int provinceId, int amphurId, string createBy, bool viewOnly);
+        List<AppraisalJobModel> GetAppraisalJob(string appraisalID, string keyword, string createBy);
+        Hashtable MngAppraisalJob(AppraisalJobModel appraisalJob, string createBy);
+        Boolean DeleteAppraisalJob(int appraisalJobId, string delBy);
     }
 
     public class AppraisalService : IAppraisalService
@@ -99,6 +154,7 @@ namespace AppraisalSystem.Models
                 ["ConnectionString"].ConnectionString;
         }
 
+        #region Select
         [DataObjectMethod(DataObjectMethodType.Select)]
         public List<AppraisalListsModel> GetAppraisalLists(string appraisalCode, int provinceId, int amphurId, string createBy, bool viewOnly)
         {
@@ -115,7 +171,7 @@ namespace AppraisalSystem.Models
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_APPRAISAL_LIST, conn))
                     {
-                        string condition = " WHERE 1=1";
+                        string condition = "";
 
                         if (ContentHelpers.IsNotnull(appraisalCode))
                         {
@@ -223,12 +279,234 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                
                 throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
             }
 
             return result;
         }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<AppraisalJobModel> GetAppraisalJob(string appraisalID, string keyword, string createBy)
+        {
+            MySqlConnection conn = null;
+            List<AppraisalJobModel> result = null;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.GET_APPRAISAL_JOB_BY_ID, conn))
+                    {
+                        string condition = "";
+
+                        if (ContentHelpers.IsNotnull(appraisalID))
+                        {
+                            condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
+                        }
+
+                        if (ContentHelpers.IsNotnull(keyword))
+                        {
+                            condition += string.Format(" AND APPRAISAL_ASSETS_CODE LIKE '%{0}%'", keyword);
+                        }
+
+                        if (ContentHelpers.IsNotnull(createBy))
+                        {
+                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                        }
+                        cmd.CommandText += condition;
+                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            if (dr.HasRows)
+                            {
+                                result = new List<AppraisalJobModel>();
+                                while (dr.Read())
+                                {
+                                    AppraisalJobModel AppraisalJobItem = new AppraisalJobModel();
+                                    AppraisalJobItem.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
+                                    AppraisalJobItem.appraisal_assets_code = dr["appraisal_assets_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["appraisal_assets_code"]);
+                                    AppraisalJobItem.village = dr["village"] == System.DBNull.Value ? "" : Convert.ToString(dr["village"]);
+                                    AppraisalJobItem.alley = dr["alley"] == System.DBNull.Value ? "" : Convert.ToString(dr["alley"]);
+                                    AppraisalJobItem.road = dr["road"] == System.DBNull.Value ? "" : Convert.ToString(dr["road"]);
+                                    AppraisalJobItem.district_id = dr["district_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["district_id"]);
+                                    AppraisalJobItem.amphur_id = dr["amphur_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["amphur_id"]);
+                                    AppraisalJobItem.province_id = dr["province_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["province_id"]);
+                                    AppraisalJobItem.detailed_location = dr["detailed_location"] == System.DBNull.Value ? "" : Convert.ToString(dr["detailed_location"]);
+                                    AppraisalJobItem.asset_type_id = dr["asset_type_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["asset_type_id"]);
+                                    AppraisalJobItem.assessment_methods_id = dr["assessment_methods_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["assessment_methods_id"]);
+                                    AppraisalJobItem.rights_of_access_id = dr["rights_of_access_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["rights_of_access_id"]);
+                                    AppraisalJobItem.paint_the_town_id = dr["paint_the_town_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["paint_the_town_id"]);
+                                    AppraisalJobItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
+                                    
+                                    result.Add(AppraisalJobItem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region Management
+        public Hashtable MngAppraisalJob(AppraisalJobModel appraisalJob, string createBy)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            Hashtable result = new Hashtable();
+            Boolean process = false;
+            String msg = "";
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_APPRAISAL_JOB, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("p_appraisal_assets_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
+                        cmd.Parameters.Add("p_village", MySqlDbType.VarChar).Value = appraisalJob.village;
+                        cmd.Parameters.Add("p_alley", MySqlDbType.VarChar).Value = appraisalJob.alley;
+                        cmd.Parameters.Add("p_road", MySqlDbType.VarChar).Value = appraisalJob.road;
+                        cmd.Parameters.Add("p_district_id", MySqlDbType.Int32).Value = appraisalJob.district_id;
+                        cmd.Parameters.Add("p_amphur_id", MySqlDbType.Int32).Value = appraisalJob.amphur_id;
+                        cmd.Parameters.Add("p_province_id", MySqlDbType.Int32).Value = appraisalJob.province_id;
+                        cmd.Parameters.Add("p_detailed_location", MySqlDbType.VarChar).Value = appraisalJob.detailed_location;
+                        cmd.Parameters.Add("p_asset_type_id", MySqlDbType.Int32).Value = appraisalJob.asset_type_id;
+                        cmd.Parameters.Add("p_assessment_mthods_id", MySqlDbType.Int32).Value = appraisalJob.assessment_methods_id;
+                        cmd.Parameters.Add("p_rights_of_access_id", MySqlDbType.Int32).Value = appraisalJob.rights_of_access_id;
+                        cmd.Parameters.Add("p_paint_the_town_id", MySqlDbType.Int32).Value = appraisalJob.paint_the_town_id;
+                        cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = createBy;
+
+                        cmd.Parameters.Add(new MySqlParameter("oMessage", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
+                        cmd.Parameters.Add(new MySqlParameter("oAppraisalID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteScalar();
+                        //
+                        int userId = cmd.Parameters["oAppraisalID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalID"].Value);
+                        if (userId > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                        msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            result["Status"] = process;
+            result["Message"] = msg;
+            return result;
+        }
+        #endregion
+
+        #region Insert
+        
+        #endregion
+
+        #region Update
+        
+        #endregion
+
+        #region Delete
+        [DataObjectMethod(DataObjectMethodType.Update)]
+        public Boolean DeleteAppraisalJob(int appraisalJobId, string delBy)
+        {
+            if (appraisalJobId <= 0) throw new ArgumentException("Value cannot be null or empty.", "appraisalJobId");
+
+            // The underlying ChangePassword() will throw an exception rather
+            // than return false in certain failure scenarios.
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            bool process = false;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_APPRAISAL_JOB, conn, tran))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("p_appraisal_job", MySqlDbType.Int32).Value = appraisalJobId;
+                        cmd.Parameters.Add("p_delete_by", MySqlDbType.VarChar).Value = delBy;
+
+                        int excute = cmd.ExecuteNonQuery();
+                        //
+                        if (excute > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return process;
+        }
+        #endregion
     }
     #endregion
 

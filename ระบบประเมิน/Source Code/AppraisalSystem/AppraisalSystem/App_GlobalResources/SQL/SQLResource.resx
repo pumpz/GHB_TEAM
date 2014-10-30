@@ -118,22 +118,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GET_APPRAISAL_DETAIL_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+    <value>SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE STATUS = 1</value>
   </data>
   <data name="GET_APPRAISAL_JOB_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM APPRAISAL_ASSETS_JOB WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+    <value>SELECT * FROM APPRAISAL_ASSETS_JOB WHERE STATUS = 1</value>
   </data>
   <data name="GET_COMPARE_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM COMPARE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+    <value>SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1</value>
   </data>
   <data name="GET_IMAGE_ASSETS_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM IMAGE_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND UPLOAD_TYPE_ID = :UploadTypeID AND STATUS = 1</value>
+    <value>SELECT * FROM IMAGE_ASSETS WHERE STATUS = 1</value>
   </data>
   <data name="GET_LOCATION_ASSETS_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM LOCATION_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+    <value>SELECT * FROM LOCATION_ASSETS WHERE STATUS = 1</value>
   </data>
   <data name="GET_MAP_ASSETS_BY_ID" xml:space="preserve">
-    <value>SELECT * FROM MAP_ASSETS WHERE APPRAISAL_ASSETS_ID = :AppraisalID AND STATUS = 1</value>
+    <value>SELECT * FROM MAP_ASSETS WHERE STATUS = 1</value>
   </data>
   <data name="USP_DEL_APPRAISAL_DETAIL" xml:space="preserve">
     <value>USP_DEL_APPRAISAL_DETAIL</value>
@@ -199,7 +199,7 @@
     <value>SELECT * FROM V_AMPHUR</value>
   </data>
   <data name="VIEW_APPRAISAL_LIST" xml:space="preserve">
-    <value>SELECT * FROM V_APPRAISAL_LIST</value>
+    <value>SELECT * FROM V_APPRAISAL_LIST WHERE 1=1</value>
   </data>
   <data name="VIEW_DISTRICT" xml:space="preserve">
     <value>SELECT * FROM V_DISTRICT</value>
