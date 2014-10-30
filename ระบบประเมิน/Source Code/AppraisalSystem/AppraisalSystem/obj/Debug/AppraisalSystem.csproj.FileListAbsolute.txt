@@ -18,3 +18,8 @@ C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเ�
 C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache
 C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
 C:\Users\Thitaphat.P\Desktop\Freelance\GitHub\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb
+E:\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.dll
+E:\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\bin\AppraisalSystem.pdb
+E:\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.csprojResolveAssemblyReference.cache
+E:\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.dll
+E:\GHB_TEAM\ระบบประเมิน\Source Code\AppraisalSystem\AppraisalSystem\obj\Debug\AppraisalSystem.pdb

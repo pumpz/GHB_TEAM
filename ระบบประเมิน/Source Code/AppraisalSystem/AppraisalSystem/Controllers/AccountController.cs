@@ -64,7 +64,7 @@ namespace AppraisalSystem.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("MESSAGE", Convert.ToString(process["Message"]));
+                        Response.Write("ไม่พบข้อมูล!");
                     }
                 }
             }
