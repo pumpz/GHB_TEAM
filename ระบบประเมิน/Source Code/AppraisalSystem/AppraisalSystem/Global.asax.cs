@@ -52,10 +52,7 @@ namespace AppraisalSystem
         {
             System.Diagnostics.Debug.WriteLine("Session_End");
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            if (Request.IsAuthenticated)
-            {
-                FormsService.SignOut(userName);
-            }
+            FormsService.SignOut(userName);
             Session.Abandon();
         }
     }
