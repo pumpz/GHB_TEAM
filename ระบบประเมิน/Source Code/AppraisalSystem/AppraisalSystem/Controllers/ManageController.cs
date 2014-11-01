@@ -41,15 +41,15 @@ namespace AppraisalSystem.Controllers
                     // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
                     string userName = "system";
                     // Attempt to register the user
-                    model.AppraisalAssetID = 1;
-                    Hashtable process = AppraisalService.MngMap(model, userName);
-                    if (Convert.ToBoolean(process["Status"]))
+                    model.appraisal_assets_id = 1;
+                    Boolean process = AppraisalService.MngMapAsset(model, userName);
+                    if (Convert.ToBoolean(process))
                     {
                         return View();
                     }
                     else
                     {
-                        ModelState.AddModelError("", Convert.ToString(process["Message"]));
+                        ModelState.AddModelError("", Convert.ToString("Insert map not success."));
                     }
                 }
             }

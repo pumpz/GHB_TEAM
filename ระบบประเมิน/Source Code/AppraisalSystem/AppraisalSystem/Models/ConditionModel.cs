@@ -60,9 +60,28 @@ namespace AppraisalSystem.Models
     #region Services
     public interface IConditionService
     {
+        /// <detail>
+        /// GetFilterLists
+        /// </detail>
+        /// <returns>List<FilterModel></returns>
         List<FilterModel> GetFilterLists();
+
+        /// <detail>
+        /// GetProvinceLists
+        /// </detail>
+        /// <returns>List<ProvinceModel></returns>
         List<ProvinceModel> GetProvinceLists();
+
+        /// <detail>
+        /// GetAmphurLists
+        /// </detail>
+        /// <returns>List<AmphurModel></returns>
         List<AmphurModel> GetAmphurLists();
+
+        /// <detail>
+        /// GetDistrictLists
+        /// </detail>
+        /// <returns>List<DistrictModel></returns>
         List<DistrictModel> GetDistrictLists();
     }
 

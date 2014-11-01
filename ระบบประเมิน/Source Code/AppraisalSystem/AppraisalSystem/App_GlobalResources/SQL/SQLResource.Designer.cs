@@ -63,54 +63,54 @@ namespace Resources {
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_APPRAISAL_DETAIL_BY_ID {
+        internal static string GET_APPRAISAL_DETAIL {
             get {
-                return ResourceManager.GetString("GET_APPRAISAL_DETAIL_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_APPRAISAL_DETAIL", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM APPRAISAL_ASSETS_JOB WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_APPRAISAL_JOB_BY_ID {
+        internal static string GET_APPRAISAL_JOB {
             get {
-                return ResourceManager.GetString("GET_APPRAISAL_JOB_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_APPRAISAL_JOB", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_COMPARE_BY_ID {
+        internal static string GET_COMPARE_ASSETS {
             get {
-                return ResourceManager.GetString("GET_COMPARE_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_COMPARE_ASSETS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM IMAGE_ASSETS WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_IMAGE_ASSETS_BY_ID {
+        internal static string GET_IMAGE_ASSETS {
             get {
-                return ResourceManager.GetString("GET_IMAGE_ASSETS_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_IMAGE_ASSETS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM LOCATION_ASSETS WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_LOCATION_ASSETS_BY_ID {
+        internal static string GET_LOCATION_ASSETS {
             get {
-                return ResourceManager.GetString("GET_LOCATION_ASSETS_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_LOCATION_ASSETS", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM MAP_ASSETS WHERE STATUS = 1.
         /// </summary>
-        internal static string GET_MAP_ASSETS_BY_ID {
+        internal static string GET_MAP_ASSETS {
             get {
-                return ResourceManager.GetString("GET_MAP_ASSETS_BY_ID", resourceCulture);
+                return ResourceManager.GetString("GET_MAP_ASSETS", resourceCulture);
             }
         }
         
@@ -196,15 +196,6 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to USP_INS_UPLOAD_PICTURE.
-        /// </summary>
-        internal static string USP_INS_UPLOAD_PICTURE {
-            get {
-                return ResourceManager.GetString("USP_INS_UPLOAD_PICTURE", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to USP_INS_USERS.
         /// </summary>
         internal static string USP_INS_USERS {
@@ -255,6 +246,15 @@ namespace Resources {
         internal static string USP_MNG_MAP {
             get {
                 return ResourceManager.GetString("USP_MNG_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_UPLOAD_PICTURE.
+        /// </summary>
+        internal static string USP_MNG_UPLOAD_PICTURE {
+            get {
+                return ResourceManager.GetString("USP_MNG_UPLOAD_PICTURE", resourceCulture);
             }
         }
         

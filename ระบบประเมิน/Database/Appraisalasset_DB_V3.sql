@@ -383,7 +383,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-10-30 11:10:29',0,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-10-30 11:01:11',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-10-29 18:45:43',0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-11-01 15:03:18',0,0,'2014-10-23 21:32:26','2014-11-01 15:03:40',NULL,'system','admin',NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-11-01 15:04:33',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-11-01 15:05:32',0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
 
 /* Procedure structure for procedure `USP_DEL_APPRAISAL_DETAIL` */
 
@@ -392,7 +392,7 @@ insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZE
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_DEL_APPRAISAL_DETAIL`(
-	IN p_assets_detail_id int,
+	IN p_asset_detail_id int,
 	IN p_delete_by varchar(100)
     )
 BEGIN
@@ -400,7 +400,7 @@ BEGIN
 	SET `STATUS` = 0, 
 		DELETE_DATE = CURRENT_TIMESTAMP,
 		DELETE_BY = p_delete_by
-	WHERE `ASSETS_DETAIL_ID` = p_assets_detail_id;
+	WHERE `ASSETS_DETAIL_ID` = p_asset_detail_id;
     END */$$
 DELIMITER ;
 
@@ -468,7 +468,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_DEL_MAP`(
-	in p_map_assets_id int,
+	in p_map_asset_id int,
 	in p_delete_by varchar(100)
 	)
 BEGIN
@@ -476,30 +476,7 @@ BEGIN
 	SET `STATUS` = 0, 
 		`DELETE_DATE` = CURRENT_TIMESTAMP, 
 		`DELETE_BY` = p_delete_by
-	WHERE `MAP_ASSETS_ID` = p_map_assets_id;
-    END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `USP_DEL_UPLOAD_PICTURE` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_DEL_UPLOAD_PICTURE` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_DEL_UPLOAD_PICTURE`(
-	IN p_appraisal_assets_id INT, 
-        IN p_upload_type_id INT,
-        IN p_sequence INT,
-        IN p_delete_by VARCHAR(20)
-    )
-BEGIN
-	UPDATE IMAGE_ASSETS
-	SET STATUS = 0,
-		DELETE_DATE = CURRENT_TIMESTAMP,
-		DELETE_BY = p_delete_by
-	WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
-		AND UPLOAD_TYPE_ID = p_upload_type_id 
-		AND SEQUENCE = p_sequence;
+	WHERE `MAP_ASSETS_ID` = p_map_asset_id;
     END */$$
 DELIMITER ;
 
@@ -587,69 +564,6 @@ BEGIN
     END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `USP_INS_UPLOAD_PICTURE` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_UPLOAD_PICTURE` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_INS_UPLOAD_PICTURE`(
-	IN p_appraisal_asset_id int, 
-        IN p_upload_type_id INT,
-        IN p_image_path VARCHAR(250),
-        IN p_file_name VARCHAR(100),
-        IN p_description text,
-        IN p_sequence int,
-        IN p_note text,
-        IN p_mng_by VARCHAR(20),
-        OUT oImageAssetID int
-    )
-BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `IMAGE_ASSETS_ID` END
-		INTO oImageAssetID
-	      FROM IMAGE_ASSETS
-	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `SEQUENCE` = p_sequence AND `status` = 1
-	     LIMIT 1; -- you better protect yourself from duplicates
-	IF(ISNULL(oImageAssetID)) THEN
-		INSERT INTO IMAGE_ASSETS
-		(
-			APPRAISAL_ASSETS_ID, 
-			UPLOAD_TYPE_ID, 
-			IMAGE_PATH, 
-			FILE_NAME, 
-			DESCRIPTION,
-			SEQUENCE,
-			NOTE,
-			CREATE_BY
-		)
-		VALUES 
-		( 
-			p_appraisal_assets_id, 
-			p_upload_type_id, 
-			p_image_path, 
-			p_file_name, 
-			p_description,
-			p_sequence,
-			p_note,
-			p_mng_by
-		); 
-		SET oImageAssetID = LAST_INSERT_ID();
-	ELSE
-		UPDATE IMAGE_ASSETS
-		SET IMAGE_PATH = p_image_path, 
-			FILE_NAME = p_file_name,
-			DESCRIPTION = p_description,
-			PHONE = p_phone,
-			NOTE = p_note,
-			UPDATE_DATE = CURRENT_TIMESTAMP,
-			UPDATE_BY = p_mng_by
-		WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
-			AND UPLOAD_TYPE_ID = p_upload_type_id 
-			AND SEQUENCE = p_sequence;
-	END IF;
-    END */$$
-DELIMITER ;
-
 /* Procedure structure for procedure `USP_INS_USERS` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `USP_INS_USERS` */;
@@ -722,7 +636,7 @@ DELIMITER $$
 	in p_courting_the_burden tinyint,
 	in p_ownership varchar(200),
 	in p_rightsholder varchar(200),
-	in p_procince_id int,
+	in p_province_id int,
 	in p_amphur_id int,
 	in p_district_id int,
 	in p_rai_area int,
@@ -774,7 +688,7 @@ BEGIN
 			p_courting_the_burden,
 			p_ownership,
 			p_rightsholder,
-			p_procince_id,
+			p_province_id,
 			p_amphur_id,
 			p_district_id,
 			p_rai_area,
@@ -796,7 +710,7 @@ BEGIN
 			`COURTING_THE_BURDEN` = p_courting_the_burden,
 			`OWNERSHIP` = p_ownership,
 			`RIGHTSHOLDER` = p_rightsholder,
-			`PROVINCE_ID` = p_procince_id,
+			`PROVINCE_ID` = p_province_id,
 			`AMPHUR_ID` = p_amphur_id,
 			`DISTRICT_ID` = p_district_id,
 			`RAI_AREA` = p_rai_area,
@@ -820,7 +734,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_APPRAISAL_JOB`(
-	in p_appraisal_assets_code varchar(200),
+	in p_appraisal_asset_code varchar(200),
 	in p_village varchar(200),
 	in p_alley varchar(200),
 	in p_road varchar(200),
@@ -837,8 +751,8 @@ DELIMITER $$
         OUT oAppraisalID INT
     )
 BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN 'Duplicate job code' ELSE 'Success' END,
-		CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_assets_code) THEN NULL ELSE `APPRAISAL_ASSETS_ID` END
+	SELECT CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_asset_code) THEN 'Duplicate job code' ELSE 'Success' END,
+		CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_asset_code) THEN NULL ELSE `APPRAISAL_ASSETS_ID` END
 		INTO oMessage, oAppraisalID
 	      FROM `appraisal_assets_job`
 	      WHERE APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code) and `status` = 1
@@ -862,7 +776,7 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_assets_code, 
+			p_appraisal_asset_code, 
 			p_village, 
 			p_alley, 
 			p_road, 
@@ -880,7 +794,7 @@ BEGIN
 		SET oAppraisalID = LAST_INSERT_ID();
 	ELSE
 		if(oMessage != "Success") THEN
-			SET oMessage = IFNULL(oMessage, 'Duplicate job code: ' + p_appraisal_assets_code);
+			SET oMessage = IFNULL(oMessage, 'Duplicate job code: ' + p_appraisal_asset_code);
 		ELSE
 			UPDATE `appraisal_assets_job`
 			SET `VILLAGE` = p_village,
@@ -909,13 +823,13 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_COMPARE_ASSET`(
-	in p_appraisal_assets_id int,
+	in p_appraisal_asset_id int,
 	in p_survey_price double,
 	in p_appropriate_price double,
-	in p_data_sourece varchar(100),
+	in p_data_source varchar(100),
 	in p_phone varchar(100),
 	in p_size_area double,
-	In p_shape_infomation_id int,
+	In p_shape_information_id int,
 	in p_environment_id int,
 	in p_characteristics_assets_id int,
 	in p_characteristics_access_id int,
@@ -923,7 +837,7 @@ DELIMITER $$
 	in p_terms_id int,
 	in p_note text,
 	in p_liquidity_id int,
-	in p_squence int,
+	in p_sequence int,
 	in p_mng_by varchar(100),
 	out oCompareAssetID int
     )
@@ -955,13 +869,13 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_assets_id,
+			p_appraisal_asset_id,
 			p_survey_price,
 			p_appropriate_price,
-			p_data_sourece,
+			p_data_source,
 			p_phone,
 			p_size_area,
-			p_shape_infomation_id,
+			p_shape_information_id,
 			p_environment_id,
 			p_characteristics_assets_id,
 			p_characteristics_access_id,
@@ -969,7 +883,7 @@ BEGIN
 			p_terms_id,
 			p_note,
 			p_liquidity_id,
-			p_squence,
+			p_sequence,
 			p_mng_by
 		) ; 
 		SET oCompareAssetID = LAST_INSERT_ID();
@@ -977,10 +891,10 @@ BEGIN
 		UPDATE `compare_assets`
 		SET `SURVEY_PRICE` = p_survey_price,
 			`APPROPRIATE_PRICE` = p_appropriate_price,
-			`DATA_SOURCE` = p_data_sourece,
+			`DATA_SOURCE` = p_data_source,
 			`PHONE` = p_phone,
 			`SIZE_AREA` = p_size_area,
-			`SHAPE_INFORMATION_ID` = p_shape_infomation_id,
+			`SHAPE_INFORMATION_ID` = p_shape_information_id,
 			`ENVIRONMENT_ID` = p_environment_id,
 			`CHARACTERISTICS_ASSETS_ID` = p_characteristics_assets_id,
 			`CHARACTERISTICS_ACCESS_ID` = p_characteristics_access_id,
@@ -988,7 +902,7 @@ BEGIN
 			`TERMS_ID` = p_terms_id,
 			`NOTE` = p_note,
 			`LIQUIDITY_ID` = p_liquidity_id,
-			`SEQUENCE` = p_squence,
+			`SEQUENCE` = p_sequence,
 			`UPDATE_DATE` = CURRENT_TIMESTAMP,
 			`UPDATE_BY` = p_mng_by
 		WHERE `COMPARE_ASSETS_ID` = oCompareAssetID AND `SEQUENCE` = p_squence;
@@ -1003,7 +917,7 @@ DELIMITER ;
 DELIMITER $$
 
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_LOCATION_ASSET`(
-	in p_appraisal_assets_id int,
+	in p_appraisal_asset_id int,
 	in p_no_building varchar(10),
 	in p_building_type_id int,
 	in p_floor int,
@@ -1123,7 +1037,7 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`sa`@`%` PROCEDURE `USP_MNG_MAP`(
 	in p_appraisal_asset_id int,
 	in p_latitude varchar(100),
-	in p_longtitude varchar(100),
+	in p_longitude varchar(100),
 	in p_mng_by varchar(100),
 	out oMapAssetID int
     )
@@ -1145,7 +1059,7 @@ BEGIN
 		( 
 			p_appraisal_id, 
 			p_latitude, 
-			p_longtitude, 
+			p_longitude, 
 			p_mng_by
 		) ; 
 		SET oMapAssetID = LAST_INSERT_ID();
@@ -1157,6 +1071,69 @@ BEGIN
 			UPDATE_BY = p_mng_by
 		WHERE `MAP_ASSETS_ID` = oMapAssetID 
 			AND `STATUS` = 1;
+	END IF;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `USP_MNG_UPLOAD_PICTURE` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `USP_MNG_UPLOAD_PICTURE` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `USP_MNG_UPLOAD_PICTURE`(
+	IN p_appraisal_asset_id int, 
+        IN p_upload_type_id INT,
+        IN p_image_path VARCHAR(250),
+        IN p_file_name VARCHAR(100),
+        IN p_description text,
+        IN p_sequence int,
+        IN p_note text,
+        IN p_mng_by VARCHAR(20),
+        OUT oImageAssetID int
+    )
+BEGIN
+	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `IMAGE_ASSETS_ID` END
+		INTO oImageAssetID
+	      FROM IMAGE_ASSETS
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `SEQUENCE` = p_sequence AND `status` = 1
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oImageAssetID)) THEN
+		INSERT INTO IMAGE_ASSETS
+		(
+			APPRAISAL_ASSETS_ID, 
+			UPLOAD_TYPE_ID, 
+			IMAGE_PATH, 
+			FILE_NAME, 
+			DESCRIPTION,
+			SEQUENCE,
+			NOTE,
+			CREATE_BY
+		)
+		VALUES 
+		( 
+			p_appraisal_assets_id, 
+			p_upload_type_id, 
+			p_image_path, 
+			p_file_name, 
+			p_description,
+			p_sequence,
+			p_note,
+			p_mng_by
+		); 
+		SET oImageAssetID = LAST_INSERT_ID();
+	ELSE
+		UPDATE IMAGE_ASSETS
+		SET IMAGE_PATH = p_image_path, 
+			FILE_NAME = p_file_name,
+			DESCRIPTION = p_description,
+			PHONE = p_phone,
+			NOTE = p_note,
+			UPDATE_DATE = CURRENT_TIMESTAMP,
+			UPDATE_BY = p_mng_by
+		WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
+			AND UPLOAD_TYPE_ID = p_upload_type_id 
+			AND SEQUENCE = p_sequence;
 	END IF;
     END */$$
 DELIMITER ;

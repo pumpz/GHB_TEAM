@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GET_APPRAISAL_DETAIL_BY_ID" xml:space="preserve">
+  <data name="GET_APPRAISAL_DETAIL" xml:space="preserve">
     <value>SELECT * FROM APPRAISAL_ASSETS_DETAIL WHERE STATUS = 1</value>
   </data>
-  <data name="GET_APPRAISAL_JOB_BY_ID" xml:space="preserve">
+  <data name="GET_APPRAISAL_JOB" xml:space="preserve">
     <value>SELECT * FROM APPRAISAL_ASSETS_JOB WHERE STATUS = 1</value>
   </data>
-  <data name="GET_COMPARE_BY_ID" xml:space="preserve">
+  <data name="GET_COMPARE_ASSETS" xml:space="preserve">
     <value>SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1</value>
   </data>
-  <data name="GET_IMAGE_ASSETS_BY_ID" xml:space="preserve">
+  <data name="GET_IMAGE_ASSETS" xml:space="preserve">
     <value>SELECT * FROM IMAGE_ASSETS WHERE STATUS = 1</value>
   </data>
-  <data name="GET_LOCATION_ASSETS_BY_ID" xml:space="preserve">
+  <data name="GET_LOCATION_ASSETS" xml:space="preserve">
     <value>SELECT * FROM LOCATION_ASSETS WHERE STATUS = 1</value>
   </data>
-  <data name="GET_MAP_ASSETS_BY_ID" xml:space="preserve">
+  <data name="GET_MAP_ASSETS" xml:space="preserve">
     <value>SELECT * FROM MAP_ASSETS WHERE STATUS = 1</value>
   </data>
   <data name="USP_DEL_APPRAISAL_DETAIL" xml:space="preserve">
@@ -162,9 +162,6 @@
   <data name="USP_GET_USERS_PERMISSION" xml:space="preserve">
     <value>USP_GET_USERS_PERMISSION</value>
   </data>
-  <data name="USP_INS_UPLOAD_PICTURE" xml:space="preserve">
-    <value>USP_INS_UPLOAD_PICTURE</value>
-  </data>
   <data name="USP_INS_USERS" xml:space="preserve">
     <value>USP_INS_USERS</value>
   </data>
@@ -182,6 +179,9 @@
   </data>
   <data name="USP_MNG_MAP" xml:space="preserve">
     <value>USP_MNG_MAP</value>
+  </data>
+  <data name="USP_MNG_UPLOAD_PICTURE" xml:space="preserve">
+    <value>USP_MNG_UPLOAD_PICTURE</value>
   </data>
   <data name="USP_UPD_USERS" xml:space="preserve">
     <value>USP_UPD_USERS</value>

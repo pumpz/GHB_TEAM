@@ -135,15 +135,82 @@ namespace AppraisalSystem.Models
 
     public interface IMembershipService
     {
+        /// <detail>
+        /// ValidateUser
+        /// </detail>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns>Hashtable</returns>
         Hashtable ValidateUser(string userName, string password);
+
+        /// <detail>
+        /// CreateUser
+        /// </detail>
+        /// <param name="register"></param>
+        /// <param name="createBy"></param>
+        /// <returns>Hashtable</returns>
         Hashtable CreateUser(RegisterModel register, string createBy);
+
+        /// <detail>
+        /// UpdateUser
+        /// </detail>
+        /// <param name="register"></param>
+        /// <param name="updateBy"></param>
+        /// <returns>Boolean</returns>
         Boolean UpdateUser(RegisterModel register, string updateBy);
+
+        /// <detail>
+        /// DeleteUser
+        /// </detail>
+        /// <param name="userId"></param>
+        /// <param name="delBy"></param>
+        /// <returns>Boolean</returns>
         Boolean DeleteUser(int userId, string delBy);
+
+        /// <detail>
+        /// ChangePassword
+        /// </detail>
+        /// <param name="userName"></param>
+        /// <param name="oldPassword"></param>
+        /// <param name="newPassword"></param>
+        /// <param name="updateBy"></param>
+        /// <returns>Boolean</returns>
         Boolean ChangePassword(string userName, string oldPassword, string newPassword, string updateBy);
+
+        /// <detail>
+        /// LockUser
+        /// </detail>
+        /// <param name="userId"></param>
+        /// <param name="isLock"></param>
+        /// <param name="updateBy"></param>
+        /// <returns>Boolean</returns>
         Boolean LockUser(int userId, Boolean isLock, string updateBy);
+
+        /// <detail>
+        /// LogOut
+        /// </detail>
+        /// <param name="userName"></param>
+        /// <returns>Boolean</returns>
         Boolean LogOut(string userName);
+
+        /// <detail>
+        /// GetUsers
+        /// </detail>
+        /// <param name="keyword"></param>
+        /// <returns>List<UserModel></returns>
         List<UserModel> GetUsers(string keyword);
+
+        /// <detail>
+        /// GetUsersByID
+        /// </detail>
+        /// <param name="id"></param>
+        /// <returns>UserModel</returns>
         UserModel GetUsersByID(int id);
+
+        /// <detail>
+        /// GetAllRole
+        /// </detail>
+        /// <returns>List<RoleModel></returns>
         List<RoleModel> GetAllRole();
     }
 
@@ -779,7 +846,17 @@ namespace AppraisalSystem.Models
 
     public interface IFormsAuthenticationService
     {
+        /// <summary>
+        /// SignIn
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="createPersistentCookie"></param>
         void SignIn(string userName, bool createPersistentCookie);
+
+        /// <summary>
+        /// SignOut
+        /// </summary>
+        /// <param name="userName"></param>
         void SignOut(string userName);
     }
 
