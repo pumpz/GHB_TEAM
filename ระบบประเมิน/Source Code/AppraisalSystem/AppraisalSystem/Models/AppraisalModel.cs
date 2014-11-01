@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using AppraisalSystem.Utility;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace AppraisalSystem.Models
 {
@@ -129,6 +130,16 @@ namespace AppraisalSystem.Models
     [Serializable]
     public class MapAssetModel
     {
+        public int MapAssetID { get; set; }
+
+        [Required]
+        public int AppraisalAssetID { get; set; }
+
+        [Required]
+        public string Latitude { get; set; }
+
+        [Required]
+        public string Longtitude { get; set; }
     }
 
     [Serializable]
@@ -144,6 +155,7 @@ namespace AppraisalSystem.Models
         List<AppraisalJobModel> GetAppraisalJob(string appraisalID, string keyword, string createBy);
         Hashtable MngAppraisalJob(AppraisalJobModel appraisalJob, string createBy);
         Boolean DeleteAppraisalJob(int appraisalJobId, string delBy);
+        Hashtable MngMap(MapAssetModel map, String mngBy);
     }
 
     public class AppraisalService : IAppraisalService
@@ -441,10 +453,70 @@ namespace AppraisalSystem.Models
             result["Message"] = msg;
             return result;
         }
+
+        public Hashtable MngMap(MapAssetModel map, String mngBy)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            Hashtable result = new Hashtable();
+            bool process = false;
+           // string msg = "";
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_MAP, conn, tran))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("p_appraisal_asset_id", MySqlDbType.Int32).Value = map.AppraisalAssetID;
+                        cmd.Parameters.Add("p_latitude", MySqlDbType.VarChar).Value = map.Latitude;
+                        cmd.Parameters.Add("p_longtitude", MySqlDbType.VarChar).Value = map.Longtitude;
+                        cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
+
+                        cmd.Parameters.Add(new MySqlParameter("oMapAssetID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
+
+                        cmd.ExecuteScalar();
+                        //
+                        int mapAssetID = cmd.Parameters["oMapAssetID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oMapAssetID"].Value);
+                        if (mapAssetID > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                        // msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            result["Status"] = process;
+            // result["Message"] = msg;
+            return result;
+        }
         #endregion
 
         #region Insert
-        
+      
         #endregion
 
         #region Update

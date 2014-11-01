@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppraisalSystem.Models;
+using System.Collections;
+using System.Web.Routing;
 
 namespace AppraisalSystem.Controllers
 {
     public class ManageController : Controller
     {
+
+        public IAppraisalService AppraisalService { get; set; }
+        protected override void Initialize(RequestContext requestContext)
+        {
+            if (AppraisalService == null) { AppraisalService = new AppraisalService(); }
+
+            base.Initialize(requestContext);
+        }
         //
         // GET: /Manage/
 
@@ -18,8 +29,37 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult ManageAssetMap()//แผนที่
         {
+            return View(new MapAssetModel());
+        }
+        [HttpPost]
+        public ActionResult ManageAssetMap(MapAssetModel model)//แผนที่
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    string userName = "system";
+                    // Attempt to register the user
+                    model.AppraisalAssetID = 1;
+                    Hashtable process = AppraisalService.MngMap(model, userName);
+                    if (Convert.ToBoolean(process["Status"]))
+                    {
+                        return View();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", Convert.ToString(process["Message"]));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
             return View();
         }
+
 
         public ActionResult ManageAssetDoc()//เอกสารสิทธิ์
         {
