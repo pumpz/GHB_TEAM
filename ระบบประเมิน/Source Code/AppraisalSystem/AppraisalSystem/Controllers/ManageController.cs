@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AppraisalSystem.Models;
 using System.Collections;
 using System.Web.Routing;
+using System.IO;
 
 namespace AppraisalSystem.Controllers
 {
@@ -71,13 +72,107 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult ManageAssetDocPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปเอกสารสิทธิ์
+        {
+            model.appraisal_assets_id = 1;
+            if (MultipleFiles != null)
+            {
+                foreach (var fileBase in MultipleFiles)
+                {
+                    if (fileBase != null && fileBase.ContentLength > 0)
+                    {
+                        try
+                        {
+                            string pathPic = Server.MapPath("~/Images/Document/" + model.appraisal_assets_id);
+                            if (!Directory.Exists(pathPic))
+                            {
+                                Directory.CreateDirectory(pathPic);
+                            }
+                            string savePath = Path.Combine(pathPic,
+                                          Path.GetFileName(fileBase.FileName));
+                            fileBase.SaveAs(savePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("",ex.Message.ToString());
+                        }
+                    }
+                }
+
+            } 
+          
+            return View();
+        }
+
         public ActionResult ManageAssetPic()//รูปทรัพย์สิน
         {
             return View();
         }
+        [HttpPost]
+        public ActionResult ManageAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปทรัพย์สิน
+        {
+            model.appraisal_assets_id = 1;
+            if (MultipleFiles != null)
+            {
+                foreach (var fileBase in MultipleFiles)
+                {
+                    if (fileBase != null && fileBase.ContentLength > 0)
+                    {
+                        try
+                        {
+                            string pathPic = Server.MapPath("~/Images/Asset/" + model.appraisal_assets_id);
+                            if (!Directory.Exists(pathPic))
+                            {
+                                Directory.CreateDirectory(pathPic);
+                            }
+                            string savePath = Path.Combine(pathPic,
+                                          Path.GetFileName(fileBase.FileName));
+                            fileBase.SaveAs(savePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", ex.Message.ToString());
+                        }
+                    }
+                }
 
+            } 
+            return View();
+        }
         public ActionResult ManageCompareAssetPic()//รูปข้อมูลเทียบ
         {
+            return View();
+        }
+          [HttpPost]
+        public ActionResult ManageCompareAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปข้อมูลเทียบ
+        {
+            model.appraisal_assets_id = 1;
+            if (MultipleFiles != null)
+            {
+                foreach (var fileBase in MultipleFiles)
+                {
+                    if (fileBase != null && fileBase.ContentLength > 0)
+                    {
+                        try
+                        {
+                            string pathPic = Server.MapPath("~/Images/Compare/" + model.appraisal_assets_id);
+                            if (!Directory.Exists(pathPic))
+                            {
+                                Directory.CreateDirectory(pathPic);
+                            }
+                            string savePath = Path.Combine(pathPic,
+                                          Path.GetFileName(fileBase.FileName));
+                            fileBase.SaveAs(savePath);
+                        }
+                        catch (Exception ex)
+                        {
+                            ModelState.AddModelError("", ex.Message.ToString());
+                        }
+                    }
+                }
+
+            } 
             return View();
         }
 

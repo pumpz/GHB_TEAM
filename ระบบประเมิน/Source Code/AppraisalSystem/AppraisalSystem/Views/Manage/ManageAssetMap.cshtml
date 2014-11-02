@@ -39,8 +39,8 @@
             setMarker(places);
         });
 
-        var La = document.getElementById('Latitude').value;
-        var Lo = document.getElementById('Longtitude').value;
+        var La = document.getElementById('latitude').value;
+        var Lo = document.getElementById('longitude').value;
         if (La != "" && Lo != "") {
             var myLatlng = new google.maps.LatLng(La, Lo);
             geocoder.geocode({ 'latLng': myLatlng }, function (results, status) {
@@ -63,14 +63,14 @@
             animation: google.maps.Animation.DROP,
             position: results[0].geometry.location
         });
-        document.getElementById('Latitude').value = results[0].geometry.location.lat();
-        document.getElementById('Longtitude').value = results[0].geometry.location.lng();
+        document.getElementById('latitude').value = results[0].geometry.location.lat();
+        document.getElementById('longitude').value = results[0].geometry.location.lng();
         map.setZoom(15);
 
         google.maps.event.addListener(marker, 'dragend', function (marker) {
             var latLng = marker.latLng;
-            document.getElementById('Latitude').value = latLng.lat();
-            document.getElementById('Longtitude').value = latLng.lng();
+            document.getElementById('latitude').value = latLng.lat();
+            document.getElementById('longitude').value = latLng.lng();
         });
 
     }
@@ -84,7 +84,7 @@
     <div class="col-md-8">
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            @Html.TextBoxFor(m => m.AppraisalAssetID, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(m => m.appraisal_assets_id, new { @class = "form-control ui-wizard-content" })
         </div>
         <div class="form-group">
             <input  type="text" name="place" id="place" placeholder="Search Box"/>
@@ -92,11 +92,11 @@
         </div>
         <div class="form-group">
              <label>ละติจูด</label>
-             @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+             @Html.TextBoxFor(m => m.latitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
         </div>
         <div class="form-group">
              <label>ลองติจูด</label>
-               @Html.TextBoxFor(m => m.Longtitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+               @Html.TextBoxFor(m => m.longitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
        </div>
         <div class="form-group">
             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>

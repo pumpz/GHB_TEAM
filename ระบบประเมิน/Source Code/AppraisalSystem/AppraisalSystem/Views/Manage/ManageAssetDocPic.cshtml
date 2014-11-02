@@ -6,7 +6,7 @@
 
 <div class="panel-heading"><label>รูปเอกสารสิทธิ์</label></div>
 <div class="panel-body">
-@using (Html.BeginForm())
+@using (Html.BeginForm("ManageAssetDocPic", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-8">
         <div class="form-group">
@@ -15,7 +15,7 @@
         </div> 
         <div class="form-group">
             <label>รูปเอกสารสิทธิ์</label>
-            <input type="file">
+            <input type="file" name="MultipleFiles">
         </div>
         <div class="form-group">
             <label>คำอธิบายรูปภาพ</label>
@@ -23,7 +23,7 @@
         </div>
         <div class="form-group">
             <label>รูปเอกสารสิทธิ์</label>
-            <input type="file">
+            <input type="file" name="MultipleFiles">
         </div>
         <div class="form-group">
             <label>คำอธิบายรูปภาพ</label>
@@ -31,7 +31,7 @@
         </div>
         <div class="form-group">
             <label>รูปเอกสารสิทธิ์</label>
-            <input type="file">
+            <input type="file" name="MultipleFiles">
         </div>
         <div class="form-group">
             <label>คำอธิบายรูปภาพ</label>
