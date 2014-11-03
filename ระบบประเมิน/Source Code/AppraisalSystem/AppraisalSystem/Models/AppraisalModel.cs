@@ -29,8 +29,8 @@ namespace AppraisalSystem.Models
         public string assessment_methods { set; get; }
         public string rights_of_access { set; get; }
         public string paint_the_town { set; get; }
-        public int status { set; get; }      
-        public DateTime create_date {set; get;}
+        public int status { set; get; }
+        public DateTime create_date { set; get; }
         public string create_by { set; get; }
         public string type_of_document { set; get; }
         public string certificate_of_ownership { set; get; }
@@ -84,7 +84,7 @@ namespace AppraisalSystem.Models
         public string liquidity { set; get; }
         public string sequence { set; get; }
         public string latitude { set; get; }
-        public string longitude { set; get; }      
+        public string longitude { set; get; }
 
     }
 
@@ -150,7 +150,7 @@ namespace AppraisalSystem.Models
         public DateTime delete_date { set; get; }
         public string create_by { set; get; }
         public string update_by { set; get; }
-        public string delete_by { set; get; }            
+        public string delete_by { set; get; }
     }
 
     [Serializable]
@@ -171,14 +171,13 @@ namespace AppraisalSystem.Models
         public int terms_id { set; get; }
         public int liquidity_id { set; get; }
         public int sequence { set; get; }
-        public string note { set; get; }
         public int status { set; get; }
         public DateTime create_date { set; get; }
         public DateTime update_date { set; get; }
         public DateTime delete_date { set; get; }
         public string create_by { set; get; }
         public string update_by { set; get; }
-        public string delete_by { set; get; }          
+        public string delete_by { set; get; }
     }
 
     [Serializable]
@@ -248,7 +247,16 @@ namespace AppraisalSystem.Models
         public DateTime delete_date { set; get; }
         public string create_by { set; get; }
         public string update_by { set; get; }
-        public string delete_by { set; get; }        
+        public string delete_by { set; get; }
+    }
+
+    [Serializable]
+    public class CompareDescriptionModel
+    {
+        public int appraisal_assets_id { set; get; }
+        public string note { set; get; }
+        public int sequence { set; get; }
+        public string create_by { set; get; }
     }
     #endregion
 
@@ -292,6 +300,15 @@ namespace AppraisalSystem.Models
         /// <param name="createBy"></param>
         /// <returns>List<CompareAssetModel></returns>
         List<CompareAssetModel> GetCompareAsset(int compareAssetID, int appraisalID, string createBy);
+
+        /// <detail>
+        /// GetCompareDescription
+        /// </detail>
+        /// <param name="sequence"></param>
+        /// <param name="appraisalID"></param>
+        /// <param name="createBy"></param>
+        /// <returns>List<CompareDescriptionModel></returns>
+        List<CompareDescriptionModel> GetCompareDescription(int sequence, int appraisalID, string createBy);
 
         /// <detail>
         /// GetLocationAsset
@@ -343,6 +360,13 @@ namespace AppraisalSystem.Models
         /// <param name="mngBy"></param>
         /// <returns>Boolean</returns>
         Boolean MngCompareAsset(CompareAssetModel compareAsset, string mngBy);
+
+        /// <management>
+        /// MngCompareDescription
+        /// </management>
+        /// <param name="compareDesc"></param>
+        /// <returns>Boolean</returns>
+        Boolean MngCompareDescription(CompareDescriptionModel compareDesc);
 
         /// <management>
         /// MngLocationAsset
@@ -477,7 +501,7 @@ namespace AppraisalSystem.Models
                                     AppraisalItem.alley = dr["alley"] == System.DBNull.Value ? "" : Convert.ToString(dr["alley"]);
                                     AppraisalItem.road = dr["road"] == System.DBNull.Value ? "" : Convert.ToString(dr["road"]);
                                     AppraisalItem.district_name = dr["district_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["district_name"]);
-                                    AppraisalItem.amphur_name = dr["amphur_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["amphur_name"]);                         
+                                    AppraisalItem.amphur_name = dr["amphur_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["amphur_name"]);
                                     AppraisalItem.province_name = dr["province_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["province_name"]);
                                     AppraisalItem.detailed_location = dr["detailed_location"] == System.DBNull.Value ? "" : Convert.ToString(dr["detailed_location"]);
                                     AppraisalItem.asset_type = dr["asset_type"] == System.DBNull.Value ? "" : Convert.ToString(dr["asset_type"]);
@@ -537,7 +561,7 @@ namespace AppraisalSystem.Models
                                     AppraisalItem.liquidity = dr["liquidity"] == System.DBNull.Value ? "" : Convert.ToString(dr["liquidity"]);
                                     AppraisalItem.sequence = dr["sequence"] == System.DBNull.Value ? "" : Convert.ToString(dr["sequence"]);
                                     AppraisalItem.latitude = dr["latitude"] == System.DBNull.Value ? "" : Convert.ToString(dr["latitude"]);
-                                    AppraisalItem.longitude = dr["longitude"] == System.DBNull.Value ? "" : Convert.ToString(dr["longitude"]);                           
+                                    AppraisalItem.longitude = dr["longitude"] == System.DBNull.Value ? "" : Convert.ToString(dr["longitude"]);
                                     result.Add(AppraisalItem);
                                 }
                             }
@@ -617,7 +641,7 @@ namespace AppraisalSystem.Models
                                     AppraisalJobItem.rights_of_access_id = dr["rights_of_access_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["rights_of_access_id"]);
                                     AppraisalJobItem.paint_the_town_id = dr["paint_the_town_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["paint_the_town_id"]);
                                     AppraisalJobItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
-                                    
+
                                     result.Add(AppraisalJobItem);
                                 }
                             }
@@ -785,10 +809,78 @@ namespace AppraisalSystem.Models
                                     CompareAssetItem.terms_id = dr["terms_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["terms_id"]);
                                     CompareAssetItem.liquidity_id = dr["liquidity_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["liquidity_id"]);
                                     CompareAssetItem.sequence = dr["sequence"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["sequence"]);
-                                    CompareAssetItem.note = dr["note"] == System.DBNull.Value ? "" : Convert.ToString(dr["note"]);
                                     CompareAssetItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
 
                                     result.Add(CompareAssetItem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return result;
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<CompareDescriptionModel> GetCompareDescription(int sequence, int appraisalID, string createBy)
+        {
+            MySqlConnection conn = null;
+            List<CompareDescriptionModel> result = null;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.GET_COMPARE_ASSETS, conn))
+                    {
+                        string condition = "";
+
+                        if (sequence > 0)
+                        {
+                            condition += string.Format(" AND SEQUENCE = {0}", sequence);
+                        }
+
+                        if (appraisalID > 0)
+                        {
+                            condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
+                        }
+
+                        if (ContentHelpers.IsNotnull(createBy))
+                        {
+                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                        }
+                        cmd.CommandText += condition;
+                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            if (dr.HasRows)
+                            {
+                                result = new List<CompareDescriptionModel>();
+                                while (dr.Read())
+                                {
+                                    CompareDescriptionModel CompareDescItem = new CompareDescriptionModel();
+                                    CompareDescItem.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
+                                    CompareDescItem.note = dr["note"] == System.DBNull.Value ? "" : Convert.ToString(dr["note"]);
+                                    CompareDescItem.sequence = dr["sequence"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["sequence"]);
+
+                                    result.Add(CompareDescItem);
                                 }
                             }
                         }
@@ -1220,7 +1312,6 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_characteristics_access_id", MySqlDbType.Int32).Value = compareAsset.characteristics_access_id;
                         cmd.Parameters.Add("p_utilities_id", MySqlDbType.Int32).Value = compareAsset.utilities_id;
                         cmd.Parameters.Add("p_terms_id", MySqlDbType.Int32).Value = compareAsset.terms_id;
-                        cmd.Parameters.Add("p_note", MySqlDbType.Text).Value = compareAsset.note;
                         cmd.Parameters.Add("p_liquidity_id", MySqlDbType.Int32).Value = compareAsset.liquidity_id;
                         cmd.Parameters.Add("p_sequence", MySqlDbType.Int32).Value = compareAsset.sequence;
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
@@ -1231,6 +1322,57 @@ namespace AppraisalSystem.Models
                         //
                         int userId = cmd.Parameters["oCompareAssetID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oCompareAssetID"].Value);
                         if (userId > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return process;
+        }
+
+        public Boolean MngCompareDescription(CompareDescriptionModel compareDesc)
+        {
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            Boolean process = false;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_OTHER_NOTE, conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("p_appraisal_asset_id", MySqlDbType.Int32).Value = compareDesc.appraisal_assets_id;
+                        cmd.Parameters.Add("p_note", MySqlDbType.Double).Value = compareDesc.note;
+                        cmd.Parameters.Add("p_sequence", MySqlDbType.Double).Value = compareDesc.sequence;
+
+                        int excute = cmd.ExecuteNonQuery();
+                        //
+                        if (excute > 0)
                         {
                             tran.Commit();
                             process = true;
@@ -1444,11 +1586,11 @@ namespace AppraisalSystem.Models
         #endregion
 
         #region Insert
-        
+
         #endregion
 
         #region Update
-        
+
         #endregion
 
         #region Delete

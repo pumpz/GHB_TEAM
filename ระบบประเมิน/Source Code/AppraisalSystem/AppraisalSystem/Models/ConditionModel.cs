@@ -65,6 +65,12 @@ namespace AppraisalSystem.Models
         /// GetFilterLists
         /// </detail>
         /// <returns>List<FilterModel></returns>
+        List<FilterModel> GetFilterLists();
+
+        /// <detail>
+        /// GetFilterLists
+        /// </detail>
+        /// <returns>List<FilterModel></returns>
         List<FilterModel> GetFilterLists(string filterType);
 
         /// <detail>
@@ -92,6 +98,59 @@ namespace AppraisalSystem.Models
         {
             return ConfigurationManager.ConnectionStrings
                 ["ConnectionString"].ConnectionString;
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<FilterModel> GetFilterLists()
+        {
+            MySqlConnection conn = null;
+            List<FilterModel> filterList = null;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_FILTER, conn))
+                    {
+                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            if (dr.HasRows)
+                            {
+                                filterList = new List<FilterModel>();
+                                while (dr.Read())
+                                {
+                                    FilterModel FilterItem = new FilterModel();
+                                    FilterItem.filter_type_code = dr["filter_type_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_code"]);
+                                    FilterItem.filter_type_name = dr["filter_type_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_name"]);
+                                    FilterItem.filter_value = dr["filter_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_value"]);
+                                    FilterItem.filter_text = dr["filter_text"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_text"]);
+
+                                    filterList.Add(FilterItem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return filterList;
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]

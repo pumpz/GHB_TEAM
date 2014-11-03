@@ -250,6 +250,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to USP_MNG_OTHER_NOTE.
+        /// </summary>
+        internal static string USP_MNG_OTHER_NOTE {
+            get {
+                return ResourceManager.GetString("USP_MNG_OTHER_NOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to USP_MNG_UPLOAD_PICTURE.
         /// </summary>
         internal static string USP_MNG_UPLOAD_PICTURE {

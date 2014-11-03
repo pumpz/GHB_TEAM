@@ -180,6 +180,9 @@
   <data name="USP_MNG_MAP" xml:space="preserve">
     <value>USP_MNG_MAP</value>
   </data>
+  <data name="USP_MNG_OTHER_NOTE" xml:space="preserve">
+    <value>USP_MNG_OTHER_NOTE</value>
+  </data>
   <data name="USP_MNG_UPLOAD_PICTURE" xml:space="preserve">
     <value>USP_MNG_UPLOAD_PICTURE</value>
   </data>
