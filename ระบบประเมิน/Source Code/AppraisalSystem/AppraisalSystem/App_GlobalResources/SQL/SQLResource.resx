@@ -124,7 +124,7 @@
     <value>SELECT * FROM APPRAISAL_ASSETS_JOB WHERE STATUS = 1</value>
   </data>
   <data name="GET_COMPARE_ASSETS" xml:space="preserve">
-    <value>SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1</value>
+    <value>SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1 ORDER BY SEQUENCE</value>
   </data>
   <data name="GET_IMAGE_ASSETS" xml:space="preserve">
     <value>SELECT * FROM IMAGE_ASSETS WHERE STATUS = 1</value>

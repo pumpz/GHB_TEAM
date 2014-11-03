@@ -79,7 +79,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1.
+        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1 ORDER BY SEQUENCE.
         /// </summary>
         internal static string GET_COMPARE_ASSETS {
             get {

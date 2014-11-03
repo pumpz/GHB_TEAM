@@ -37,6 +37,7 @@ namespace AppraisalSystem.Controllers
         {
             return View(new MapAssetModel());
         }
+        
         [HttpPost]
         public ActionResult ManageAssetMap(MapAssetModel model)//แผนที่
         {
@@ -66,8 +67,8 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
-
-        public ActionResult ManageAssetDoc(int id)//เอกสารสิทธิ์
+        [Permission]
+        public ActionResult ManageAssetDoc(string id)//เอกสารสิทธิ์
         {
             AppraisalDetailModel model = new AppraisalDetailModel();
             try
@@ -78,9 +79,9 @@ namespace AppraisalSystem.Controllers
                 ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
                 ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
 
-                if (id > 0)
+                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
                 {
-                    List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, id, "");
+                    List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, Convert.ToInt32(id), "");
                     if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                     {
                         model = modelList[0];
@@ -96,6 +97,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageAssetDoc(AppraisalDetailModel model)//เอกสารสิทธิ์
         {
             ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
@@ -172,6 +174,7 @@ namespace AppraisalSystem.Controllers
         {
             return View();
         }
+        
         [HttpPost]
         public ActionResult ManageAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปทรัพย์สิน
         {
@@ -203,11 +206,13 @@ namespace AppraisalSystem.Controllers
             } 
             return View();
         }
+        
         public ActionResult ManageCompareAssetPic()//รูปข้อมูลเทียบ
         {
             return View();
         }
-          [HttpPost]
+        
+        [HttpPost]
         public ActionResult ManageCompareAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปข้อมูลเทียบ
         {
             model.appraisal_assets_id = 1;
@@ -239,14 +244,114 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
-        public ActionResult ManageMaterial()//สิ่งปลูกสร้าง
+        [Permission]
+        public ActionResult ManageMaterial(string id)//สิ่งปลูกสร้าง
         {
-            return View();
+            LocationAssetModel model = new LocationAssetModel();
+            try
+            {
+                ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
+                ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
+                ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
+                ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
+                ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
+                ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
+                ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
+
+                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                {
+                    List<LocationAssetModel> modelList = AppraisalService.GetLocationAsset(0, Convert.ToInt32(id), "");
+                    if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
+                    {
+                        model = modelList[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(model);
         }
 
-        public ActionResult ManageCompareAsset()//ตารางเปรียบเทียบ
+        [HttpPost]
+        [Permission]
+        public ActionResult ManageMaterial(LocationAssetModel model)//สิ่งปลูกสร้าง
         {
-            return View();
+            try
+            {
+                ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
+                ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
+                ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
+                ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
+                ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
+                ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
+                ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
+
+                if (ModelState.IsValid)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    var process = AppraisalService.MngLocationAsset(model, userName);
+                    if (process)
+                    {
+                        List<LocationAssetModel> modelList = AppraisalService.GetLocationAsset(0, model.appraisal_assets_id, userName);
+                        if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
+                        {
+                            model = modelList[0];
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(model);
+        }
+
+        [Permission]
+        public ActionResult ManageCompareAsset(string id)//ตารางเปรียบเทียบ
+        {
+            List<CompareAssetModel> modelList = new List<CompareAssetModel>();
+            try
+            {
+                ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
+                ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
+                ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
+                ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
+                ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
+                ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
+                ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
+
+                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                {
+                    modelList = AppraisalService.GetCompareAsset(0, Convert.ToInt32(id), "");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(modelList);
+        }
+
+        [HttpPost]
+        [Permission]
+        public ActionResult ManageCompareAsset(CompareAssetModel model)//ตารางเปรียบเทียบ
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(model);
         }
 
         public ActionResult ManageOtherDetail()//รายละเอียดเพิ่มเติม
