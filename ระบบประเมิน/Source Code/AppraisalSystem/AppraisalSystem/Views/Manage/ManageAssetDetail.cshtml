@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AppraisalSystem.Models.AppraisalJobModel
+@{
     ViewBag.Title = "ข้อมูลที่ตั้งทรัพย์สิน";
     ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -16,92 +17,50 @@
          <div class="form-group">
             <label class="textbox-inline">
                 <label>ชื่อหมู่บ้าน</label>
-                @Html.TextBox("txtHomeName","", new { @class = "form-control ui-wizard-content" })
+                @Html.TextBoxFor(m => m.village, new { @class = "form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline">
                 <label>ซอย</label>
-                 @Html.TextBox("txtHomeSoi","", new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(m => m.alley, new { @class = "form-control ui-wizard-content" })
             </label>
              <label class="textbox-inline">
                 <label>ถนน</label>
-                 @Html.TextBox("txtHomeRoad","", new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(m => m.road, new { @class = "form-control ui-wizard-content" })
             </label>
         </div>
         <div class="form-group">
             <label class="textbox-inline">
                 <label>อำเภอ</label>
-                <select class="form-control" style="width:205px">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                @Html.DropDownListFor(m => m.amphur_id, new SelectList(ViewData["Amphur"] as List<AppraisalSystem.Models.AmphurModel>, "amphur_id", "amphur_name"),new{@class="form-control",style="width:205px"})
             </label>
             <label class="textbox-inline">
                 <label>ตำบล</label>
-                <select class="form-control" style="width:205px">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                @Html.DropDownListFor(m => m.district_id, new SelectList(ViewData["District"] as List<AppraisalSystem.Models.DistrictModel>, "district_id", "district_name"), new { @class = "form-control", style = "width:205px" })
             </label>
              <label class="textbox-inline">
                 <label>จังหวัด</label>
-                <select class="form-control" style="width:205px">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                @Html.DropDownListFor(m => m.province_id, new SelectList(ViewData["Province"] as List<AppraisalSystem.Models.ProvinceModel>, "province_id", "province_name"), new { @class = "form-control", style = "width:205px" })
             </label>
         </div>
         <div class="form-group">
             <label>รายละเอียดที่ตั้ง</label>
-            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+            @Html.TextAreaFor(m => m.detailed_location, 3, 3, new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>ประเภทของทรัพย์สิน</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["AssetType"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>วิธีการประเมิน</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["AssetmentMethod"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>สิทธิการเข้าออก</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["RightOfAccess"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>สีตาม พรบ.ผังเมือง</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["PaintTheTown"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control" })
         </div>
          <div class="form-group">
             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
