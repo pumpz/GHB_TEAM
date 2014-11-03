@@ -1,4 +1,6 @@
-﻿@{
+﻿@model AppraisalSystem.Models.AppraisalDetailModel
+           
+@{
     ViewBag.Title = "เอกสารสิทธิ์";
     ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -11,126 +13,126 @@
     <div class="col-md-8">
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            <input class="form-control ui-wizard-content">
+            @Html.LabelFor(model => model.appraisal_assets_id)
         </div>
         <div class="form-group">
             <label>ประเภทเอกสารสิทธิ์</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var docTypeAll = ViewData["TYPE_OF_DOCUMENT"] as List<AppraisalSystem.Models.FilterModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(docTypeAll) && docTypeAll.Count > 0)
+	            {
+		            @Html.DropDownListFor(model => model.type_of_document_id, new SelectList(docTypeAll, "filter_value", "filter_text", Model.type_of_document_id), new { @class="form-control", data_placeholder = "กรุณาเลือกประเภทเอกสาร..." })
+	            }
+                @Html.ValidationMessageFor(model => model.type_of_document_id)
+            }
+            
         </div>
         <div class="form-group">
             <label>เลขที่เอกสารสิทธิ์</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.certificate_of_ownership, new { @class = "form-control ui-wizard-content" })
+            @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>เลขที่ดิน</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.parcel_number, new { @class="form-control ui-wizard-content" })
         </div>
         <div class="form-group">
             <label>หน้าสำรวจ</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.survey, new { @class="form-control ui-wizard-content" })
         </div>
         <div class="form-group">
             <label>เล่ม/หน้า</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.book_or_page, new { @class = "form-control ui-wizard-content" })
         </div>
         <div class="form-group">
             <label>ระวางเลขที่</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.tc_no, new { @class="form-control ui-wizard-content" })
         </div>
         <div class="form-group">
             <label>สภาพที่ดิน</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var conditionLandAll = ViewData["CONDITION_LAND"] as List<AppraisalSystem.Models.FilterModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(conditionLandAll) && conditionLandAll.Count > 0)
+	            {
+		            @Html.DropDownListFor(model => model.condition_land_id, new SelectList(conditionLandAll, "filter_value", "filter_text", Model.condition_land_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกสภาพที่ดิน..." })
+	            }
+                @Html.ValidationMessageFor(model => model.condition_land_id)
+            }
         </div>
         <div class="form-group">
             <label>ภาระติดพัน</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var isConditionAll = ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(isConditionAll) && isConditionAll.Count > 0)
+	            {
+                    foreach (var item in isConditionAll)
+	                {
+                        var isCheck = new Dictionary<string, object>();
+                        if (item.filter_value == Convert.ToString(Model.courting_the_burden))
+                        {
+                            isCheck.Add("checked", "checked");
+                        }
+		                @Html.RadioButtonFor(model => model.courting_the_burden, item.filter_value, isCheck) @Html.Label(item.filter_text)
+	                }
+	            }
+                @Html.ValidationMessageFor(model => model.courting_the_burden)
+            }
         </div>
         <div class="form-group">
             <label>ผู้ถือกรรมสิทธิ์</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.ownership, new { @class="form-control ui-wizard-content" })
+            @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>ผู้ทรงสิทธิ์</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(model => model.rightsholder, new { @class="form-control ui-wizard-content" })
+            @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>จังหวัด</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var provinceAll = ViewData["PROVINCE"] as List<AppraisalSystem.Models.ProvinceModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(provinceAll) && provinceAll.Count > 0)
+	            {
+		            @Html.DropDownListFor(model => model.province_id, new SelectList(provinceAll, "province_id", "province_name", Model.province_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกจังหวัด..." })
+	            }
+                @Html.ValidationMessageFor(model => model.province_id)
+            }
         </div>
         <div class="form-group">
             <label>อำเภอ</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var amphurAll = ViewData["AMPHUR"] as List<AppraisalSystem.Models.AmphurModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(amphurAll) && amphurAll.Count > 0)
+	            {
+		            @Html.DropDownListFor(model => model.amphur_id, new SelectList(amphurAll, "amphur_id", "amphur_name", Model.amphur_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกอำเภอ..." })
+	            }
+                @Html.ValidationMessageFor(model => model.amphur_id)
+            }
         </div>
         <div class="form-group">
             <label>ตำบล</label>
-            <select class="form-control">
-                <option>โปรดเลือก</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @{
+                var districtAll = ViewData["DISTRICT"] as List<AppraisalSystem.Models.DistrictModel>;
+                if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(districtAll) && districtAll.Count > 0)
+	            {
+		            @Html.DropDownListFor(model => model.district_id, new SelectList(districtAll, "district_id", "district_name", Model.district_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกตำบล..." })
+	            }
+                @Html.ValidationMessageFor(model => model.district_id)
+            }
         </div>
         <div class="form-group">
             <label class="textbox-inline">
                 <label>&nbsp;<br/><br/>เนื้อที่</label>
             </label>
             <label class="textbox-inline">ไร่<br/>
-                <select class="form-control">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                @Html.TextBoxFor(model => model.rai_area, new { @class="form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline">งาน<br/>
-                 <select class="form-control">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                 @Html.TextBoxFor(model => model.ngaan_area, new { @class="form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline">วา<br/>
-                 <select class="form-control">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                 @Html.TextBoxFor(model => model.wa_area, new { @class="form-control ui-wizard-content" })
             </label>
         </div>
         <div class="form-group">
@@ -138,25 +140,13 @@
                 <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
             </label>
             <label class="textbox-inline">&nbsp;<br/>
-                 <select class="form-control">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                 @Html.TextBoxFor(model => model.total_area, new { @class="form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline">
                 <label><br/>x&nbsp;</label>
             </label>
             <label class="textbox-inline">(ราคาประเมินที่เหมาะสม)<br/>
-                 <select class="form-control">
-                    <option>โปรดเลือก</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
+                 @Html.TextBoxFor(model => model.appraisal, new { @class="form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline"><br/>
                 <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>

@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Data;
 using AppraisalSystem.Utility;
 using System.Collections;
+using System.ComponentModel.DataAnnotations;
 
 namespace AppraisalSystem.Models
 {
@@ -32,7 +33,8 @@ namespace AppraisalSystem.Models
         public DateTime create_date {set; get;}
         public string create_by { set; get; }
         public string type_of_document { set; get; }
-        public string no { set; get; }
+        public string certificate_of_ownership { set; get; }
+        public string parcel_number { set; get; }
         public string survey { set; get; }
         public string book_or_page { set; get; }
         public string tc_no { set; get; }
@@ -115,15 +117,24 @@ namespace AppraisalSystem.Models
     public class AppraisalDetailModel
     {
         public int assets_detail_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาเลือกประเภทของเอกสารสิทธิ์")]
         public int type_of_document_id { set; get; }
-        public string no { set; get; }
+        public string certificate_of_ownership { set; get; }
+        public string parcel_number { set; get; }
         public string survey { set; get; }
         public string book_or_page { set; get; }
         public string tc_no { set; get; }
         public int condition_land_id { set; get; }
         public int courting_the_burden { set; get; }
+
+        [Required(ErrorMessage = "กรุณาระบุชื่อผู้ถือกรรมสิทธิ์")]
         public string ownership { set; get; }
+
+        [Required(ErrorMessage = "กรุณาระบุชื่อผู้ทรงสิทธิ์")]
         public string rightsholder { set; get; }
         public int province_id { set; get; }
         public int amphur_id { set; get; }
@@ -476,7 +487,8 @@ namespace AppraisalSystem.Models
                                     AppraisalItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
                                     AppraisalItem.create_date = Convert.ToDateTime(dr["create_date"]);
                                     AppraisalItem.type_of_document = dr["type_of_document"] == System.DBNull.Value ? "" : Convert.ToString(dr["type_of_document"]);
-                                    AppraisalItem.no = dr["no"] == System.DBNull.Value ? "" : Convert.ToString(dr["no"]);
+                                    AppraisalItem.certificate_of_ownership = dr["certificate_of_ownership"] == System.DBNull.Value ? "" : Convert.ToString(dr["certificate_of_ownership"]);
+                                    AppraisalItem.parcel_number = dr["parcel_number"] == System.DBNull.Value ? "" : Convert.ToString(dr["parcel_number"]);
                                     AppraisalItem.survey = dr["survey"] == System.DBNull.Value ? "" : Convert.ToString(dr["survey"]);
                                     AppraisalItem.book_or_page = dr["book_or_page"] == System.DBNull.Value ? "" : Convert.ToString(dr["book_or_page"]);
                                     AppraisalItem.tc_no = dr["tc_no"] == System.DBNull.Value ? "" : Convert.ToString(dr["tc_no"]);
@@ -568,7 +580,7 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -648,12 +660,12 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(appraisalDetailID))
+                        if (appraisalDetailID > 0)
                         {
                             condition += string.Format(" AND ASSETS_DETAIL_ID = {0}", appraisalDetailID);
                         }
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -674,7 +686,8 @@ namespace AppraisalSystem.Models
                                     AppraisalDetailItem.assets_detail_id = dr["assets_detail_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["assets_detail_id"]);
                                     AppraisalDetailItem.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
                                     AppraisalDetailItem.type_of_document_id = dr["type_of_document_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["type_of_document_id"]);
-                                    AppraisalDetailItem.no = dr["no"] == System.DBNull.Value ? "" : Convert.ToString(dr["no"]);
+                                    AppraisalDetailItem.certificate_of_ownership = dr["certificate_of_ownership"] == System.DBNull.Value ? "" : Convert.ToString(dr["certificate_of_ownership"]);
+                                    AppraisalDetailItem.parcel_number = dr["parcel_number"] == System.DBNull.Value ? "" : Convert.ToString(dr["parcel_number"]);
                                     AppraisalDetailItem.survey = dr["survey"] == System.DBNull.Value ? "" : Convert.ToString(dr["survey"]);
                                     AppraisalDetailItem.book_or_page = dr["book_or_page"] == System.DBNull.Value ? "" : Convert.ToString(dr["book_or_page"]);
                                     AppraisalDetailItem.tc_no = dr["tc_no"] == System.DBNull.Value ? "" : Convert.ToString(dr["tc_no"]);
@@ -734,12 +747,12 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(compareAssetID))
+                        if (compareAssetID > 0)
                         {
                             condition += string.Format(" AND COMPARE_ASSETS_ID = {0}", compareAssetID);
                         }
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -817,12 +830,12 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(locationAssetID))
+                        if (locationAssetID > 0)
                         {
                             condition += string.Format(" AND ASSETS_LOCATION_ID = {0}", locationAssetID);
                         }
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -904,12 +917,12 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(mapAssetID))
+                        if (mapAssetID > 0)
                         {
                             condition += string.Format(" AND MAP_ASSETS_ID = {0}", mapAssetID);
                         }
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -958,7 +971,7 @@ namespace AppraisalSystem.Models
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<UploadPictureAssetModel> GetUploadPictureAsset(int mapAssetID, int appraisalID, string createBy)
+        public List<UploadPictureAssetModel> GetUploadPictureAsset(int uploadAssetID, int appraisalID, string createBy)
         {
             MySqlConnection conn = null;
             List<UploadPictureAssetModel> result = null;
@@ -975,12 +988,12 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (ContentHelpers.IsNotnull(mapAssetID))
+                        if (uploadAssetID > 0)
                         {
-                            condition += string.Format(" AND IMAGE_ASSETS_ID = {0}", mapAssetID);
+                            condition += string.Format(" AND IMAGE_ASSETS_ID = {0}", uploadAssetID);
                         }
 
-                        if (ContentHelpers.IsNotnull(appraisalID))
+                        if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
                         }
@@ -1126,7 +1139,8 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Clear();
                         cmd.Parameters.Add("p_appraisal_asset_id", MySqlDbType.Int32).Value = appraisalDetail.appraisal_assets_id;
                         cmd.Parameters.Add("p_type_of_document_id", MySqlDbType.VarChar).Value = appraisalDetail.type_of_document_id;
-                        cmd.Parameters.Add("p_no", MySqlDbType.VarChar).Value = appraisalDetail.no;
+                        cmd.Parameters.Add("p_certificate_of_ownership", MySqlDbType.VarChar).Value = appraisalDetail.certificate_of_ownership;
+                        cmd.Parameters.Add("p_parcel_number", MySqlDbType.VarChar).Value = appraisalDetail.parcel_number;
                         cmd.Parameters.Add("p_survey", MySqlDbType.VarChar).Value = appraisalDetail.survey;
                         cmd.Parameters.Add("p_book_or_page", MySqlDbType.VarChar).Value = appraisalDetail.book_or_page;
                         cmd.Parameters.Add("p_tc_no", MySqlDbType.VarChar).Value = appraisalDetail.tc_no;
