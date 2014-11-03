@@ -7,6 +7,7 @@ using AppraisalSystem.Models;
 using System.Collections;
 using System.Web.Routing;
 using System.IO;
+using AppraisalSystem.Utility;
 
 namespace AppraisalSystem.Controllers
 {
@@ -14,9 +15,13 @@ namespace AppraisalSystem.Controllers
     {
 
         public IAppraisalService AppraisalService { get; set; }
+        public IConditionService ConditionService { get; set; }
+
         protected override void Initialize(RequestContext requestContext)
         {
             if (AppraisalService == null) { AppraisalService = new AppraisalService(); }
+
+            if (ConditionService == null) { ConditionService = new ConditionService(); }
 
             base.Initialize(requestContext);
         }
@@ -62,9 +67,67 @@ namespace AppraisalSystem.Controllers
         }
 
 
-        public ActionResult ManageAssetDoc()//เอกสารสิทธิ์
+        public ActionResult ManageAssetDoc(int id)//เอกสารสิทธิ์
         {
-            return View();
+            AppraisalDetailModel model = new AppraisalDetailModel();
+            try
+            {
+                ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
+                ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
+                ViewData["PROVINCE"] = ConditionService.GetProvinceLists();
+                ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
+                ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
+
+                if (id > 0)
+                {
+                    List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, id, "");
+                    if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
+                    {
+                        model = modelList[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult ManageAssetDoc(AppraisalDetailModel model)//เอกสารสิทธิ์
+        {
+            ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
+            ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
+            ViewData["PROVINCE"] = ConditionService.GetProvinceLists();
+            ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
+            ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    var process = AppraisalService.MngAppraisalDetail(model, userName);
+                    if (process)
+                    {
+                        List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, model.assets_detail_id, userName);
+                        if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
+                        {
+                            model = modelList[0];
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+            return View(model);
         }
 
         public ActionResult ManageAssetDocPic()//รูปเอกสารสิทธิ์

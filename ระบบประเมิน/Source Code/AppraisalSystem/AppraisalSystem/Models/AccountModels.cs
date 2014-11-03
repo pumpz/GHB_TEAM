@@ -17,7 +17,7 @@ namespace AppraisalSystem.Models
 {
 
     #region Models
-
+    [PropertiesMustMatch("NewPassword", "ConfirmPassword", ErrorMessage = "กรอกรหัสผ่านใหม่และยืนยันรหัสผ่านไม่เหมือนกัน!!")]
     public class ChangePasswordModel
     {
         [Required]
@@ -25,15 +25,17 @@ namespace AppraisalSystem.Models
         [Display(Name = "รหัสเก่า")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "กรุณากรอก รหัสผ่านใหม่")]
         [ValidatePasswordLength]
+        [RegularExpression(@"^.*(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*\(\)_\-+=]).*$", ErrorMessage = "กรุณาตั้งรหัสผ่านให้มีตัวอักษรพิเศษและตัวเลข")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "กรุณากำหนดรหัสมากกว่า 8 หลัก แต่ไม่เกิน 20")]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสใหม่")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
         [Display(Name = "ยืนยันรหัสใหม่")]
-        [Compare("NewPassword", ErrorMessage = "รหัสใช้งานและรหัสยืนยันใช้งานไม่เหมือนกัน!!")]
+        [Required(ErrorMessage = "กรุณากรอก ยืนยันรหัสผ่าน")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -52,15 +54,16 @@ namespace AppraisalSystem.Models
         public bool RememberMe { get; set; }
     }
 
-
+    [PropertiesMustMatch("Password", "ConfirmPassword", ErrorMessage = "กรอกรหัสผ่านใหม่และยืนยันรหัสผ่านไม่เหมือนกัน!!")]
     public class RegisterModel
     {
         [Required]
         [Display(Name = "ชื่อสำหรับเข้าใช้งาน")]
         public string UserName { get; set; }
 
-    
-        [ValidatePasswordLength]
+
+        [RegularExpression(@"^.*(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*\(\)_\-+=]).*$", ErrorMessage = "กรุณาตั้งพาสเวิร์ดให้มีตัวอักษรพิเศษและตัวเลข")]
+        [StringLength(20, MinimumLength = 8, ErrorMessage = "กรุณากำหนดรหัสมากกว่า 8 หลัก แต่ไม่เกิน 20")]
         [DataType(DataType.Password)]
         [Display(Name = "รหัสผู้ใช้งาน")]
         public string Password { get; set; }
@@ -924,8 +927,47 @@ namespace AppraisalSystem.Models
         }
     }
 
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public sealed class PropertiesMustMatchAttribute : ValidationAttribute
+    {
+        private const string _defaultErrorMessage = "'{0}' and '{1}' do not match.";
+        private readonly object _typeId = new object();
+
+        public PropertiesMustMatchAttribute(string originalProperty, string confirmProperty)
+            : base(_defaultErrorMessage)
+        {
+            OriginalProperty = originalProperty;
+            ConfirmProperty = confirmProperty;
+        }
+
+        public string ConfirmProperty { get; private set; }
+        public string OriginalProperty { get; private set; }
+
+        public override object TypeId
+        {
+            get
+            {
+                return _typeId;
+            }
+        }
+
+        public override string FormatErrorMessage(string name)
+        {
+            return String.Format(CultureInfo.CurrentUICulture, ErrorMessageString,
+                OriginalProperty, ConfirmProperty);
+        }
+
+        public override bool IsValid(object value)
+        {
+            PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(value);
+            object originalValue = properties.Find(OriginalProperty, true /* ignoreCase */).GetValue(value);
+            object confirmValue = properties.Find(ConfirmProperty, true /* ignoreCase */).GetValue(value);
+            return Object.Equals(originalValue, confirmValue);
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
-    public sealed class ValidatePasswordLengthAttribute : ValidationAttribute, IClientValidatable
+    public sealed class ValidatePasswordLengthAttribute : ValidationAttribute
     {
         private const string _defaultErrorMessage = "'{0}' must be at least {1} characters long.";
         private readonly int _minCharacters = Membership.Provider.MinRequiredPasswordLength;
@@ -937,21 +979,14 @@ namespace AppraisalSystem.Models
 
         public override string FormatErrorMessage(string name)
         {
-            return String.Format(CultureInfo.CurrentCulture, ErrorMessageString,
+            return String.Format(CultureInfo.CurrentUICulture, ErrorMessageString,
                 name, _minCharacters);
         }
 
         public override bool IsValid(object value)
         {
             string valueAsString = value as string;
-            return (valueAsString == null || valueAsString.Length >= _minCharacters);
-        }
-
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        {
-            return new[]{
-                new ModelClientValidationStringLengthRule(FormatErrorMessage(metadata.GetDisplayName()), _minCharacters, int.MaxValue)
-            };
+            return (valueAsString != null && valueAsString.Length >= _minCharacters);
         }
     }
     #endregion

@@ -6,6 +6,7 @@ using System.ComponentModel;
 using MySql.Data.MySqlClient;
 using System.Configuration;
 using System.Data;
+using AppraisalSystem.Utility;
 
 namespace AppraisalSystem.Models
 {
@@ -64,7 +65,7 @@ namespace AppraisalSystem.Models
         /// GetFilterLists
         /// </detail>
         /// <returns>List<FilterModel></returns>
-        List<FilterModel> GetFilterLists();
+        List<FilterModel> GetFilterLists(string filterType);
 
         /// <detail>
         /// GetProvinceLists
@@ -94,7 +95,7 @@ namespace AppraisalSystem.Models
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<FilterModel> GetFilterLists()
+        public List<FilterModel> GetFilterLists(string filterType)
         {
             MySqlConnection conn = null;
             List<FilterModel> filterList = null;
@@ -107,7 +108,13 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_FILTER, conn))
+                    string QueryCmd = Resources.SQLResource.VIEW_FILTER;
+                    if (ContentHelpers.IsNotnull(filterType))
+                    {
+                        QueryCmd += " WHERE FILTER_TYPE_NAME = '" + filterType + "'";
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(QueryCmd, conn))
                     {
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
@@ -171,8 +178,8 @@ namespace AppraisalSystem.Models
                                 {
                                     ProvinceModel ProvinceItem = new ProvinceModel();
                                     ProvinceItem.province_id = dr["province_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["province_id"]);
-                                    ProvinceItem.province_code = dr["filter_type_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_name"]);
-                                    ProvinceItem.province_name = dr["filter_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_value"]);
+                                    ProvinceItem.province_code = dr["province_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["province_code"]);
+                                    ProvinceItem.province_name = dr["province_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["province_name"]);
 
                                     provinceList.Add(ProvinceItem);
                                 }
@@ -212,7 +219,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_FILTER, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_AMPHUR, conn))
                     {
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
@@ -265,7 +272,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_FILTER, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_DISTRICT, conn))
                     {
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
