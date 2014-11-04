@@ -384,7 +384,7 @@ CREATE TABLE `users` (
 
 /*Data for the table `users` */
 
-insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-11-01 15:03:18',0,0,'2014-10-23 21:32:26','2014-11-01 15:03:40',NULL,'system','admin',NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-11-03 22:16:48',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-11-02 00:35:13',0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
+insert  into `users`(`USER_ID`,`USER_NAME`,`PASSWORD`,`ROLE_ID`,`STATUS`,`CITIZEN_ID`,`NAME`,`EMAIL`,`PHONE`,`LAST_LOGIN`,`USER_LOGIN`,`DELETE_FLAG`,`CREATE_DATE`,`UPDATE_DATE`,`DELETE_DATE`,`CREATE_BY`,`UPDATE_BY`,`DELETE_BY`) values (1,'admin','161ebd7d45089b3446ee4e0d86dbcf92',1,1,'1659900275783','Admin','Admin','6042','2014-11-01 15:03:18',0,0,'2014-10-23 21:32:26',NULL,NULL,'system',NULL,NULL),(2,'test1','161ebd7d45089b3446ee4e0d86dbcf92',2,1,'system','ทดสอบ','Test1',NULL,'2014-11-05 00:12:23',0,0,'2014-10-23 21:33:12',NULL,NULL,'system',NULL,NULL),(3,'test2','161ebd7d45089b3446ee4e0d86dbcf92',3,1,'system','ทดสอบ','Test2',NULL,'2014-11-02 00:35:13',0,0,'2014-10-23 21:33:34',NULL,NULL,'system',NULL,NULL);
 
 /* Procedure structure for procedure `USP_DEL_APPRAISAL_DETAIL` */
 
@@ -1441,6 +1441,30 @@ DROP TABLE IF EXISTS `v_province`;
  `STATUS` tinyint(1) 
 )*/;
 
+/*Table structure for table `v_result` */
+
+DROP TABLE IF EXISTS `v_result`;
+
+/*!50001 DROP VIEW IF EXISTS `v_result` */;
+/*!50001 DROP TABLE IF EXISTS `v_result` */;
+
+/*!50001 CREATE TABLE  `v_result`(
+ `APPRAISAL_ASSETS_CODE` varchar(200) ,
+ `VILLAGE` varchar(200) ,
+ `ALLEY` varchar(200) ,
+ `ROAD` varchar(200) ,
+ `DISTRICT_NAME` varchar(150) ,
+ `AMPHUR_NAME` varchar(150) ,
+ `PROVINCE_NAME` varchar(150) ,
+ `DETAILED_LOCATION` text ,
+ `ASSET_TYPE` varchar(100) ,
+ `ASSESSMENT_METHODS` varchar(100) ,
+ `RIGHTS_OF_ACCESS` varchar(100) ,
+ `PAINT_THE_TOWN` varchar(100) ,
+ `LAND_VALUE` double ,
+ `BUILDING_VALUE` double 
+)*/;
+
 /*Table structure for table `v_roles` */
 
 DROP TABLE IF EXISTS `v_roles`;
@@ -1524,6 +1548,13 @@ DROP TABLE IF EXISTS `v_users`;
 /*!50001 DROP VIEW IF EXISTS `v_province` */;
 
 /*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_province` AS (select `province`.`PROVINCE_ID` AS `PROVINCE_ID`,`province`.`PROVINCE_CODE` AS `PROVINCE_CODE`,`province`.`PROVINCE_NAME` AS `PROVINCE_NAME`,`province`.`PROVINCE_NAME_ENG` AS `PROVINCE_NAME_ENG`,`province`.`GEO_ID` AS `GEO_ID`,`province`.`STATUS` AS `STATUS` from `province` where (`province`.`STATUS` = 1)) */;
+
+/*View structure for view v_result */
+
+/*!50001 DROP TABLE IF EXISTS `v_result` */;
+/*!50001 DROP VIEW IF EXISTS `v_result` */;
+
+/*!50001 CREATE ALGORITHM=UNDEFINED DEFINER=`sa`@`%` SQL SECURITY DEFINER VIEW `v_result` AS (select `job`.`APPRAISAL_ASSETS_CODE` AS `APPRAISAL_ASSETS_CODE`,`job`.`VILLAGE` AS `VILLAGE`,`job`.`ALLEY` AS `ALLEY`,`job`.`ROAD` AS `ROAD`,(select `district`.`DISTRICT_NAME` from `district` where (`district`.`DISTRICT_ID` = `job`.`DISTRICT_ID`)) AS `DISTRICT_NAME`,(select `amphur`.`AMPHUR_NAME` from `amphur` where (`amphur`.`AMPHUR_ID` = `job`.`AMPHUR_ID`)) AS `AMPHUR_NAME`,(select `province`.`PROVINCE_NAME` from `province` where (`province`.`PROVINCE_ID` = `job`.`PROVINCE_ID`)) AS `PROVINCE_NAME`,`job`.`DETAILED_LOCATION` AS `DETAILED_LOCATION`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ASSET_TYPE') and (`v_filter`.`FILTER_VALUE` = `job`.`ASSET_TYPE_ID`))) AS `ASSET_TYPE`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'ASSESSMENT_METHOD') and (`v_filter`.`FILTER_VALUE` = `job`.`ASSESSMENT_METHODS_ID`))) AS `ASSESSMENT_METHODS`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'RIGHT_OF_ACCESS') and (`v_filter`.`FILTER_VALUE` = `job`.`RIGHTS_OF_ACCESS_ID`))) AS `RIGHTS_OF_ACCESS`,(select `v_filter`.`FILTER_TEXT` from `v_filter` where ((`v_filter`.`FILTER_TYPE_NAME` = 'PAINT_THE_TOWN') and (`v_filter`.`FILTER_VALUE` = `job`.`PAINT_THE_TOWN_ID`))) AS `PAINT_THE_TOWN`,(`detail`.`TOTAL_AREA` * `detail`.`APPRAISAL`) AS `LAND_VALUE`,(((`location`.`WIDTH` * `location`.`HIGH`) * `location`.`PRICE_PER_METER`) - `location`.`DEPRECIATION`) AS `BUILDING_VALUE` from ((`appraisal_assets_job` `job` join `appraisal_assets_detail` `detail` on((`job`.`APPRAISAL_ASSETS_ID` = `detail`.`APPRAISAL_ASSETS_ID`))) join `location_assets` `location` on((`job`.`APPRAISAL_ASSETS_ID` = `location`.`APPRAISAL_ASSETS_ID`)))) */;
 
 /*View structure for view v_roles */
 
