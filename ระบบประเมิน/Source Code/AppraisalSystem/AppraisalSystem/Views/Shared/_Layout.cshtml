@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -58,12 +59,9 @@
                     <ul class="nav" id="side-menu">
                         <li>
                             <div class="user-info-wrapper">	
-                                <div class="user-info-profile-image">
-                                    <img src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/profile-1.jpg" alt="" height="65" width="65">
-                                </div>
                                 <div class="user-info">
                                     <div class="user-welcome">Welcome</div>
-                                    <div class="username">@Context.User.Identity.Name</div>
+                                    <div class="username">@AppraisalSystem.Utility.ContentHelpers.Decode(Session["UserName"].ToString())</div>
                                     <div class="status">Status <span class="status-now"><i class="fa fa-circle text-emerald fa"></i> Online</span> </div>
                                 </div>
                             </div>
@@ -72,34 +70,34 @@
                         <li>
                             <a href="@Url.Content("~/Home/Manage")"><i class="fa fa-home fa-fw fa-3x"></i> หน้าแรก</a>
                         </li>
-                        <li>
+                        <li id="ManageAssetDetail" style="display:none" >
                             <a href="@Url.Content("~/Manage/ManageAssetDetail")"><i class="fa fa-files-o fa-fw fa-3x"></i> ข้อมูลที่ตั้งทรัพย์สิน</a>
                         </li>
-                        <li>
+                        <li id="ManageAssetMap" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageAssetMap")"><i class="fa fa-map-marker fa-fw fa-3x"></i> แผนที่</a>
                         </li>
-                        <li>
+                        <li id="ManageAssetDoc" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageAssetDoc")"><i class="fa fa-files-o fa-fw fa-3x"></i> เอกสารสิทธิ์</a>
                         </li>
-                        <li>
+                        <li id="ManageAssetDocPic" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageAssetDocPic")"><i class="fa fa-clipboard fa-fw fa-3x"></i> รูปเอกสารสิทธิ์</a>
                         </li>
-                        <li>
+                        <li id="ManageAssetPic" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageAssetPic")"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปทรัพย์สิน</a>
                         </li>
-                        <li>
+                        <li id="ManageCompareAssetPic" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageCompareAssetPic")"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปข้อมูลเทียบ</a>
                         </li>
-                        <li>
+                        <li id="ManageMaterial" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageMaterial")"><i class="fa fa-building-o fa-fw fa-3x"></i> สิ่งปลูกสร้าง</a>
                         </li>
-                        <li>
+                        <li id="ManageCompareAsset" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageCompareAsset")"><i class="fa fa-bar-chart-o fa-fw fa-3x"></i> ตารางเปรียบเทียบ</a>
                         </li>
-                        <li>
+                        <li id="ManageOtherDetail" style="display:none">
                             <a href="@Url.Content("~/Manage/ManageOtherDetail")"><i class="fa fa-plus fa-fw fa-3x"></i> รายละเอียดเพิ่มเติม</a>
                         </li>
-                        <li>
+                        <li id="ManagePrice" style="display:none">
                             <a href="@Url.Content("~/Manage/ManagePrice")"><i class="fa fa-money fa-fw fa-3x"></i> สรุปราคา</a>
                         </li>
                        

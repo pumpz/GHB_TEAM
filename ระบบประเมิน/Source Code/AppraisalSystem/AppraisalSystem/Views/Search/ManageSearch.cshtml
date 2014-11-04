@@ -15,23 +15,11 @@
         </div>
         <div class="form-group">
             <label>อำเภอ</label>
-            <select class="form-control">
-                <option>เลือกอำเภอที่ต้องการค้นหา</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownList("amphurId", new SelectList(ViewData["Amphur"] as List<AppraisalSystem.Models.AmphurModel>, "amphur_id", "amphur_name"), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <label>ตำบล</label>
-            <select class="form-control">
-                <option>เลือกตำบลที่ต้องการค้นหา</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
+            @Html.DropDownList("districtId", new SelectList(ViewData["District"] as List<AppraisalSystem.Models.DistrictModel>, "district_id", "district_name"), new { @class = "form-control" })
         </div>
         <div class="form-group">
             <input type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right" value="ค้นหางาน" />
@@ -54,7 +42,7 @@
                     foreach (var item in Model)
                     {
                     <tr class="gradeA odd">
-                            <td class="sorting_1">@item.appraisal_assets_id</td>
+                            <td class="sorting_1">@item.appraisal_assets_code</td>
                             <td class="  "></td>
                             <td class="  "></td>
                             <td class="center  "></td>

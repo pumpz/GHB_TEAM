@@ -126,7 +126,7 @@ namespace AppraisalSystem.Models
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
-       
+
     }
     #endregion
 
@@ -235,6 +235,7 @@ namespace AppraisalSystem.Models
             Hashtable result = new Hashtable();
             bool process = false;
             string msg = "";
+            string userId = "";
             try
             {
                 using (conn = new MySqlConnection(GetConnectionString()))
@@ -252,10 +253,11 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add(new MySqlParameter("oMessage", MySqlDbType.VarChar)).Direction = ParameterDirection.Output;
                         cmd.Parameters.Add(new MySqlParameter("oUserID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
                         cmd.ExecuteScalar();
-                        
-                        int userId = cmd.Parameters["oUserID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oUserID"].Value);
-                        if (userId > 0)
+
+                        int ouserId = cmd.Parameters["oUserID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oUserID"].Value);
+                        if (ouserId > 0)
                         {
+                            userId = ouserId.ToString();
                             using (cmd = new MySqlCommand(Resources.SQLResource.USP_GET_USERS_PERMISSION, conn))
                             {
                                 cmd.CommandType = CommandType.StoredProcedure;
@@ -290,6 +292,7 @@ namespace AppraisalSystem.Models
             }
             result["Status"] = process;
             result["Message"] = msg;
+            result["userId"] = userId;
             return result;
         }
 
@@ -321,8 +324,8 @@ namespace AppraisalSystem.Models
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
                         cmd.Parameters.Add("p_user_name", MySqlDbType.VarChar).Value = register.UserName;
-                        cmd.Parameters.Add("p_password", MySqlDbType.VarChar).Value = ContentHelpers.Isnull(register.Password) ? 
-                                                                                        ContentHelpers.MD5Hash(Resources.ConfigResource.PASSWORD_DEFAULT) : 
+                        cmd.Parameters.Add("p_password", MySqlDbType.VarChar).Value = ContentHelpers.Isnull(register.Password) ?
+                                                                                        ContentHelpers.MD5Hash(Resources.ConfigResource.PASSWORD_DEFAULT) :
                                                                                         ContentHelpers.MD5Hash(register.Password);
                         cmd.Parameters.Add("p_roleid", MySqlDbType.VarChar).Value = register.RoleID;
                         cmd.Parameters.Add("p_citizenid", MySqlDbType.VarChar).Value = register.CitizenID;
@@ -823,7 +826,7 @@ namespace AppraisalSystem.Models
                                     role.RoleID = dr["ROLE_ID"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["ROLE_ID"]);
                                     role.RoleName = dr["ROLE_NAME"] == System.DBNull.Value ? "" : Convert.ToString(dr["ROLE_NAME"]);
                                     roles.Add(role);
-                                   
+
                                 }
                             }
                         }
@@ -854,7 +857,7 @@ namespace AppraisalSystem.Models
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="createPersistentCookie"></param>
-        void SignIn(string userName, bool createPersistentCookie);
+        void SignIn(string userName, string userId, bool createPersistentCookie);
 
         /// <summary>
         /// SignOut
@@ -865,17 +868,19 @@ namespace AppraisalSystem.Models
 
     public class FormsAuthenticationService : IFormsAuthenticationService
     {
-        public void SignIn(string userName, bool createPersistentCookie)
+        public void SignIn(string userName, string userId, bool createPersistentCookie)
         {
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("Value cannot be null or empty.", "userName");
+            if (String.IsNullOrEmpty(userId)) throw new ArgumentException("Value cannot be null or empty.", "userId");
 
             HttpContext.Current.Session["UserName"] = ContentHelpers.Encode(userName);
+            HttpContext.Current.Session["UserID"] = ContentHelpers.Encode(userId);
             FormsAuthentication.SetAuthCookie(userName, createPersistentCookie);
         }
 
         public void SignOut(string userName)
         {
-            //FormsAuthentication.SignOut();
+            FormsAuthentication.SignOut();
             IMembershipService MembershipService = new AccountMembershipService();
             if (!MembershipService.LogOut(userName))
             {
@@ -883,7 +888,10 @@ namespace AppraisalSystem.Models
             }
         }
     }
+
+
     #endregion
+
 
     #region Validation
     public static class AccountValidation

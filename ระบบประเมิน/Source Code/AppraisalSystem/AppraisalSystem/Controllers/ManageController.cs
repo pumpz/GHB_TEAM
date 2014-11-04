@@ -27,9 +27,10 @@ namespace AppraisalSystem.Controllers
         //
         // GET: /Manage/
 
-        public ActionResult ManageAssetDetail()//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(string id, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            setAssetDetail();
+            setFilterAssetDetail(); //ระบุ filter ในหน้า View
+            setManageDetail(id, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
 
             return View();
         }
@@ -41,16 +42,16 @@ namespace AppraisalSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string userName = "system";
-                    Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
-                    if (Convert.ToBoolean(process["Status"]))
+                    if (isFilterAssetDetail(model))
                     {
-                        Response.Write("<script>alert('complete+');</script>");
-                        return View();
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("", Convert.ToString("Insert detail not success."));
+                        string userName = TempData["UserID"].ToString();
+                        Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
+
+                        if (Convert.ToBoolean(process["Status"]))
+                            setAlert(DataInfo.AlertStatusId.COMPLETE, "งานใหม่ถูกเพิ่มเรียบร้อยแล้ว!", "งานถูกแก้ไขเรียบร้อยแล้ว!");
+                        else
+                            setAlert(DataInfo.AlertStatusId.ERROR, "การเพิ่มงานใหม่ไม่สำเร็จ!", "การแก้ไขงานไม่สำเร็จ!");
+
                     }
                 }
             }
@@ -59,9 +60,20 @@ namespace AppraisalSystem.Controllers
                 ModelState.AddModelError(String.Empty, e.Message);
             }
 
-            setAssetDetail();
+            setFilterAssetDetail();
 
             return View();
+        }
+
+        protected bool isFilterAssetDetail(AppraisalJobModel model)
+        {
+            bool isValid = true;
+            if (string.IsNullOrEmpty(model.appraisal_assets_code))
+            {
+                ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "กรุณาระบุหมายเลขงาน!");
+                isValid = false;
+            }
+            return isValid;
         }
 
         public ActionResult ManageAssetMap()//แผนที่
@@ -561,6 +573,159 @@ namespace AppraisalSystem.Controllers
         }
 
         #region Setting Page
+        public void setManageDetail(string id, string manageType)
+        {
+            TempData["UserID"] = ContentHelpers.Decode(Session["UserID"].ToString());
+            TempData["AssetID"] = string.IsNullOrEmpty(id) ? "" : ContentHelpers.Decode(id);
+            TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "i" : ContentHelpers.Decode(manageType);
+        }
+
+        public void setFilterAssetDetail()
+        {
+            setProvince();
+            setAmphur();
+            setDistrict();
+            setFilterAssetType();
+            setFilterAssetmentMethod();
+            setFilterRightOfAccess();
+            setFilterPaintTheTown();
+        }
+
+        public void setAmphur()
+        {
+            ConditionService model = new ConditionService();
+
+            AmphurModel item = new AmphurModel();
+            item.amphur_id = -1;
+            item.amphur_name = "โปรดเลือก";
+
+            List<AmphurModel> modelList = model.GetAmphurLists();
+            modelList.Insert(0, item);
+
+            ViewData["Amphur"] = modelList;
+        }
+
+        public void setDistrict()
+        {
+            ConditionService model = new ConditionService();
+
+            DistrictModel item = new DistrictModel();
+            item.district_id = -1;
+            item.district_name = "โปรดเลือก";
+
+            List<DistrictModel> modelList = model.GetDistrictLists();
+            modelList.Insert(0, item);
+
+            ViewData["District"] = modelList;
+        }
+
+        public void setProvince()
+        {
+            ConditionService model = new ConditionService();
+
+            ProvinceModel item = new ProvinceModel();
+            item.province_id = -1;
+            item.province_name = "โปรดเลือก";
+
+            List<ProvinceModel> modelList = model.GetProvinceLists();
+            modelList.Insert(0, item);
+
+            ViewData["Province"] = modelList;
+        }
+
+        public void setFilterAssetType()
+        {
+            ConditionService model = new ConditionService();
+
+            FilterModel item = new FilterModel();
+            item.filter_type_code = "";
+            item.filter_text = "โปรดเลือก";
+
+
+            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000001").ToList();
+            modelList.Insert(0, item);
+
+            ViewData["AssetType"] = modelList;
+        }
+
+        public void setFilterAssetmentMethod()
+        {
+            ConditionService model = new ConditionService();
+
+            FilterModel item = new FilterModel();
+            item.filter_type_code = "";
+            item.filter_text = "โปรดเลือก";
+
+
+            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000002").ToList();
+            modelList.Insert(0, item);
+
+            ViewData["AssetmentMethod"] = modelList;
+        }
+
+        public void setFilterRightOfAccess()
+        {
+            ConditionService model = new ConditionService();
+
+            FilterModel item = new FilterModel();
+            item.filter_type_code = "";
+            item.filter_text = "โปรดเลือก";
+
+
+            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000003").ToList();
+            modelList.Insert(0, item);
+
+            ViewData["RightOfAccess"] = modelList;
+        }
+
+        public void setFilterPaintTheTown()
+        {
+            ConditionService model = new ConditionService();
+
+            FilterModel item = new FilterModel();
+            item.filter_type_code = "";
+            item.filter_text = "โปรดเลือก";
+
+
+            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000004").ToList();
+            modelList.Insert(0, item);
+
+            ViewData["PaintTheTown"] = modelList;
+        }
+
+        //!!!!
+        public void setManagePage()
+        {
+            string assetManageType = TempData["AssetManageType"] != null ? TempData["AssetManageType"].ToString() : "";
+            switch (assetManageType)
+            {
+                case "i":
+
+                    break;
+                case "e":
+
+                    break;
+                case "v":
+                    TempData["readOnly"] = ",@readonly='true'";
+
+                    break;
+            }
+        }
+
+        protected void setAlert(DataInfo.AlertStatusId status, string insertMsg, string editMsg)
+        {
+            string assetManageType = TempData["AssetManageType"] != null ? TempData["AssetManageType"].ToString() : "";
+            switch (assetManageType)
+            {
+                case "i":
+                    TempData["alert"] = ContentHelpers.getAlertBox(status, insertMsg);
+                    break;
+                case "e":
+                    TempData["alert"] = ContentHelpers.getAlertBox(status, editMsg);
+                    break;
+            }
+        }
+
         public void setAssetDoc()
         {
             ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
