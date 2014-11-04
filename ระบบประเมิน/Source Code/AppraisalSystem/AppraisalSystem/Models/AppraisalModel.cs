@@ -1225,7 +1225,7 @@ namespace AppraisalSystem.Models
 
                     tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.GET_APPRAISAL_DETAIL, conn))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_APPRAISAL_DETAIL, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
