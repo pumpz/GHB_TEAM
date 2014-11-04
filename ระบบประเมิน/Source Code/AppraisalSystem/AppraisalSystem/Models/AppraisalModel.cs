@@ -451,7 +451,7 @@ namespace AppraisalSystem.Models
 
         #region Select
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<AppraisalListsModel> GetAppraisalLists(string appraisalCode, int provinceId, int amphurId, string createBy, bool viewOnly)
+        public List<AppraisalListsModel> GetAppraisalLists(string appraisalCode, int districtId, int amphurId, string createBy, bool viewOnly)
         {
             MySqlConnection conn = null;
             List<AppraisalListsModel> result = null;
@@ -473,9 +473,9 @@ namespace AppraisalSystem.Models
                             condition += string.Format(" AND APPRAISAL_ASSETS_CODE LIKE '%{0}%'", appraisalCode);
                         }
 
-                        if (provinceId > 0)
+                        if (districtId > 0)
                         {
-                            condition += string.Format(" AND PROVINCE_ID = {0}", provinceId);
+                            condition += string.Format(" AND DISTRICT_ID = {0}", districtId);
                         }
 
                         if (amphurId > 0)
@@ -1161,7 +1161,7 @@ namespace AppraisalSystem.Models
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.Add("p_appraisal_asset_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
+                        cmd.Parameters.Add("p_appraisal_assets_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
                         cmd.Parameters.Add("p_village", MySqlDbType.VarChar).Value = appraisalJob.village;
                         cmd.Parameters.Add("p_alley", MySqlDbType.VarChar).Value = appraisalJob.alley;
                         cmd.Parameters.Add("p_road", MySqlDbType.VarChar).Value = appraisalJob.road;
@@ -1229,7 +1229,7 @@ namespace AppraisalSystem.Models
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.Add("p_appraisal_asset_id", MySqlDbType.Int32).Value = appraisalDetail.appraisal_assets_id;
+                        cmd.Parameters.Add("p_appraisal_assets_id", MySqlDbType.Int32).Value = appraisalDetail.appraisal_assets_id;
                         cmd.Parameters.Add("p_type_of_document_id", MySqlDbType.VarChar).Value = appraisalDetail.type_of_document_id;
                         cmd.Parameters.Add("p_certificate_of_ownership", MySqlDbType.VarChar).Value = appraisalDetail.certificate_of_ownership;
                         cmd.Parameters.Add("p_parcel_number", MySqlDbType.VarChar).Value = appraisalDetail.parcel_number;

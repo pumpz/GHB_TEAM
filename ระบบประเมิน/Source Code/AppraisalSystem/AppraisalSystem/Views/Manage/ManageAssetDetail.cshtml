@@ -10,9 +10,10 @@
 @using (Html.BeginForm())
 {
     <div class="col-md-8">
+        @ViewData["alert"] @TempData["AssetManageType"] @AppraisalSystem.Utility.ContentHelpers.Encode("i") @AppraisalSystem.Utility.ContentHelpers.Encode("e") @AppraisalSystem.Utility.ContentHelpers.Encode("1")
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBoxFor(m => m.appraisal_assets_code, new { @class = "form-control ui-wizard-content"})
         </div>
          <div class="form-group">
             <label class="textbox-inline">
@@ -63,9 +64,15 @@
             @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["PaintTheTown"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control" })
         </div>
          <div class="form-group">
+         @if (TempData["AssetManageType"] == null || TempData["AssetManageType"] == "")
+         {
             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
+         }
+         else
+         {
+             <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
+         }   
+         <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
         </div>
         
     </div>
