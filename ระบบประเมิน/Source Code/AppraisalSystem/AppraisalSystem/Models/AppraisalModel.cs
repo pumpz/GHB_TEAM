@@ -1092,7 +1092,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))

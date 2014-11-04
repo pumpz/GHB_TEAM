@@ -20,6 +20,14 @@
             <label>รูปเอกสารสิทธิ์</label>
             <input type="file" name="MultipleFiles">
         </div>
+             
+             if (Model[i].image_path != null && Model[i].image_path != "")
+             {
+            <div class="form-group">   
+             <img src= "@Url.Content(Model[i].image_path)" alt="Image" width="200px"/>
+              <!--img src= "@Url.Content("~/Images/Document/1/Koala.jpg")" alt="Image"  width="200px" /-->
+            </div>
+             }
         <div class="form-group">
             <label>คำอธิบายรูปภาพ</label>
              @Html.TextAreaFor(model => Model[i].description, new { @class = "form-control" })
