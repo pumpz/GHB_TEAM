@@ -1161,7 +1161,7 @@ namespace AppraisalSystem.Models
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.Add("p_appraisal_assets_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
+                        cmd.Parameters.Add("p_appraisal_asset_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
                         cmd.Parameters.Add("p_village", MySqlDbType.VarChar).Value = appraisalJob.village;
                         cmd.Parameters.Add("p_alley", MySqlDbType.VarChar).Value = appraisalJob.alley;
                         cmd.Parameters.Add("p_road", MySqlDbType.VarChar).Value = appraisalJob.road;

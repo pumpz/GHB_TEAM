@@ -650,7 +650,7 @@ DELIMITER $$
         OUT oAppraisalDetailID INT
     )
 BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `ASSETS_DETAIL_ID` END
+	SELECT `ASSETS_DETAIL_ID`
 		INTO oAppraisalDetailID
 	      FROM `appraisal_assets_detail`
 	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `status` = 1
@@ -681,7 +681,7 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_assets_id,
+			p_appraisal_asset_id,
 			p_type_of_document_id,
 			p_certificate_of_ownership,
 			p_parcel_number,
@@ -760,7 +760,7 @@ BEGIN
 		CASE WHEN `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_asset_code) THEN NULL ELSE `APPRAISAL_ASSETS_ID` END
 		INTO oMessage, oAppraisalID
 	      FROM `appraisal_assets_job`
-	      WHERE APPRAISAL_ASSETS_CODE = TRIM(p_appraisal_assets_code) and `status` = 1
+	      WHERE `status` = 1
 	     LIMIT 1; -- you better protect yourself from duplicates
 	IF(ISNULL(oAppraisalID)) THEN
 		INSERT INTO appraisal_assets_job
@@ -792,7 +792,6 @@ BEGIN
 			p_asset_type_id, 
 			p_assessment_mthods_id, 
 			p_rights_of_access_id, 
-			p_district_id,
 			p_paint_the_town_id,
 			p_mng_by
 		) ; 
@@ -846,10 +845,10 @@ DELIMITER $$
 	out oCompareAssetID int
     )
 BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `COMPARE_ASSETS_ID` END
+	SELECT `COMPARE_ASSETS_ID`
 		INTO oCompareAssetID
 	      FROM `compare_assets`
-	      WHERE `SEQUENCE` = p_squence AND `STATUS` = 1 
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `SEQUENCE` = p_squence AND `STATUS` = 1 
 	     LIMIT 1; -- you better protect yourself from duplicates
 	if(isnull(oCompareAssetID)) THEN
 		INSERT INTO `compare_assets`
@@ -943,10 +942,10 @@ DELIMITER $$
 	out oAssetsLocationID int
     )
 BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `ASSETS_LOCATION_ID` END
+	SELECT `ASSETS_LOCATION_ID` 
 		INTO oAssetsLocationID
 	      FROM `location_assets`
-	      WHERE `STATUS` = 1 
+	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `STATUS` = 1 
 	     LIMIT 1; -- you better protect yourself from duplicates
 	if(isnull(oAssetsLocationID)) THEN
 		INSERT INTO `location_assets`
@@ -976,7 +975,7 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_assets_id,
+			p_appraisal_asset_id,
 			p_no_building,
 			p_building_type_id,
 			p_floor,
@@ -1057,7 +1056,7 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_id, 
+			p_appraisal_asset_id, 
 			p_latitude, 
 			p_longitude, 
 			p_mng_by
@@ -1120,7 +1119,7 @@ DELIMITER $$
         OUT oImageAssetID int
     )
 BEGIN
-	SELECT CASE WHEN `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id THEN NULL ELSE `IMAGE_ASSETS_ID` END
+	SELECT `IMAGE_ASSETS_ID`
 		INTO oImageAssetID
 	      FROM IMAGE_ASSETS
 	      WHERE `APPRAISAL_ASSETS_ID` = p_appraisal_asset_id AND `SEQUENCE` = p_sequence AND `status` = 1
@@ -1139,7 +1138,7 @@ BEGIN
 		)
 		VALUES 
 		( 
-			p_appraisal_assets_id, 
+			p_appraisal_asset_id, 
 			p_upload_type_id, 
 			p_image_path, 
 			p_file_name, 
@@ -1158,7 +1157,7 @@ BEGIN
 			NOTE = p_note,
 			UPDATE_DATE = CURRENT_TIMESTAMP,
 			UPDATE_BY = p_mng_by
-		WHERE APPRAISAL_ASSETS_ID = p_appraisal_assets_id 
+		WHERE APPRAISAL_ASSETS_ID = p_appraisal_asset_id 
 			AND UPLOAD_TYPE_ID = p_upload_type_id 
 			AND SEQUENCE = p_sequence;
 	END IF;
