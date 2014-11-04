@@ -90,5 +90,12 @@ namespace AppraisalSystem.Controllers
             }
             return RedirectToAction("LogOn", "Account");
         }
+
+        public ActionResult SessionLogOff(string userName)
+        {
+            if (FormsService == null) { FormsService = new FormsAuthenticationService(); }
+            FormsService.SignOut(userName);
+            return RedirectToAction("LogOn", "Account");
+        }
     }
 }

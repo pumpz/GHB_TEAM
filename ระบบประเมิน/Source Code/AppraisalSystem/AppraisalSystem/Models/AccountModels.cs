@@ -875,7 +875,7 @@ namespace AppraisalSystem.Models
 
         public void SignOut(string userName)
         {
-            FormsAuthentication.SignOut();
+            //FormsAuthentication.SignOut();
             IMembershipService MembershipService = new AccountMembershipService();
             if (!MembershipService.LogOut(userName))
             {

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using AppraisalSystem.Utility;
 using AppraisalSystem.Models;
+using AppraisalSystem.Controllers;
 
 namespace AppraisalSystem
 {
@@ -14,8 +15,6 @@ namespace AppraisalSystem
 
     public class MvcApplication : System.Web.HttpApplication
     {
-        public IFormsAuthenticationService FormsService { get; set; }
-
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
@@ -52,8 +51,13 @@ namespace AppraisalSystem
         {
             System.Diagnostics.Debug.WriteLine("Session_End");
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            FormsService.SignOut(userName);
+            if (!string.IsNullOrEmpty(userName))
+            {
+                AccountController accountControl = new AccountController();
+                accountControl.SessionLogOff(userName);
+            }
             Session.Abandon();
+            Session.Clear();
         }
     }
 }

@@ -16,7 +16,7 @@ namespace AppraisalSystem.Models
     {
         public string filter_type_code { set; get; }
         public string filter_type_name { set; get; }
-        public string filter_value { set; get; }
+        public int filter_value { set; get; }
         public string filter_text { set; get; }
         public string status { set; get; }
     }
@@ -65,12 +65,6 @@ namespace AppraisalSystem.Models
         /// GetFilterLists
         /// </detail>
         /// <returns>List<FilterModel></returns>
-        List<FilterModel> GetFilterLists();
-
-        /// <detail>
-        /// GetFilterLists
-        /// </detail>
-        /// <returns>List<FilterModel></returns>
         List<FilterModel> GetFilterLists(string filterType);
 
         /// <detail>
@@ -101,59 +95,6 @@ namespace AppraisalSystem.Models
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<FilterModel> GetFilterLists()
-        {
-            MySqlConnection conn = null;
-            List<FilterModel> filterList = null;
-            try
-            {
-                using (conn = new MySqlConnection(GetConnectionString()))
-                {
-                    if (conn.State == ConnectionState.Closed)
-                    {
-                        conn.Open();
-                    }
-
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_FILTER, conn))
-                    {
-                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
-                        {
-                            if (dr.HasRows)
-                            {
-                                filterList = new List<FilterModel>();
-                                while (dr.Read())
-                                {
-                                    FilterModel FilterItem = new FilterModel();
-                                    FilterItem.filter_type_code = dr["filter_type_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_code"]);
-                                    FilterItem.filter_type_name = dr["filter_type_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_name"]);
-                                    FilterItem.filter_value = dr["filter_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_value"]);
-                                    FilterItem.filter_text = dr["filter_text"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_text"]);
-
-                                    filterList.Add(FilterItem);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            catch (MySqlException ms)
-            {
-                throw new Exception("MySqlException: " + ms.Message);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            finally
-            {
-                conn.Close();
-                conn.Dispose();
-            }
-
-            return filterList;
-        }
-
-        [DataObjectMethod(DataObjectMethodType.Select)]
         public List<FilterModel> GetFilterLists(string filterType)
         {
             MySqlConnection conn = null;
@@ -180,12 +121,17 @@ namespace AppraisalSystem.Models
                             if (dr.HasRows)
                             {
                                 filterList = new List<FilterModel>();
+                                FilterModel IndexFilterItem = new FilterModel();
+                                IndexFilterItem.filter_value = 0;
+                                IndexFilterItem.filter_text = "โปรดเลือก";
+
+                                filterList.Add(IndexFilterItem);
                                 while (dr.Read())
                                 {
                                     FilterModel FilterItem = new FilterModel();
                                     FilterItem.filter_type_code = dr["filter_type_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_code"]);
                                     FilterItem.filter_type_name = dr["filter_type_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_type_name"]);
-                                    FilterItem.filter_value = dr["filter_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_value"]);
+                                    FilterItem.filter_value = dr["filter_value"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["filter_value"]);
                                     FilterItem.filter_text = dr["filter_text"] == System.DBNull.Value ? "" : Convert.ToString(dr["filter_text"]);
 
                                     filterList.Add(FilterItem);
@@ -233,6 +179,11 @@ namespace AppraisalSystem.Models
                             if (dr.HasRows)
                             {
                                 provinceList = new List<ProvinceModel>();
+                                ProvinceModel IndexProvinceItem = new ProvinceModel();
+                                IndexProvinceItem.province_id = 0;
+                                IndexProvinceItem.province_name = "โปรดเลือก";
+
+                                provinceList.Add(IndexProvinceItem);
                                 while (dr.Read())
                                 {
                                     ProvinceModel ProvinceItem = new ProvinceModel();
@@ -285,6 +236,11 @@ namespace AppraisalSystem.Models
                             if (dr.HasRows)
                             {
                                 amphurList = new List<AmphurModel>();
+                                AmphurModel IndexAmphurItem = new AmphurModel();
+                                IndexAmphurItem.amphur_id = 0;
+                                IndexAmphurItem.amphur_name = "โปรดเลือก";
+
+                                amphurList.Add(IndexAmphurItem);
                                 while (dr.Read())
                                 {
                                     AmphurModel AmphurItem = new AmphurModel();
@@ -338,6 +294,11 @@ namespace AppraisalSystem.Models
                             if (dr.HasRows)
                             {
                                 districtList = new List<DistrictModel>();
+                                DistrictModel IndexDistrictItem = new DistrictModel();
+                                IndexDistrictItem.district_id = 0;
+                                IndexDistrictItem.district_name = "โปรดเลือก";
+
+                                districtList.Add(IndexDistrictItem);
                                 while (dr.Read())
                                 {
                                     DistrictModel DistrictItem = new DistrictModel();

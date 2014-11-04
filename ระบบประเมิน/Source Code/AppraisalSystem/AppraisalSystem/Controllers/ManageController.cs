@@ -20,6 +20,7 @@ namespace AppraisalSystem.Controllers
         protected override void Initialize(RequestContext requestContext)
         {
             if (AppraisalService == null) { AppraisalService = new AppraisalService(); }
+            if (ConditionService == null) { ConditionService = new ConditionService(); }
 
             base.Initialize(requestContext);
         }
@@ -102,13 +103,11 @@ namespace AppraisalSystem.Controllers
         public ActionResult ManageAssetDoc(string id)//เอกสารสิทธิ์
         {
             AppraisalDetailModel model = new AppraisalDetailModel();
+            model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
-                ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
-                ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
-                ViewData["PROVINCE"] = ConditionService.GetProvinceLists();
-                ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
-                ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
+                setAssetDoc();
 
                 if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
                 {
@@ -118,6 +117,10 @@ namespace AppraisalSystem.Controllers
                         model = modelList[0];
                     }
                 }
+            }
+            catch (ArgumentException ae)
+            {
+                ModelState.AddModelError(String.Empty, ae.Message);
             }
             catch (Exception e)
             {
@@ -131,13 +134,11 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageAssetDoc(AppraisalDetailModel model)//เอกสารสิทธิ์
         {
-            ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
-            ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
-            ViewData["PROVINCE"] = ConditionService.GetProvinceLists();
-            ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
-            ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
+            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
+                setAssetDoc();
+
                 if (ModelState.IsValid)
                 {
                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -156,12 +157,17 @@ namespace AppraisalSystem.Controllers
                     }
                 }
             }
+            catch (ArgumentException ae)
+            {
+                ModelState.AddModelError(String.Empty, ae.Message);
+            }
             catch (Exception e)
             {
                 ModelState.AddModelError(String.Empty, e.Message);
             }
             return View(model);
         }
+
         public ActionResult ManageAssetDocPic()//รูปเอกสารสิทธิ์
         {
             // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -247,6 +253,7 @@ namespace AppraisalSystem.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult ManageAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปทรัพย์สิน
         {
@@ -278,11 +285,13 @@ namespace AppraisalSystem.Controllers
             } 
             return View();
         }
+
         public ActionResult ManageCompareAssetPic()//รูปข้อมูลเทียบ
         {
             return View();
         }
-          [HttpPost]
+
+        [HttpPost]
         public ActionResult ManageCompareAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปข้อมูลเทียบ
         {
             model.appraisal_assets_id = 1;
@@ -312,22 +321,18 @@ namespace AppraisalSystem.Controllers
 
             } 
             return View();
-        }
+          }
 
           [Permission]
           public ActionResult ManageMaterial(string id)//สิ่งปลูกสร้าง
           {
               LocationAssetModel model = new LocationAssetModel();
+              model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
-                  ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
-                  ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
-                  ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
-                  ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
-                  ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
-                  ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
-                  ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
-
+                  setMaterial();
+                  
                   if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
                   {
                       List<LocationAssetModel> modelList = AppraisalService.GetLocationAsset(0, Convert.ToInt32(id), "");
@@ -336,6 +341,10 @@ namespace AppraisalSystem.Controllers
                           model = modelList[0];
                       }
                   }
+              }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
               }
               catch (Exception e)
               {
@@ -348,15 +357,10 @@ namespace AppraisalSystem.Controllers
           [Permission]
           public ActionResult ManageMaterial(LocationAssetModel model)//สิ่งปลูกสร้าง
           {
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
-                  ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
-                  ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
-                  ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
-                  ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
-                  ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
-                  ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
-                  ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
+                  setMaterial();
 
                   if (ModelState.IsValid)
                   {
@@ -376,6 +380,10 @@ namespace AppraisalSystem.Controllers
                       }
                   }
               }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
+              }
               catch (Exception e)
               {
                   ModelState.AddModelError(String.Empty, e.Message);
@@ -386,21 +394,34 @@ namespace AppraisalSystem.Controllers
           [Permission]
           public ActionResult ManageCompareAsset(string id)//ตารางเปรียบเทียบ
           {
-              List<CompareAssetModel> modelList = new List<CompareAssetModel>();
+              List<CompareAssetModel> modelList = null;
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
-                  ViewData["SHAPE_INFORMATION"] = ConditionService.GetFilterLists("SHAPE_INFORMATION");
-                  ViewData["ENVIRONMENT"] = ConditionService.GetFilterLists("ENVIRONMENT");
-                  ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
-                  ViewData["CHARACTERISTICS_ACCESS"] = ConditionService.GetFilterLists("CHARACTERISTICS_ACCESS");
-                  ViewData["PUBLIC_UTILITY"] = ConditionService.GetFilterLists("PUBLIC_UTILITY");
-                  ViewData["ISCONDITION"] = ConditionService.GetFilterLists("ISCONDITION");
-                  ViewData["LEVEL"] = ConditionService.GetFilterLists("LEVEL");
+                  setCompareAsset();
 
                   if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
                   {
                       modelList = AppraisalService.GetCompareAsset(0, Convert.ToInt32(id), "");
                   }
+                  else
+                  {
+                      if (modelList == null)
+                      {
+                          modelList = new List<CompareAssetModel>();
+                          for (int i = 1; i < 5; i++)
+                          {
+                              CompareAssetModel compare = new CompareAssetModel();
+                              compare.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+                              compare.sequence = i;
+                              modelList.Add(compare);
+                          }
+                      }
+                  }
+              }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
               }
               catch (Exception e)
               {
@@ -411,26 +432,22 @@ namespace AppraisalSystem.Controllers
 
           [HttpPost]
           [Permission]
-          public ActionResult ManageCompareAsset(IEnumerable<CompareAssetModel> modelList)//ตารางเปรียบเทียบ
+          public ActionResult ManageCompareAsset(List<CompareAssetModel> modelList)//ตารางเปรียบเทียบ
           {
-              List<CompareAssetModel> compareAassetList = new List<CompareAssetModel>();
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
-                  ViewData["SHAPE_INFORMATION"] = ConditionService.GetFilterLists("SHAPE_INFORMATION");
-                  ViewData["ENVIRONMENT"] = ConditionService.GetFilterLists("ENVIRONMENT");
-                  ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
-                  ViewData["CHARACTERISTICS_ACCESS"] = ConditionService.GetFilterLists("CHARACTERISTICS_ACCESS");
-                  ViewData["PUBLIC_UTILITY"] = ConditionService.GetFilterLists("PUBLIC_UTILITY");
-                  ViewData["ISCONDITION"] = ConditionService.GetFilterLists("ISCONDITION");
-                  ViewData["LEVEL"] = ConditionService.GetFilterLists("LEVEL");
+                  setCompareAsset();
 
                   if (ModelState.IsValid)
                   {
                       string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
                       bool process = false;
                       int appraisalAssetId = 0;
+                      int i = 0;
                       foreach (var model in modelList)
                       {
+                          model.sequence = i++;
                           appraisalAssetId = model.appraisal_assets_id;
                           process = AppraisalService.MngCompareAsset(model, userName);
                       }
@@ -439,7 +456,7 @@ namespace AppraisalSystem.Controllers
                       {
                           if (appraisalAssetId > 0)
                           {
-                              compareAassetList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
+                              modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
                           }
                       }
                       else
@@ -448,23 +465,46 @@ namespace AppraisalSystem.Controllers
                       }
                   }
               }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
+              }
               catch (Exception e)
               {
                   ModelState.AddModelError(String.Empty, e.Message);
               }
-              return View(compareAassetList);
+              return View(modelList);
           }
 
           [Permission]
           public ActionResult ManageOtherDetail(string id)//รายละเอียดเพิ่มเติม
           {
-              List<CompareDescriptionModel> modelList = new List<CompareDescriptionModel>();
+              List<CompareDescriptionModel> modelList = null;
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
                   if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
                   {
                       modelList = AppraisalService.GetCompareDescription(0, Convert.ToInt32(id), "");
                   }
+                  else
+                  {
+                      if (modelList == null)
+                      {
+                          modelList = new List<CompareDescriptionModel>();
+                          for (int i = 1; i < 5; i++)
+                          {
+                              CompareDescriptionModel compareDesc = new CompareDescriptionModel();
+                              compareDesc.appraisal_assets_id = Convert.ToInt32(TempData["APPRAISAL_ASSETS_ID"]);
+                              compareDesc.sequence = i;
+                              modelList.Add(compareDesc);
+                          }
+                      }
+                  }
+              }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
               }
               catch (Exception e)
               {
@@ -475,9 +515,9 @@ namespace AppraisalSystem.Controllers
 
           [HttpPost]
           [Permission]
-          public ActionResult ManageOtherDetail(IEnumerable<CompareDescriptionModel> modelList)//รายละเอียดเพิ่มเติม
+          public ActionResult ManageOtherDetail(List<CompareDescriptionModel> modelList)//รายละเอียดเพิ่มเติม
           {
-              List<CompareDescriptionModel> compareAassetList = new List<CompareDescriptionModel>();
+              TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
                   if (ModelState.IsValid)
@@ -495,7 +535,7 @@ namespace AppraisalSystem.Controllers
                       {
                           if (appraisalAssetId > 0)
                           {
-                              compareAassetList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
+                              modelList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
                           }
                       }
                       else
@@ -504,11 +544,15 @@ namespace AppraisalSystem.Controllers
                       }
                   }
               }
+              catch (ArgumentException ae)
+              {
+                  ModelState.AddModelError(String.Empty, ae.Message);
+              }
               catch (Exception e)
               {
                   ModelState.AddModelError(String.Empty, e.Message);
               }
-              return View(compareAassetList);
+              return View(modelList);
           }
 
         public ActionResult ManagePrice()//สรุปราคา
@@ -516,117 +560,50 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        #region Setting Page
+        public void setAssetDoc()
+        {
+            ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");
+            ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
+            ViewData["ISCONDITION"] = ConditionService.GetFilterLists("ISCONDITION");
+            ViewData["PROVINCE"] = ConditionService.GetProvinceLists();
+            ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
+            ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
+        }
+
+        public void setMaterial()
+        {
+            ViewData["BUILDING_TYPE"] = ConditionService.GetFilterLists("BUILDING_TYPE");
+            ViewData["CONDITION_BUILDING"] = ConditionService.GetFilterLists("CONDITION_BUILDING");
+            ViewData["STRUCTURE"] = ConditionService.GetFilterLists("STRUCTURE");
+            ViewData["MATERIALS"] = ConditionService.GetFilterLists("MATERIALS");
+            ViewData["CEILING"] = ConditionService.GetFilterLists("CEILING");
+            ViewData["EX-INTERIOR_WALLS"] = ConditionService.GetFilterLists("EX-INTERIOR_WALLS");
+            ViewData["STAIR"] = ConditionService.GetFilterLists("STAIR");
+        }
+
+        public void setCompareAsset()
+        {
+            ViewData["SHAPE_INFORMATION"] = ConditionService.GetFilterLists("SHAPE_INFORMATION");
+            ViewData["ENVIRONMENT"] = ConditionService.GetFilterLists("ENVIRONMENT");
+            ViewData["CONDITION_LAND"] = ConditionService.GetFilterLists("CONDITION_LAND");
+            ViewData["CHARACTERISTICS_ACCESS"] = ConditionService.GetFilterLists("CHARACTERISTICS_ACCESS");
+            ViewData["PUBLIC_UTILITY"] = ConditionService.GetFilterLists("PUBLIC_UTILITY");
+            ViewData["ISCONDITION"] = ConditionService.GetFilterLists("ISCONDITION");
+            ViewData["LEVEL"] = ConditionService.GetFilterLists("LEVEL");
+        }
+
         public void setAssetDetail() 
         {
-            setProvince();
-            setAmphur();
-            setDistrict();
-            setFilterAssetType();
-            setFilterAssetmentMethod();
-            setFilterRightOfAccess();
-            setFilterPaintTheTown();
+            ViewData["Province"] = ConditionService.GetProvinceLists();
+            ViewData["Amphur"] = ConditionService.GetAmphurLists();
+            ViewData["District"] = ConditionService.GetDistrictLists();
+            ViewData["AssetType"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000001").ToList();
+            ViewData["AssetmentMethod"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000002").ToList();
+            ViewData["RightOfAccess"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000003").ToList();
+            ViewData["PaintTheTown"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000004").ToList();
         }
 
-        public void setAmphur() 
-        {
-            ConditionService model = new ConditionService();
-
-            AmphurModel item = new AmphurModel();
-            item.amphur_id = -1;
-            item.amphur_name = "โปรดเลือก";
-
-            List<AmphurModel> modelList = model.GetAmphurLists();
-            modelList.Insert(0, item);
-
-            ViewData["Amphur"] = modelList;
-        }
-
-        public void setDistrict()
-        {
-            ConditionService model = new ConditionService();
-
-            DistrictModel item = new DistrictModel();
-            item.district_id = -1;
-            item.district_name = "โปรดเลือก";
-
-            List<DistrictModel> modelList = model.GetDistrictLists();
-            modelList.Insert(0, item);
-
-            ViewData["District"] = modelList;
-        }
-
-        public void setProvince()
-        {
-            ConditionService model = new ConditionService();
-
-            ProvinceModel item = new ProvinceModel();
-            item.province_id = -1;
-            item.province_name = "โปรดเลือก";
-
-            List<ProvinceModel> modelList = model.GetProvinceLists();
-            modelList.Insert(0, item);
-
-            ViewData["Province"] = modelList;
-        }
-
-        public void setFilterAssetType()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-            
-            List<FilterModel> modelList = model.GetFilterLists().Where(a=>a.filter_type_code == "000001").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["AssetType"] = modelList;
-        }
-
-        public void setFilterAssetmentMethod()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists().Where(a => a.filter_type_code == "000002").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["AssetmentMethod"] = modelList;
-        }
-
-        public void setFilterRightOfAccess()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists().Where(a => a.filter_type_code == "000003").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["RightOfAccess"] = modelList;
-        }
-
-        public void setFilterPaintTheTown()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists().Where(a => a.filter_type_code == "000004").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["PaintTheTown"] = modelList;
-        }
+        #endregion
     }
 }
