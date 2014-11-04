@@ -26,10 +26,9 @@ namespace AppraisalSystem.Controllers
         //
         // GET: /Manage/
 
-        public ActionResult ManageAssetDetail(string id, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail()//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            setFilterAssetDetail(); //ระบุ filter ในหน้า View
-            setManageDetail(id,manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
+            setAssetDetail();
 
             return View();
         }
@@ -41,16 +40,16 @@ namespace AppraisalSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (isFilterAssetDetail(model))
+                    string userName = "system";
+                    Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
+                    if (Convert.ToBoolean(process["Status"]))
                     {
-                        string userName = TempData["UserID"].ToString();
-                        Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
-
-                        if (Convert.ToBoolean(process["Status"]))
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "งานใหม่ถูกเพิ่มเรียบร้อยแล้ว!", "งานถูกแก้ไขเรียบร้อยแล้ว!");
-                        else
-                            setAlert(DataInfo.AlertStatusId.ERROR, "การเพิ่มงานใหม่ไม่สำเร็จ!", "การแก้ไขงานไม่สำเร็จ!");
-
+                        Response.Write("<script>alert('complete+');</script>");
+                        return View();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", Convert.ToString("Insert detail not success."));
                     }
                 }
             }
@@ -59,20 +58,9 @@ namespace AppraisalSystem.Controllers
                 ModelState.AddModelError(String.Empty, e.Message);
             }
 
-            setFilterAssetDetail();
+            setAssetDetail();
 
             return View();
-        }
-
-        protected bool isFilterAssetDetail(AppraisalJobModel model) 
-        {
-            bool isValid = true;
-            if (string.IsNullOrEmpty(model.appraisal_assets_code))
-            {
-                ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "กรุณาระบุหมายเลขงาน!");
-                isValid = false;
-            }
-            return isValid;
         }
 
         public ActionResult ManageAssetMap()//แผนที่
@@ -528,14 +516,7 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
-        public void setManageDetail(string id, string manageType) 
-        {
-            TempData["UserID"] = ContentHelpers.Decode(Session["UserID"].ToString());
-            TempData["AssetID"] = string.IsNullOrEmpty(id)?"":ContentHelpers.Decode(id);
-            TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "i" : ContentHelpers.Decode(manageType);
-        }
-
-        public void setFilterAssetDetail() 
+        public void setAssetDetail() 
         {
             setProvince();
             setAmphur();
@@ -646,39 +627,6 @@ namespace AppraisalSystem.Controllers
             modelList.Insert(0, item);
 
             ViewData["PaintTheTown"] = modelList;
-        }
-
-        //!!!!
-        public void setManagePage() 
-        {
-            string assetManageType = TempData["AssetManageType"] != null ? TempData["AssetManageType"].ToString() : "";
-            switch (assetManageType)
-            {
-                case "i":
-                    
-                    break;
-                case "e":
-                    
-                    break;
-                case "v":
-                    TempData["readOnly"] = ",@readonly='true'";
-
-                    break;
-            }
-        }
-
-        protected void setAlert(DataInfo.AlertStatusId status,string insertMsg,string editMsg) 
-        {
-            string assetManageType = TempData["AssetManageType"] != null?TempData["AssetManageType"].ToString():"";
-            switch (assetManageType)
-            {
-                case "i" :
-                    ViewData["alert"] = ContentHelpers.getAlertBox(status, insertMsg);
-                    break;
-                case "e":
-                    ViewData["alert"] = ContentHelpers.getAlertBox(status, editMsg);
-                    break;
-            }
         }
     }
 }

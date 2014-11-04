@@ -48,7 +48,7 @@ namespace AppraisalSystem.Controllers
                     Hashtable process = MembershipService.ValidateUser(model.UserName, model.Password);
                     if (Convert.ToBoolean(process["Status"]))
                     {
-                        FormsService.SignIn(model.UserName, process["userId"].ToString(), model.RememberMe);
+                        FormsService.SignIn(model.UserName, model.RememberMe);
                         switch (Convert.ToString(process["RoleCode"]))
                         {
                             case "ADMIN":

@@ -27,8 +27,8 @@ namespace AppraisalSystem
 
             routes.MapRoute(
                 "Default", // Route name
-                "{controller}/{action}/{id}/{manageType}", // URL with parameters
-                new { controller = "Account", action = "LogOn", id = UrlParameter.Optional, manageType = UrlParameter.Optional } // Parameter defaults
+                "{controller}/{action}/{id}", // URL with parameters
+                new { controller = "Account", action = "LogOn", id = UrlParameter.Optional } // Parameter defaults
             );
 
         }

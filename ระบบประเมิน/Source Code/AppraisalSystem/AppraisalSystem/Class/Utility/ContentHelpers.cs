@@ -254,7 +254,7 @@ namespace AppraisalSystem.Utility
         /********************************** NOTIFICATION HELPERS ***********************************/
 
         //Get alert box 
-        public static string getAlertBox(DataInfo.AlertStatusId msgType, string msg)
+        public static string getAlertBox(int msgType, string msg)
         {
             string alertBox = string.Empty;
             string classAlert = string.Empty;
@@ -265,13 +265,22 @@ namespace AppraisalSystem.Utility
 
             switch (msgType)
             {
-                case DataInfo.AlertStatusId.COMPLETE : classAlert = "alert alert-success";
+                case 0: classAlert = "alert alert-block alert-info fade in";
+                    textHeading = "Info";
                     break;
-                case DataInfo.AlertStatusId.ERROR : classAlert = "alert alert-danger";
+                case 1: classAlert = "alert alert-block alert-error fade in";
+                    textHeading = "Error";
+                    break;
+                case 2: classAlert = "alert alert-block alert-warning fade in";
+                    textHeading = "Warning";
+                    break;
+                case 3: classAlert = "alert alert-block alert-success fade in";
+                    textHeading = "Success";
                     break;
             }
 
             alertBox = "<div class='" + classAlert + "'>";
+            alertBox += "<h4 class='alert-heading'>" + textHeading + "</h4>";
             alertBox += "<p>" + msg + "</p>";
             alertBox += "</div>";
 
