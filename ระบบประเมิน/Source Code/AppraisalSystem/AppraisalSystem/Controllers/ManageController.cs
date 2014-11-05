@@ -29,7 +29,7 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult ManageAssetDetail(string id, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            setFilterAssetDetail(); //ระบุ filter ในหน้า View
+            setAssetDetail(); //ระบุ filter ในหน้า View
             setManageDetail(id, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
 
             return View();
@@ -48,9 +48,9 @@ namespace AppraisalSystem.Controllers
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
                         if (Convert.ToBoolean(process["Status"]))
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "งานใหม่ถูกเพิ่มเรียบร้อยแล้ว!", "งานถูกแก้ไขเรียบร้อยแล้ว!");
+                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                         else
-                            setAlert(DataInfo.AlertStatusId.ERROR, "การเพิ่มงานใหม่ไม่สำเร็จ!", "การแก้ไขงานไม่สำเร็จ!");
+                            setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
 
                     }
                 }
@@ -60,7 +60,7 @@ namespace AppraisalSystem.Controllers
                 ModelState.AddModelError(String.Empty, e.Message);
             }
 
-            setFilterAssetDetail();
+            setAssetDetail();
 
             return View();
         }
@@ -95,11 +95,12 @@ namespace AppraisalSystem.Controllers
                     Boolean process = AppraisalService.MngMapAsset(model, userName);
                     if (Convert.ToBoolean(process))
                     {
+                        setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                         return View();
                     }
                     else
                     {
-                        ModelState.AddModelError("", Convert.ToString("Insert map not success."));
+                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                     }
                 }
             }
@@ -161,11 +162,12 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
+                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                         }
                     }
                     else
                     {
-                        ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                     }
                 }
             }
@@ -199,6 +201,7 @@ namespace AppraisalSystem.Controllers
 
             return View(listImages);
         }
+
         [HttpPost]
         public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles)//รูปเอกสารสิทธิ์
         {
@@ -236,7 +239,7 @@ namespace AppraisalSystem.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ModelState.AddModelError("", ex.Message.ToString());
+                        ModelState.AddModelError(String.Empty, ae.Message);
                     }
                 }
 
@@ -251,11 +254,12 @@ namespace AppraisalSystem.Controllers
             if (Convert.ToBoolean(process))
             {
                 List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 1, userName);
+                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                 return View(listImages);
             }
             else
             {
-                ModelState.AddModelError("", Convert.ToString("Insert Asset image unsuccess."));
+                setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
             }
           
             return View();
@@ -289,7 +293,7 @@ namespace AppraisalSystem.Controllers
                         }
                         catch (Exception ex)
                         {
-                            ModelState.AddModelError("", ex.Message.ToString());
+                            ModelState.AddModelError(String.Empty, ae.Message);
                         }
                     }
                 }
@@ -326,11 +330,10 @@ namespace AppraisalSystem.Controllers
                         }
                         catch (Exception ex)
                         {
-                            ModelState.AddModelError("", ex.Message.ToString());
+                            ModelState.AddModelError(String.Empty, ae.Message);
                         }
                     }
                 }
-
             } 
             return View();
           }
@@ -384,11 +387,12 @@ namespace AppraisalSystem.Controllers
                           if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                           {
                               model = modelList[0];
+                              setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                           }
                       }
                       else
                       {
-                          ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                          setAlert(DataInfo.AlertStatusId.COMPLETE, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                       }
                   }
               }
@@ -469,11 +473,12 @@ namespace AppraisalSystem.Controllers
                           if (appraisalAssetId > 0)
                           {
                               modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
+                              setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                           }
                       }
                       else
                       {
-                          ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                          setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                       }
                   }
               }
@@ -548,11 +553,12 @@ namespace AppraisalSystem.Controllers
                           if (appraisalAssetId > 0)
                           {
                               modelList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
+                              setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                           }
                       }
                       else
                       {
-                          ModelState.AddModelError("MESSAGE", "ไม่สามารถเพิ่มหรือแก้ไขข้อมูลได้ กรุณาตรวจสอบ");
+                          setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                       }
                   }
               }
@@ -578,119 +584,6 @@ namespace AppraisalSystem.Controllers
             TempData["UserID"] = ContentHelpers.Decode(Session["UserID"].ToString());
             TempData["AssetID"] = string.IsNullOrEmpty(id) ? "" : ContentHelpers.Decode(id);
             TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "i" : ContentHelpers.Decode(manageType);
-        }
-
-        public void setFilterAssetDetail()
-        {
-            setProvince();
-            setAmphur();
-            setDistrict();
-            setFilterAssetType();
-            setFilterAssetmentMethod();
-            setFilterRightOfAccess();
-            setFilterPaintTheTown();
-        }
-
-        public void setAmphur()
-        {
-            ConditionService model = new ConditionService();
-
-            AmphurModel item = new AmphurModel();
-            item.amphur_id = -1;
-            item.amphur_name = "โปรดเลือก";
-
-            List<AmphurModel> modelList = model.GetAmphurLists();
-            modelList.Insert(0, item);
-
-            ViewData["Amphur"] = modelList;
-        }
-
-        public void setDistrict()
-        {
-            ConditionService model = new ConditionService();
-
-            DistrictModel item = new DistrictModel();
-            item.district_id = -1;
-            item.district_name = "โปรดเลือก";
-
-            List<DistrictModel> modelList = model.GetDistrictLists();
-            modelList.Insert(0, item);
-
-            ViewData["District"] = modelList;
-        }
-
-        public void setProvince()
-        {
-            ConditionService model = new ConditionService();
-
-            ProvinceModel item = new ProvinceModel();
-            item.province_id = -1;
-            item.province_name = "โปรดเลือก";
-
-            List<ProvinceModel> modelList = model.GetProvinceLists();
-            modelList.Insert(0, item);
-
-            ViewData["Province"] = modelList;
-        }
-
-        public void setFilterAssetType()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000001").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["AssetType"] = modelList;
-        }
-
-        public void setFilterAssetmentMethod()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000002").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["AssetmentMethod"] = modelList;
-        }
-
-        public void setFilterRightOfAccess()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000003").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["RightOfAccess"] = modelList;
-        }
-
-        public void setFilterPaintTheTown()
-        {
-            ConditionService model = new ConditionService();
-
-            FilterModel item = new FilterModel();
-            item.filter_type_code = "";
-            item.filter_text = "โปรดเลือก";
-
-
-            List<FilterModel> modelList = model.GetFilterLists(null).Where(a => a.filter_type_code == "000004").ToList();
-            modelList.Insert(0, item);
-
-            ViewData["PaintTheTown"] = modelList;
         }
 
         //!!!!
@@ -763,10 +656,10 @@ namespace AppraisalSystem.Controllers
             ViewData["Province"] = ConditionService.GetProvinceLists();
             ViewData["Amphur"] = ConditionService.GetAmphurLists();
             ViewData["District"] = ConditionService.GetDistrictLists();
-            ViewData["AssetType"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000001").ToList();
-            ViewData["AssetmentMethod"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000002").ToList();
-            ViewData["RightOfAccess"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000003").ToList();
-            ViewData["PaintTheTown"] = ConditionService.GetFilterLists("").Where(a => a.filter_type_code == "000004").ToList();
+            ViewData["AssetType"] = ConditionService.GetFilterLists("ASSET_TYPE");
+            ViewData["AssetmentMethod"] = ConditionService.GetFilterLists("ASSESSMENT_METHOD");
+            ViewData["RightOfAccess"] = ConditionService.GetFilterLists("RIGHT_OF_ACCESS");
+            ViewData["PaintTheTown"] = ConditionService.GetFilterLists("PAINT_THE_TOWN");
         }
 
         #endregion

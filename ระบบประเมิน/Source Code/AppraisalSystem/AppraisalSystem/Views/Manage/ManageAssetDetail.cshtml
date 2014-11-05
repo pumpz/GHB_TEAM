@@ -10,6 +10,9 @@
 @using (Html.BeginForm())
 {
     <div class="col-md-8">
+    <div class="alert alert-success">
+        Test alert
+    </div>
      @TempData["alert"] @TempData["AssetManageType"] @AppraisalSystem.Utility.ContentHelpers.Encode("i") @AppraisalSystem.Utility.ContentHelpers.Encode("e") @AppraisalSystem.Utility.ContentHelpers.Encode("1")
         <div class="form-group">
             <label>หมายเลขงาน</label>

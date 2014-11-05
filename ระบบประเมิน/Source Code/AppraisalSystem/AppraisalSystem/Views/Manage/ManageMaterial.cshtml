@@ -5,7 +5,24 @@
     ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
 
+    function SizeAreaValue() {
+        var width = parseFloat(document.getElementById("width").value);
+        var high = parseFloat(document.getElementById("high").value);
+
+        document.getElementById("txtCalArea").innerHTML = width * high;
+    }
+
+    function CalMaterialValue() {
+
+        var txtCalArea = parseFloat(document.getElementById("txtCalArea").value);
+        var price_per_meter = parseFloat(document.getElementById("price_per_meter").value);
+        var depreciation = parseFloat(document.getElementById("depreciation").value);
+
+        document.getElementById("txtCalMaterial").innerHTML = (txtCalArea * price_per_meter) - depreciation;
+    };
+</script>
 <div class="panel-heading"><label>สิ่งปลูกสร้าง</label></div>
 <div class="panel-body">
 @using (Html.BeginForm("ManageMaterial", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -229,28 +246,17 @@
             </div>
             <div class="form-group">
                 <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.width, new { @class="form-control ui-wizard-content" })
+                    @Html.TextBoxFor(model => model.width, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
                     @Html.ValidationMessageFor(model => model.width)
                 </label>
                 <label class="textbox-inline">
                     <label>x&nbsp;</label>
                 </label>
                 <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.high, new { @class="form-control ui-wizard-content" })
+                    @Html.TextBoxFor(model => model.high, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
                     @Html.ValidationMessageFor(model => model.high)
                 </label>
              </div>
-             <div class="form-group">
-                <label class="textbox-inline">
-                    <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
-                </label>
-                <label class="textbox-inline">
-                    <label>=&nbsp;</label>
-                </label>
-                <label class="textbox-inline">
-                    @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
-                </label>
-            </div>
         </div>
     </div>
     <div class="col-md-12">
@@ -259,7 +265,7 @@
                 <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
             </label>
             <label class="textbox-inline">พื้นที่ทั้งหมด<br/>
-                 @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+                <label id="txtCalArea" class = "form-control ui-wizard-content" ></label>
             </label>
             <label class="textbox-inline">
                 <label><br/>x&nbsp;</label>
@@ -281,13 +287,13 @@
                 <label style="width:140px;">&nbsp;</label>
             </label>
             <label class="textbox-inline">
-                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" onclick="javascript:CalMaterialValue()" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
             </label>
             <label class="textbox-inline">
                 <label><br/>=&nbsp;</label>
             </label>
             <label class="textbox-inline">
-                @Html.TextBox("txtHomeRoad", "", new { @class = "form-control ui-wizard-content" })
+                @Html.TextBox("txtCalMaterial", "", new { @class = "form-control ui-wizard-content" })
             </label>
         </div>
          <div class="form-group">

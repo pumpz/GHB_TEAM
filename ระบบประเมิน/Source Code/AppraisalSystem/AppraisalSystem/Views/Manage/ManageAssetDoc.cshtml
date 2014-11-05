@@ -5,7 +5,24 @@
     ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<script type="text/javascript">
 
+    function SizeAreaValue() {
+        var rai = parseFloat(document.getElementById("rai_area").value);
+        var ngaan = parseFloat(document.getElementById("ngaan_area").value);
+        var wa = parseFloat(document.getElementById("wa_area").value);
+
+        document.getElementById("total_area").value = (((rai * 4) + ngaan) * 100) + wa;
+    }
+
+    function CalLandValue() {
+        
+        var total = parseFloat(document.getElementById("total_area").value);
+        var cost = parseFloat(document.getElementById("appraisal").value);
+
+        document.getElementById("txtCal").innerHTML = total * cost;
+    };
+</script>
 <div class="panel-heading"><label>เอกสารสิทธิ์</label></div>
 <div class="panel-body">
 @using (Html.BeginForm("ManageAssetDoc", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -51,12 +68,17 @@
             @{
                foreach (var item in ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>)
                {
-                   var isCheck = new Dictionary<string, object>();
                    if (item.filter_value > 0)
                    {
-                       isCheck.Add("checked", "checked");
+                       var isCheck = new Dictionary<string, object>();
+                       if (item.filter_value > 0)
+                       {
+                           isCheck.Add("checked", "checked");
+                           
+                       }
+                       isCheck.Add("style", "margin-left: 5%;");
+		               @Html.RadioButtonFor(model => model.courting_the_burden, item.filter_value, isCheck) @Html.Label(item.filter_text)
                    }
-		           @Html.RadioButtonFor(model => model.courting_the_burden, item.filter_value, isCheck) @Html.Label(item.filter_text)
                }
                @Html.ValidationMessageFor(model => model.courting_the_burden)
             }
@@ -91,13 +113,13 @@
                 <label>&nbsp;<br/><br/>เนื้อที่</label>
             </label>
             <label class="textbox-inline">ไร่<br/>
-                @Html.TextBoxFor(model => model.rai_area, new { @class = "form-control ui-wizard-content" })
+                @Html.TextBoxFor(model => model.rai_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
             </label>
             <label class="textbox-inline">งาน<br/>
-                 @Html.TextBoxFor(model => model.ngaan_area, new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(model => model.ngaan_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
             </label>
             <label class="textbox-inline">วา<br/>
-                 @Html.TextBoxFor(model => model.wa_area, new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(model => model.wa_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
             </label>
         </div>
         <div class="form-group">
@@ -114,13 +136,13 @@
                  @Html.TextBoxFor(model => model.appraisal, new { @class = "form-control ui-wizard-content" })
             </label>
             <label class="textbox-inline"><br/>
-                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
+                <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="คำนวณ" onclick="javascript:CalLandValue()" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
             </label>
             <label class="textbox-inline">
                 <label><br/>=&nbsp;</label>
             </label>
             <label class="textbox-inline"><br/>
-                <label id="txtCal" class = "form-control ui-wizard-content" />
+                <label id="txtCal" class = "form-control ui-wizard-content" style = "width:100px;" />
             </label>
             
         </div>

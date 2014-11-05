@@ -3,7 +3,7 @@
 <head>
     <title>@ViewBag.Title</title>
 
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="@Url.Content("~/Content/font-awesome.min.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/bootstrap_admin.css")" rel="stylesheet" type="text/css" />
     <link href="@Url.Content("~/Content/mint-admin_admin.css")" rel="stylesheet" type="text/css" />
     
@@ -24,7 +24,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="http://themes.grozav.com/mint/index.html">&nbsp;Appraisal System Admin</a>
+                    <a class="navbar-brand" href="@Url.Content("~/Home/Manage")"><i class="fa fa-pagelines"></i>&nbsp;Appraisal System</a>
                 </div>
                 <!-- /.navbar-header -->
 
@@ -112,7 +112,7 @@
         </div>
         <!-- /#wrapper -->
 
-        <!-- Core Scripts - Include with every page -->
+@*        <!-- Core Scripts - Include with every page -->
         <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery-1.js"></script>
         <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/bootstrap.js"></script>
         <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery.js"></script>
@@ -122,7 +122,7 @@
         <!-- Mint Admin Scripts - Include with every page -->
         <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/mint-admin.js"></script>
 
-        <!-- Page-Level Demo Scripts - Forms - Use for reference -->
+        <!-- Page-Level Demo Scripts - Forms - Use for reference -->*@
 
     
 
