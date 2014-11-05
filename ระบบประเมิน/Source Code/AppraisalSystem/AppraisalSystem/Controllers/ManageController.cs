@@ -453,34 +453,31 @@ namespace AppraisalSystem.Controllers
               TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
               try
               {
-                  setCompareAsset();
+                    setCompareAsset();
 
-                  if (ModelState.IsValid)
-                  {
-                      string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                      bool process = false;
-                      int appraisalAssetId = 0;
-                      int i = 0;
-                      foreach (var model in modelList)
-                      {
-                          model.sequence = i++;
-                          appraisalAssetId = model.appraisal_assets_id;
-                          process = AppraisalService.MngCompareAsset(model, userName);
-                      }
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    bool process = false;
+                    int appraisalAssetId = 0;
+                    int i = 0;
+                    foreach (var model in modelList)
+                    {
+                        model.sequence = i++;
+                        appraisalAssetId = model.appraisal_assets_id;
+                        process = AppraisalService.MngCompareAsset(model, userName);
+                    }
 
-                      if (process)
-                      {
-                          if (appraisalAssetId > 0)
-                          {
-                              modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
-                              setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
-                          }
-                      }
-                      else
-                      {
-                          setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
-                      }
-                  }
+                    if (process)
+                    {
+                        if (appraisalAssetId > 0)
+                        {
+                            modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
+                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        }
+                    }
+                    else
+                    {
+                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                    }
               }
               catch (ArgumentException ae)
               {

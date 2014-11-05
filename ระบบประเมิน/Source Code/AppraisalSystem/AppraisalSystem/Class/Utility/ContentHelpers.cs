@@ -316,22 +316,14 @@ namespace AppraisalSystem.Utility
             return data;
         }
 
-        public static string replaceFormatAsset(String assetCode)
+        public static Double replaceMoneyToDouble(string textMoney)
         {
             string result = "";
-            if (IsNotnull(assetCode))
+            if (IsNotnull(textMoney))
             {
-                int i = 0;
-                int size = assetCode.Trim().Length;
-                string str = "{0}{1}-{2}{3}-{4}-{5}{6}{7}{8}-{9}";
-                for (i = 0; i < size; i++)
-                {
-                    String value = assetCode[i].ToString();
-                    str = str.Replace(string.Concat("{", i, "}"), value);
-                }
-                result = str.ToString();
+                result = replaceText(textMoney, ",");
             }
-            return result;
+            return Convert.ToDouble(result);
         }
     }
 }

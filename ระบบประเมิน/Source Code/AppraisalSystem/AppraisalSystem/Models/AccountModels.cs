@@ -864,6 +864,12 @@ namespace AppraisalSystem.Models
         /// </summary>
         /// <param name="userName"></param>
         void SignOut(string userName);
+
+        /// <summary>
+        /// SignOut
+        /// </summary>
+        /// <param name="userName"></param>
+        void SessionSignOut(string userName);
     }
 
     public class FormsAuthenticationService : IFormsAuthenticationService
@@ -881,6 +887,15 @@ namespace AppraisalSystem.Models
         public void SignOut(string userName)
         {
             FormsAuthentication.SignOut();
+            IMembershipService MembershipService = new AccountMembershipService();
+            if (!MembershipService.LogOut(userName))
+            {
+                throw new Exception("Logout unsuccess");
+            }
+        }
+
+        public void SessionSignOut(string userName)
+        {
             IMembershipService MembershipService = new AccountMembershipService();
             if (!MembershipService.LogOut(userName))
             {

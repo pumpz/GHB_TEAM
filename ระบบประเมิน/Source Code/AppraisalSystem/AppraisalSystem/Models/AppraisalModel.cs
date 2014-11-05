@@ -142,8 +142,8 @@ namespace AppraisalSystem.Models
         public int rai_area { set; get; }
         public int ngaan_area { set; get; }
         public int wa_area { set; get; }
-        public double total_area { set; get; }
-        public double appraisal { set; get; }
+        public string total_area { set; get; }
+        public string appraisal { set; get; }
         public int status { set; get; }
         public DateTime create_date { set; get; }
         public DateTime update_date { set; get; }
@@ -157,6 +157,8 @@ namespace AppraisalSystem.Models
     public class CompareAssetModel
     {
         public int compare_assets_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public double survey_price { set; get; }
         public double appropriate_price { set; get; }
@@ -184,6 +186,8 @@ namespace AppraisalSystem.Models
     public class LocationAssetModel
     {
         public int assets_location_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public string no_buildings { set; get; }
         public int building_type_id { set; get; }
@@ -203,8 +207,8 @@ namespace AppraisalSystem.Models
         public string room_3 { set; get; }
         public double width { set; get; }
         public double high { set; get; }
-        public double price_per_meter { set; get; }
-        public double depreciation { set; get; }
+        public string price_per_meter { set; get; }
+        public string depreciation { set; get; }
         public int status { set; get; }
         public DateTime create_date { set; get; }
         public DateTime update_date { set; get; }
@@ -218,6 +222,8 @@ namespace AppraisalSystem.Models
     public class MapAssetModel
     {
         public int map_assets_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public string latitude { set; get; }
         public string longitude { set; get; }
@@ -234,6 +240,8 @@ namespace AppraisalSystem.Models
     public class UploadPictureAssetModel
     {
         public int image_assets_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public int upload_type_id { set; get; }
         public string image_path { set; get; }
@@ -253,6 +261,7 @@ namespace AppraisalSystem.Models
     [Serializable]
     public class CompareDescriptionModel
     {
+        [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public string note { set; get; }
         public int sequence { set; get; }
@@ -616,7 +625,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -696,7 +705,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -725,8 +734,8 @@ namespace AppraisalSystem.Models
                                     AppraisalDetailItem.rai_area = dr["rai_area"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["rai_area"]);
                                     AppraisalDetailItem.ngaan_area = dr["ngaan_area"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["ngaan_area"]);
                                     AppraisalDetailItem.wa_area = dr["wa_area"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["wa_area"]);
-                                    AppraisalDetailItem.total_area = dr["total_area"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["total_area"]);
-                                    AppraisalDetailItem.appraisal = dr["appraisal"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["appraisal"]);
+                                    AppraisalDetailItem.total_area = dr["total_area"] == System.DBNull.Value ? "" : Convert.ToString(dr["total_area"]);
+                                    AppraisalDetailItem.appraisal = dr["appraisal"] == System.DBNull.Value ? "" : Convert.ToString(dr["appraisal"]);
                                     AppraisalDetailItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
 
                                     result.Add(AppraisalDetailItem);
@@ -783,7 +792,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -865,7 +874,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -934,7 +943,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -963,8 +972,8 @@ namespace AppraisalSystem.Models
                                     LocationAssetItem.room_3 = dr["room_3"] == System.DBNull.Value ? "" : Convert.ToString(dr["room_3"]);
                                     LocationAssetItem.width = dr["width"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["width"]);
                                     LocationAssetItem.high = dr["high"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["high"]);
-                                    LocationAssetItem.price_per_meter = dr["price_per_meter"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["price_per_meter"]);
-                                    LocationAssetItem.depreciation = dr["depreciation"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["depreciation"]);
+                                    LocationAssetItem.price_per_meter = dr["price_per_meter"] == System.DBNull.Value ? "" : Convert.ToString(dr["price_per_meter"]);
+                                    LocationAssetItem.depreciation = dr["depreciation"] == System.DBNull.Value ? "" : Convert.ToString(dr["depreciation"]);
                                     LocationAssetItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
 
                                     result.Add(LocationAssetItem);
@@ -1021,7 +1030,7 @@ namespace AppraisalSystem.Models
 
                         if (ContentHelpers.IsNotnull(createBy))
                         {
-                            condition += string.Format(" AND CREATE_BY = {0}", createBy);
+                            condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
                         cmd.CommandText += condition;
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
@@ -1142,7 +1151,7 @@ namespace AppraisalSystem.Models
         public Hashtable MngAppraisalJob(AppraisalJobModel appraisalJob, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Hashtable result = new Hashtable();
             Boolean process = false;
             String msg = "";
@@ -1155,7 +1164,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_APPRAISAL_JOB, conn))
                     {
@@ -1183,7 +1192,7 @@ namespace AppraisalSystem.Models
                         int userId = cmd.Parameters["oAppraisalID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                         msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
@@ -1196,7 +1205,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1212,7 +1221,7 @@ namespace AppraisalSystem.Models
         public Boolean MngAppraisalDetail(AppraisalDetailModel appraisalDetail, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1223,7 +1232,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_APPRAISAL_DETAIL, conn))
                     {
@@ -1246,8 +1255,8 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_rai_area", MySqlDbType.Int32).Value = appraisalDetail.rai_area;
                         cmd.Parameters.Add("p_ngaan_area", MySqlDbType.Int32).Value = appraisalDetail.ngaan_area;
                         cmd.Parameters.Add("p_wa_area", MySqlDbType.Int32).Value = appraisalDetail.wa_area;
-                        cmd.Parameters.Add("p_total_area", MySqlDbType.Double).Value = appraisalDetail.total_area;
-                        cmd.Parameters.Add("p_appraisal", MySqlDbType.Double).Value = appraisalDetail.appraisal;
+                        cmd.Parameters.Add("p_total_area", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(appraisalDetail.total_area);
+                        cmd.Parameters.Add("p_appraisal", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(appraisalDetail.appraisal);
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
 
                         cmd.Parameters.Add(new MySqlParameter("oAppraisalDetailID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
@@ -1257,7 +1266,7 @@ namespace AppraisalSystem.Models
                         int userId = cmd.Parameters["oAppraisalDetailID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalDetailID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1269,7 +1278,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1283,7 +1292,7 @@ namespace AppraisalSystem.Models
         public Boolean MngCompareAsset(CompareAssetModel compareAsset, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1294,7 +1303,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_COMPARE_ASSET, conn))
                     {
@@ -1306,24 +1315,25 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_data_source", MySqlDbType.VarChar).Value = compareAsset.data_source;
                         cmd.Parameters.Add("p_phone", MySqlDbType.VarChar).Value = compareAsset.phone;
                         cmd.Parameters.Add("p_size_area", MySqlDbType.Double).Value = compareAsset.size_area;
-                        cmd.Parameters.Add("p_shape_infomation_id", MySqlDbType.Int32).Value = compareAsset.shape_information_id;
+                        cmd.Parameters.Add("p_shape_information_id", MySqlDbType.Int32).Value = compareAsset.shape_information_id;
                         cmd.Parameters.Add("p_environment_id", MySqlDbType.Int32).Value = compareAsset.environment_id;
                         cmd.Parameters.Add("p_characteristics_assets_id", MySqlDbType.Int32).Value = compareAsset.characteristics_assets_id;
                         cmd.Parameters.Add("p_characteristics_access_id", MySqlDbType.Int32).Value = compareAsset.characteristics_access_id;
                         cmd.Parameters.Add("p_utilities_id", MySqlDbType.Int32).Value = compareAsset.utilities_id;
                         cmd.Parameters.Add("p_terms_id", MySqlDbType.Int32).Value = compareAsset.terms_id;
                         cmd.Parameters.Add("p_liquidity_id", MySqlDbType.Int32).Value = compareAsset.liquidity_id;
-                        cmd.Parameters.Add("p_sequence", MySqlDbType.Int32).Value = compareAsset.sequence;
+                        int sequence = (compareAsset.sequence + 1);
+                        cmd.Parameters.Add("p_sequence", MySqlDbType.Int32).Value = sequence;
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
 
                         cmd.Parameters.Add(new MySqlParameter("oCompareAssetID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
 
                         cmd.ExecuteScalar();
-                        //
+                        
                         int userId = cmd.Parameters["oCompareAssetID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oCompareAssetID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1335,7 +1345,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1349,7 +1359,7 @@ namespace AppraisalSystem.Models
         public Boolean MngCompareDescription(CompareDescriptionModel compareDesc)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1360,21 +1370,21 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_OTHER_NOTE, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
                         cmd.Parameters.Add("p_appraisal_asset_id", MySqlDbType.Int32).Value = compareDesc.appraisal_assets_id;
-                        cmd.Parameters.Add("p_note", MySqlDbType.Double).Value = compareDesc.note;
-                        cmd.Parameters.Add("p_sequence", MySqlDbType.Double).Value = compareDesc.sequence;
+                        cmd.Parameters.Add("p_note", MySqlDbType.String).Value = compareDesc.note;
+                        cmd.Parameters.Add("p_sequence", MySqlDbType.Int32).Value = compareDesc.sequence;
 
                         int excute = cmd.ExecuteNonQuery();
                         //
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1386,7 +1396,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1400,7 +1410,7 @@ namespace AppraisalSystem.Models
         public Boolean MngLocationAsset(LocationAssetModel locationAsset, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1411,7 +1421,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_LOCATION_ASSET, conn))
                     {
@@ -1436,8 +1446,8 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_room_3", MySqlDbType.VarChar).Value = locationAsset.room_3;
                         cmd.Parameters.Add("p_width", MySqlDbType.Double).Value = locationAsset.width;
                         cmd.Parameters.Add("p_high", MySqlDbType.Double).Value = locationAsset.high;
-                        cmd.Parameters.Add("p_price_per_meter", MySqlDbType.Double).Value = locationAsset.price_per_meter;
-                        cmd.Parameters.Add("p_depreciation", MySqlDbType.Double).Value = locationAsset.depreciation;
+                        cmd.Parameters.Add("p_price_per_meter", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(locationAsset.price_per_meter);
+                        cmd.Parameters.Add("p_depreciation", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(locationAsset.depreciation);
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
 
                         cmd.Parameters.Add(new MySqlParameter("oAssetsLocationID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
@@ -1447,7 +1457,7 @@ namespace AppraisalSystem.Models
                         int userId = cmd.Parameters["oAssetsLocationID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAssetsLocationID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1459,7 +1469,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1473,7 +1483,7 @@ namespace AppraisalSystem.Models
         public Boolean MngMapAsset(MapAssetModel mapAsset, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1484,7 +1494,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_MAP, conn))
                     {
@@ -1502,7 +1512,7 @@ namespace AppraisalSystem.Models
                         int userId = cmd.Parameters["oMapAssetID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oMapAssetID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1514,7 +1524,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1528,7 +1538,7 @@ namespace AppraisalSystem.Models
         public Boolean MngUploadPicture(UploadPictureAssetModel uploadPicture, string mngBy)
         {
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             Boolean process = false;
             try
             {
@@ -1539,7 +1549,7 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_UPLOAD_PICTURE, conn))
                     {
@@ -1561,7 +1571,7 @@ namespace AppraisalSystem.Models
                         int userId = cmd.Parameters["oImageAssetID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oImageAssetID"].Value);
                         if (userId > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1573,7 +1583,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1602,7 +1612,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1613,9 +1623,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_APPRAISAL_JOB, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_APPRAISAL_JOB, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1626,7 +1636,7 @@ namespace AppraisalSystem.Models
                         //
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1638,7 +1648,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1657,7 +1667,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1668,9 +1678,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_APPRAISAL_DETAIL, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_APPRAISAL_DETAIL, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1678,10 +1688,10 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_delete_by", MySqlDbType.VarChar).Value = delBy;
 
                         int excute = cmd.ExecuteNonQuery();
-                        //
+                        
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1693,7 +1703,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1712,7 +1722,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1723,9 +1733,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_COMPARE_ASSET, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_COMPARE_ASSET, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1733,10 +1743,10 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_delete_by", MySqlDbType.VarChar).Value = delBy;
 
                         int excute = cmd.ExecuteNonQuery();
-                        //
+                        
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1748,7 +1758,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1767,7 +1777,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1778,9 +1788,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_LOCATION_ASSET, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_LOCATION_ASSET, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1788,10 +1798,10 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_delete_by", MySqlDbType.VarChar).Value = delBy;
 
                         int excute = cmd.ExecuteNonQuery();
-                        //
+                        
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1803,7 +1813,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1822,7 +1832,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1833,9 +1843,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_MAP, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_MAP, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1846,7 +1856,7 @@ namespace AppraisalSystem.Models
                         //
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1858,7 +1868,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally
@@ -1877,7 +1887,7 @@ namespace AppraisalSystem.Models
             // The underlying ChangePassword() will throw an exception rather
             // than return false in certain failure scenarios.
             MySqlConnection conn = null;
-            MySqlTransaction tran = null;
+            //MySqlTransaction tran = null;
             bool process = false;
             try
             {
@@ -1888,9 +1898,9 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
-                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_UPLOAD_PICTURE, conn, tran))
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_DEL_UPLOAD_PICTURE, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
@@ -1901,7 +1911,7 @@ namespace AppraisalSystem.Models
                         //
                         if (excute > 0)
                         {
-                            tran.Commit();
+                            //tran.Commit();
                             process = true;
                         }
                     }
@@ -1913,7 +1923,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                tran.Rollback();
+                //tran.Rollback();
                 throw;
             }
             finally

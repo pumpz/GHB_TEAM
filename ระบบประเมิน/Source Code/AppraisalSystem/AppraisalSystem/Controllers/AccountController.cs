@@ -94,7 +94,7 @@ namespace AppraisalSystem.Controllers
         public ActionResult SessionLogOff(string userName)
         {
             if (FormsService == null) { FormsService = new FormsAuthenticationService(); }
-            FormsService.SignOut(userName);
+            FormsService.SessionSignOut(userName);
             return RedirectToAction("LogOn", "Account");
         }
     }

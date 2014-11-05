@@ -8,19 +8,19 @@
 <script type="text/javascript">
 
     function SizeAreaValue() {
-        var rai = parseFloat(document.getElementById("rai_area").value);
-        var ngaan = parseFloat(document.getElementById("ngaan_area").value);
-        var wa = parseFloat(document.getElementById("wa_area").value);
-
-        document.getElementById("total_area").value = (((rai * 4) + ngaan) * 100) + wa;
+        var rai = parseFloat(clearPrefix(document.getElementById("rai_area").value));
+        var ngaan = parseFloat(clearPrefix(document.getElementById("ngaan_area").value));
+        var wa = parseFloat(clearPrefix(document.getElementById("wa_area").value));
+        var value = (((rai * 4) + ngaan) * 100) + wa;
+        document.getElementById("total_area").value = numberWithCommas(value);
     }
 
     function CalLandValue() {
         
-        var total = parseFloat(document.getElementById("total_area").value);
-        var cost = parseFloat(document.getElementById("appraisal").value);
-
-        document.getElementById("txtCal").innerHTML = total * cost;
+        var total = parseFloat(clearPrefix(document.getElementById("total_area").value));
+        var cost = parseFloat(clearPrefix(document.getElementById("appraisal").value));
+        var value = total * cost;
+        document.getElementById("txtCal").value = numberWithCommas(value);
     };
 </script>
 <div class="panel-heading"><label>เอกสารสิทธิ์</label></div>
@@ -31,6 +31,7 @@
         <div class="form-group">
             <label>หมายเลขงาน</label>        
             @Html.LabelFor(model => model.appraisal_assets_id, Convert.ToString(ViewData["AppraisalCode"]))
+            @Html.ValidationMessageFor(model => model.appraisal_assets_id)
         </div>
         <div class="form-group">
             <label>ประเภทเอกสารสิทธิ์</label>
@@ -113,13 +114,13 @@
                 <label>&nbsp;<br/><br/>เนื้อที่</label>
             </label>
             <label class="textbox-inline">ไร่<br/>
-                @Html.TextBoxFor(model => model.rai_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
+                @Html.TextBoxFor(model => model.rai_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
             </label>
             <label class="textbox-inline">งาน<br/>
-                 @Html.TextBoxFor(model => model.ngaan_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
+                 @Html.TextBoxFor(model => model.ngaan_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
             </label>
             <label class="textbox-inline">วา<br/>
-                 @Html.TextBoxFor(model => model.wa_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()" })
+                 @Html.TextBoxFor(model => model.wa_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
             </label>
         </div>
         <div class="form-group">
@@ -127,13 +128,13 @@
                 <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
             </label>
             <label class="textbox-inline">&nbsp;<br/>
-                 @Html.TextBoxFor(model => model.total_area, new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(model => model.total_area, new { @class = "form-control ui-wizard-content money", @readonly = "readonly" })
             </label>
             <label class="textbox-inline">
                 <label><br/>x&nbsp;</label>
             </label>
             <label class="textbox-inline">(ราคาประเมินที่เหมาะสม)<br/>
-                 @Html.TextBoxFor(model => model.appraisal, new { @class = "form-control ui-wizard-content" })
+                 @Html.TextBoxFor(model => model.appraisal, new { @class = "form-control ui-wizard-content money", onkeyup = "javascript:CalLandValue()" })
             </label>
             <label class="textbox-inline"><br/>
                 <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="คำนวณ" onclick="javascript:CalLandValue()" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
@@ -142,7 +143,7 @@
                 <label><br/>=&nbsp;</label>
             </label>
             <label class="textbox-inline"><br/>
-                <label id="txtCal" class = "form-control ui-wizard-content" style = "width:100px;" />
+                @Html.TextBox("txtCal", "", new { @class = "form-control ui-wizard-content money", @readonly = "readonly" })
             </label>
             
         </div>
