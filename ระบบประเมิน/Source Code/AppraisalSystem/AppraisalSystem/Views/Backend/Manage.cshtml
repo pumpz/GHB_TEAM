@@ -8,9 +8,15 @@
 
 @using (Html.BeginForm())
 { 
- @Html.TextBox("txtSearchKeyword", Convert.ToString(TempData["isKeyWord"]))
- <input type="submit" value="ค้นหา" />
- <input type="button" value="เพิ่มผู้ใช้งาน" onclick="location.href='@Url.Action("register", "backend")'" />
+  <div class="form-group">
+ @Html.TextBox("txtSearchKeyword", Convert.ToString(TempData["isKeyWord"]), new { @class = "form-control ui-wizard-content", style = "width:250px" })
+  </div>
+ <div class="form-group">
+ <!--input type="submit" value="ค้นหา" /-->
+<button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnSearch</button>
+ <!--input type="button" value="เพิ่มผู้ใช้งาน" onclick="location.href='@Url.Action("register", "backend")'" /-->
+ <button class="btn btn-primary ui-wizard-content ui-formwizard-button" type="button" onclick="location.href='@Url.Action("register", "backend")'" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnAddUser</button>
+ </div>
  <table class="table table-striped table-bordered table-hover dataTable no-footer" >
     <tr>
     
@@ -41,13 +47,13 @@
               <td> @Html.ActionLink("Update", "UpdateUser", new { id = item.UserID })</td>
               <td> @Html.ActionLink("Delete", "DeleteUser", new { id = item.UserID }) </td>
                  @if (item.Status == 1)
-                  {
+                 {
                 <td> @Html.ActionLink("Lock", "LockUser", new { id = item.UserID, isLock = true }) </td>
-                  }
-                  else
-                  {
+                 }
+                 else
+                 {
                      <td> @Html.ActionLink("UnLock", "LockUser", new { id = item.UserID, isLock = false }) </td>
-                  }
+                 }
             
             <td>@item.UserName </td>
              <td>@item.RoleName</td>

@@ -15,70 +15,70 @@
         <fieldset>
         
 
-            <div class="editor-label">
+            <div  class="form-group">
                 @Html.LabelFor(m => m.UserName)
             </div>
-            <div class="editor-field">
+            <div  class="form-group">
 
-            @Html.EditorFor(model => model.UserName)
+            @Html.TextBoxFor(m => m.UserName, new { @class = "form-control ui-wizard-content", style = "width:400px" })
 
                 @Html.ValidationMessageFor(m => m.UserName)
             </div>
-              <div class="editor-label">
+              <div  class="form-group">
                 @Html.LabelFor(m => m.Name)
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control ui-wizard-content" })
+            <div  class="form-group">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.Name)
             </div>
-             <div class="editor-label">
+             <div  class="form-group">
                 @Html.LabelFor(m => m.CitizenID)
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.CitizenID, new { @class = "form-control ui-wizard-content" })
+            <div  class="form-group">
+                @Html.TextBoxFor(m => m.CitizenID, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.CitizenID)
             </div>
-            <div class="editor-label">
+            <div  class="form-group">
                 @Html.LabelFor(m => m.Email)
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control ui-wizard-content" })
+            <div  class="form-group">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.Email)
             </div>
-               <div class="editor-label">
+               <div  class="form-group">
                 @Html.LabelFor(m => m.Phone)
             </div>
-            <div class="editor-field">
-                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control ui-wizard-content" })
+            <div  class="form-group">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.Phone)
             </div>
 
-            <div class="editor-label">
+            <div  class="form-group">
                 @Html.LabelFor(m => m.Password)
             </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.Password)
+            <div  class="form-group">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.Password)
             </div>
 
-            <div class="editor-label">
+            <div  class="form-group">
                 @Html.LabelFor(m => m.ConfirmPassword)
             </div>
-            <div class="editor-field">
-                @Html.PasswordFor(m => m.ConfirmPassword)
+            <div  class="form-group">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control ui-wizard-content", style = "width:400px" })
                 @Html.ValidationMessageFor(m => m.ConfirmPassword)
             </div>
-            <div class="editor-label">
+            <div  class="form-group">
                 @Html.LabelFor(m => m.RoleID)
             </div>
-              <div class="editor-field">
-               @Html.TextBoxFor(m => m.RoleID)
+              <div  class="form-group">
+               @Html.DropDownListFor(m => m.RoleID, new SelectList(ViewData["Role"] as List<AppraisalSystem.Models.RoleModel>, "RoleID", "RoleName"), new { @class = "form-control", style = "width:400px" })
             </div>
-
-            <p>
-                <input type="submit" value="บันทึก" />
-                <input type="button" value="กลับหน้าหลัก" onclick="location.href='@Url.Action("manage", "backend")'" />
-            </p>
+             <div class="form-group">
+                <!--input type="submit" value="บันทึก" /-->
+                 <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:left;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+                <!--input type="button" value="กลับหน้าหลัก" onclick="location.href='@Url.Action("manage", "backend")'" /-->
+            </div>
         </fieldset>
     </div>
 }

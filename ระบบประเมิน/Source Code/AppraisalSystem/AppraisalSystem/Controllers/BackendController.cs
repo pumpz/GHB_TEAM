@@ -61,21 +61,20 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult Register()
         {
-            var roles = MembershipService.GetAllRole();
-            ViewData["Role"] = roles;
+            ViewData["Role"] = MembershipService.GetAllRole();
             return View();
         }
 
         [HttpPost]
-  //      [Permission]
+        [Permission]
         public ActionResult Register(RegisterModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName = "system";
+                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    //string userName = "system";
                     // Attempt to register the user
                     Hashtable process = MembershipService.CreateUser(model, userName);
                     if (Convert.ToBoolean(process["Status"]))
@@ -104,6 +103,7 @@ namespace AppraisalSystem.Controllers
         {
             UserModel user = null;
             RegisterModel reg = new RegisterModel();
+            ViewData["Role"] = MembershipService.GetAllRole();
             try
             {
                 user = MembershipService.GetUsersByID(id);
@@ -131,15 +131,15 @@ namespace AppraisalSystem.Controllers
 
       
         [HttpPost]
-        //[Permission]
+        [Permission]
         public ActionResult UpdateUser(RegisterModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                   // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName = "system";
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                   // string userName = "system";
                     // Attempt to register the user
                     bool process = MembershipService.UpdateUser(model, userName);
                     if (process)
@@ -164,16 +164,16 @@ namespace AppraisalSystem.Controllers
         // URL: /Backend/Delete
         // **************************************
 
-     //   [Authorize]
-     //   [Permission]
+        [Authorize]
+        [Permission]
         public ActionResult DeleteUser(int id)
         {
             try
             {
                 if (id > 0)
                 {
-                   // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName ="system";
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    //string userName ="system";
                     if (MembershipService.DeleteUser(id, userName))
                     {
                         return RedirectToAction("manage", "backend");
@@ -238,16 +238,16 @@ namespace AppraisalSystem.Controllers
         // URL: /Backend/Lock
         // **************************************
 
-      //  [Authorize]
-        //[Permission]
+        [Authorize]
+        [Permission]
         public ActionResult LockUser(int id,Boolean isLock)
         {
             try
             {
                 if (id > 0)
                 {
-                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName = "system";
+                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    //string userName = "system";
                     if (MembershipService.LockUser(id, isLock, userName))
                     {
                         return RedirectToAction("manage", "backend");
