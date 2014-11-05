@@ -239,7 +239,7 @@ namespace AppraisalSystem.Controllers
                     }
                     catch (Exception ex)
                     {
-                        ModelState.AddModelError(String.Empty, ae.Message);
+                        ModelState.AddModelError(String.Empty, ex.Message);
                     }
                 }
 
@@ -293,7 +293,7 @@ namespace AppraisalSystem.Controllers
                         }
                         catch (Exception ex)
                         {
-                            ModelState.AddModelError(String.Empty, ae.Message);
+                            ModelState.AddModelError(String.Empty, ex.Message);
                         }
                     }
                 }
@@ -330,7 +330,7 @@ namespace AppraisalSystem.Controllers
                         }
                         catch (Exception ex)
                         {
-                            ModelState.AddModelError(String.Empty, ae.Message);
+                            ModelState.AddModelError(String.Empty, ex.Message);
                         }
                     }
                 }
