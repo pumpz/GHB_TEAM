@@ -268,14 +268,17 @@ namespace AppraisalSystem.Utility
                     break;
                 case DataInfo.AlertStatusId.ERROR: classAlert = "alert alert-danger";
                     break;
+                case DataInfo.AlertStatusId.WARNING: classAlert = "alert alert-warning";
+                    break;
             }
 
-            alertBox = "<div class='" + classAlert + "'>";
+            alertBox = "<div class=\"" + classAlert + "\">";
             alertBox += "<p>" + msg + "</p>";
             alertBox += "</div>";
 
             return alertBox;
         }
+
 
         public static string checkTrueData(object isTrueData)
         {

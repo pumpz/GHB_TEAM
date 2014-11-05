@@ -32,26 +32,48 @@ namespace AppraisalSystem.Controllers
             setAssetDetail(); //ระบุ filter ในหน้า View
             setManageDetail(id, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
 
+            /* if (manageType == "v")
+             {
+                 set readonly   
+             }*/
             return View();
         }
 
         [HttpPost]
-        public ActionResult ManageAssetDetail(AppraisalJobModel model)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(AppraisalJobModel model, string AssetManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
+            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             try
             {
                 if (ModelState.IsValid)
                 {
                     if (isFilterAssetDetail(model))
                     {
-                        string userName = TempData["UserID"].ToString();
+                        string userName = TempData["UserName"].ToString();
+
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
                         if (Convert.ToBoolean(process["Status"]))
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
-                        else
-                            setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        {
+                            if (process["appraisalID"] != null)
+                            {
 
+                                return RedirectToAction(
+                                    "ManageAssetMap",
+                                    new RouteValueDictionary(new
+                                    {
+                                        appraisalID = Convert.ToInt32(process["appraisalID"].ToString()),
+                                        AssetManageType = AssetManageType
+                                    })
+                                );
+                                //return JavaScript("alert('จัดการข้อมูลเรียบร้อยแล้ว!');");
+                                //setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                            }
+                        }
+                        else
+                        {
+                            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
+                        }
                     }
                 }
             }
@@ -76,13 +98,18 @@ namespace AppraisalSystem.Controllers
             return isValid;
         }
 
-        public ActionResult ManageAssetMap()//แผนที่
+        public ActionResult ManageAssetMap(int appraisalID, string AssetManageType)//แผนที่
         {
-            return View(new MapAssetModel());
+            TempData["AssetManageType"] = AssetManageType;
+
+            MapAssetModel model = new MapAssetModel();
+            model.appraisal_assets_id = appraisalID;
+
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult ManageAssetMap(MapAssetModel model)//แผนที่
+        public ActionResult ManageAssetMap(MapAssetModel model, string AssetManageType)//แผนที่
         {
             try
             {
@@ -100,7 +127,7 @@ namespace AppraisalSystem.Controllers
                     }
                     else
                     {
-                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -110,7 +137,6 @@ namespace AppraisalSystem.Controllers
             }
             return View();
         }
-
 
         [Permission]
         public ActionResult ManageAssetDoc(string id)//เอกสารสิทธิ์

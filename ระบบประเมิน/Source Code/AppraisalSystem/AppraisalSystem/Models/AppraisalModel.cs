@@ -1151,10 +1151,11 @@ namespace AppraisalSystem.Models
         public Hashtable MngAppraisalJob(AppraisalJobModel appraisalJob, string mngBy)
         {
             MySqlConnection conn = null;
-            //MySqlTransaction tran = null;
+            MySqlTransaction tran = null;
             Hashtable result = new Hashtable();
             Boolean process = false;
             String msg = "";
+            int? appraisalID = null;
             try
             {
                 using (conn = new MySqlConnection(GetConnectionString()))
@@ -1164,13 +1165,13 @@ namespace AppraisalSystem.Models
                         conn.Open();
                     }
 
-                    //tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
 
                     using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_MNG_APPRAISAL_JOB, conn))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.Add("p_appraisal_assets_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
+                        cmd.Parameters.Add("p_appraisal_asset_code", MySqlDbType.VarChar).Value = appraisalJob.appraisal_assets_code;
                         cmd.Parameters.Add("p_village", MySqlDbType.VarChar).Value = appraisalJob.village;
                         cmd.Parameters.Add("p_alley", MySqlDbType.VarChar).Value = appraisalJob.alley;
                         cmd.Parameters.Add("p_road", MySqlDbType.VarChar).Value = appraisalJob.road;
@@ -1189,10 +1190,10 @@ namespace AppraisalSystem.Models
 
                         cmd.ExecuteScalar();
                         //
-                        int userId = cmd.Parameters["oAppraisalID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalID"].Value);
-                        if (userId > 0)
+                        appraisalID = cmd.Parameters["oAppraisalID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalID"].Value);
+                        if (appraisalID > 0)
                         {
-                            //tran.Commit();
+                            tran.Commit();
                             process = true;
                         }
                         msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
@@ -1205,7 +1206,7 @@ namespace AppraisalSystem.Models
             }
             catch (Exception)
             {
-                //tran.Rollback();
+                tran.Rollback();
                 throw;
             }
             finally
@@ -1215,6 +1216,7 @@ namespace AppraisalSystem.Models
             }
             result["Status"] = process;
             result["Message"] = msg;
+            result["appraisalID"] = appraisalID;
             return result;
         }
 
