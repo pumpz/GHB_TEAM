@@ -344,7 +344,7 @@ namespace AppraisalSystem.Models
         /// <param name="appraisalID"></param>
         /// <param name="createBy"></param>
         /// <returns>List<UploadPictureAssetModel></returns>
-        List<UploadPictureAssetModel> GetUploadPictureAsset(int mapAssetID, int appraisalID, string createBy);
+        List<UploadPictureAssetModel> GetUploadPictureAsset(int imageAssetID,int uploadTypeID, int appraisalID, string createBy);
 
         /// <management>
         /// MngAppraisalJob
@@ -1072,7 +1072,7 @@ namespace AppraisalSystem.Models
         }
 
         [DataObjectMethod(DataObjectMethodType.Select)]
-        public List<UploadPictureAssetModel> GetUploadPictureAsset(int uploadAssetID, int appraisalID, string createBy)
+        public List<UploadPictureAssetModel> GetUploadPictureAsset(int imageAssetID,int uploadTypeID, int appraisalID, string createBy)
         {
             MySqlConnection conn = null;
             List<UploadPictureAssetModel> result = null;
@@ -1089,11 +1089,14 @@ namespace AppraisalSystem.Models
                     {
                         string condition = "";
 
-                        if (uploadAssetID > 0)
+                        if (imageAssetID > 0)
                         {
-                            condition += string.Format(" AND IMAGE_ASSETS_ID = {0}", uploadAssetID);
+                            condition += string.Format(" AND IMAGE_ASSETS_ID = {0}", imageAssetID);
                         }
-
+                        if (uploadTypeID > 0)
+                        {
+                            condition += string.Format(" AND UPLOAD_TYPE_ID = {0}", uploadTypeID);
+                        }
                         if (appraisalID > 0)
                         {
                             condition += string.Format(" AND APPRAISAL_ASSETS_ID = {0}", appraisalID);
