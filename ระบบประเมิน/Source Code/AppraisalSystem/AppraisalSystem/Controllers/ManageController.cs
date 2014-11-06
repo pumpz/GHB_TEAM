@@ -48,8 +48,8 @@ namespace AppraisalSystem.Controllers
                 if (ModelState.IsValid)
                 {
                     if (isFilterAssetDetail(model))
-                    {
-                        string userName = TempData["UserName"].ToString();
+                   {
+                    string userName =TempData["UserName"].ToString();
 
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
@@ -59,7 +59,7 @@ namespace AppraisalSystem.Controllers
                             {
 
                                 return RedirectToAction(
-                                    "ManageAssetMap",
+                                    "ManageAssetDocPic",
                                     new RouteValueDictionary(new
                                     {
                                         appraisalID = Convert.ToInt32(process["appraisalID"].ToString()),
@@ -74,7 +74,7 @@ namespace AppraisalSystem.Controllers
                         {
                             ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
                         }
-                    }
+                   }
                 }
             }
             catch (Exception e)
@@ -101,8 +101,18 @@ namespace AppraisalSystem.Controllers
         public ActionResult ManageAssetMap(int appraisalID, string AssetManageType)//แผนที่
         {
             TempData["AssetManageType"] = AssetManageType;
-
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             MapAssetModel model = new MapAssetModel();
+
+            List<MapAssetModel> listMap = AppraisalService.GetMapAsset(0, appraisalID, userName);
+            if(listMap !=null){
+                foreach (MapAssetModel map in listMap)
+                {
+                    model.map_assets_id = map.map_assets_id;
+                    model.latitude = map.latitude;
+                    model.longitude = map.longitude;
+                }
+            }
             model.appraisal_assets_id = appraisalID;
 
             return View(model);
@@ -115,15 +125,20 @@ namespace AppraisalSystem.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                    string userName = "system";
+                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
                     // Attempt to register the user
-                    model.appraisal_assets_id = 1;
                     Boolean process = AppraisalService.MngMapAsset(model, userName);
                     if (Convert.ToBoolean(process))
                     {
                         setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
-                        return View();
+                        return RedirectToAction(
+                                   "ManageAssetDocPic",
+                                   new RouteValueDictionary(new
+                                   {
+                                       appraisalID = model.appraisal_assets_id,
+                                       AssetManageType = AssetManageType
+                                   })
+                               );
                     }
                     else
                     {
@@ -208,42 +223,42 @@ namespace AppraisalSystem.Controllers
             return View(model);
         }
 
-        public ActionResult ManageAssetDocPic()//รูปเอกสารสิทธิ์
+        public ActionResult ManageAssetDocPic(int appraisalID, string AssetManageType)//รูปเอกสารสิทธิ์
         {
-            // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            string userName = "system";
-
-            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0,1,userName);
+             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+             TempData["AssetManageType"] = AssetManageType;
+             List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, appraisalID, userName);
 
             if (listImages == null)
             {
                 listImages = new List<UploadPictureAssetModel>();
                 for(int i=0;i<3;i++){
                     UploadPictureAssetModel image = new UploadPictureAssetModel();
-                    image.appraisal_assets_id = 1;
+                    image.appraisal_assets_id = appraisalID;
                     listImages.Add(image);
                 }
             }
-
             return View(listImages);
         }
 
         [HttpPost]
-        public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles)//รูปเอกสารสิทธิ์
+        public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปเอกสารสิทธิ์
         {
-            // string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            string userName = "system";
+             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             Boolean process = false;
             int count = 0;
             string pathPic = "";
             string fileName = "";
             string savePath = "";
+            int appraisalID = 0;
+         
             foreach (UploadPictureAssetModel model in models)
             {
-                model.appraisal_assets_id = 1;
                 pathPic = "";
                 fileName = "";
                 savePath = "";
+         
+                appraisalID = model.appraisal_assets_id;
                 if (MultipleFiles[count] != null && MultipleFiles[count].ContentLength > 0)
                 {
                     try
@@ -270,22 +285,34 @@ namespace AppraisalSystem.Controllers
                 }
 
                 count++;
-                model.image_path = pathPic;
-                model.file_name = fileName;
-                model.upload_type_id = 1; //รูปภาพเอกสารสิทธิ์
-                model.sequence = count;
-                process = AppraisalService.MngUploadPicture(model, userName);
+                
+           /*     if (model.image_assets_id == null ||
+                    !(((model.image_path != null && img != "") || (model.image_path == null && img == ""))
+                    && MultipleFiles[count] == null))
+                {*/
+                    model.image_path = pathPic;
+                    model.file_name = fileName;
+                    model.upload_type_id = 1; //รูปภาพเอกสารสิทธิ์
+                    if (model.sequence == null) model.sequence = count;
+                    process = AppraisalService.MngUploadPicture(model, userName);
+               // }
 
             }
             if (Convert.ToBoolean(process))
             {
-                List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 1, userName);
                 setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
-                return View(listImages);
+                return RedirectToAction(
+                           "ManageAssetDocPic",
+                           new RouteValueDictionary(new
+                           {
+                               appraisalID = appraisalID,
+                               AssetManageType = AssetManageType
+                           })
+                       );
             }
             else
             {
-                setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
             }
           
             return View();

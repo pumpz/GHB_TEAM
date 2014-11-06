@@ -1041,7 +1041,7 @@ namespace AppraisalSystem.Models
                                 while (dr.Read())
                                 {
                                     MapAssetModel MapAssetItem = new MapAssetModel();
-                                    MapAssetItem.map_assets_id = dr["assets_location_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["assets_location_id"]);
+                                    MapAssetItem.map_assets_id = dr["map_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["map_assets_id"]);
                                     MapAssetItem.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
                                     MapAssetItem.latitude = dr["latitude"] == System.DBNull.Value ? "" : Convert.ToString(dr["latitude"]);
                                     MapAssetItem.longitude = dr["longitude"] == System.DBNull.Value ? "" : Convert.ToString(dr["longitude"]);
