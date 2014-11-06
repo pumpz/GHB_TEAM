@@ -8,6 +8,8 @@ using System.Collections;
 using System.Web.Routing;
 using System.IO;
 using AppraisalSystem.Utility;
+using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace AppraisalSystem.Controllers
 {
@@ -24,13 +26,27 @@ namespace AppraisalSystem.Controllers
 
             base.Initialize(requestContext);
         }
+
+        protected void setCanUpdate(string manageType)
+        {
+            ViewData["Disabled"] = " new {disabled = 'disabled' }";
+            switch(manageType)
+            {
+                case "u": ViewData["Disabled"] = "new {disabled = 'disabled' }"; break;
+            }
+        }
+
         //
         // GET: /Manage/
 
-        public ActionResult ManageAssetDetail(string id, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(string code, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
+            
+            setCanUpdate(manageType);
             setAssetDetail(); //ระบุ filter ในหน้า View
-            setManageDetail(id, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
+            setManageDetail(code, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
+
+            //manageType, appraisalCode,pageID
 
             /* if (manageType == "v")
              {
@@ -55,23 +71,22 @@ namespace AppraisalSystem.Controllers
 
                         if (Convert.ToBoolean(process["Status"]))
                         {
-                            if (process["appraisalID"] != null)
+                            if (process["appraisalCode"] != null)
                             {
 
                                 return RedirectToAction(
                                     "ManageAssetMap",
                                     new RouteValueDictionary(new
                                     {
-                                        appraisalID = Convert.ToInt32(process["appraisalID"].ToString()),
+                                        appraisalCode = Convert.ToInt32(process["appraisalCode"].ToString()),
                                         AssetManageType = AssetManageType
                                     })
                                 );
-                                //return JavaScript("alert('จัดการข้อมูลเรียบร้อยแล้ว!');");
-                                //setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                             }
                         }
                         else
                         {
+                            TempData["AssetManageType"] = AssetManageType;
                             ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
                         }
                    }
@@ -98,13 +113,13 @@ namespace AppraisalSystem.Controllers
             return isValid;
         }
 
-        public ActionResult ManageAssetMap(int appraisalID, string AssetManageType)//แผนที่
+        public ActionResult ManageAssetMap(int appraisalCode, string AssetManageType)//แผนที่
         {
             TempData["AssetManageType"] = AssetManageType;
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             MapAssetModel model = new MapAssetModel();
 
-            List<MapAssetModel> listMap = AppraisalService.GetMapAsset(0, appraisalID, userName);
+            List<MapAssetModel> listMap = AppraisalService.GetMapAsset(0, appraisalCode, userName);
             if(listMap !=null){
                 foreach (MapAssetModel map in listMap)
                 {
@@ -113,7 +128,7 @@ namespace AppraisalSystem.Controllers
                     model.longitude = map.longitude;
                 }
             }
-            model.appraisal_assets_id = appraisalID;
+            model.appraisal_assets_id = appraisalCode;
 
             return View(model);
         }
@@ -741,30 +756,11 @@ namespace AppraisalSystem.Controllers
         }
 
         #region Setting Page
-        public void setManageDetail(string id, string manageType)
+        public void setManageDetail(string code, string manageType)
         {
-            TempData["UserID"] = ContentHelpers.Decode(Session["UserID"].ToString());
-            TempData["AssetID"] = string.IsNullOrEmpty(id) ? "" : ContentHelpers.Decode(id);
-            TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "i" : ContentHelpers.Decode(manageType);
-        }
-
-        //!!!!
-        public void setManagePage()
-        {
-            string assetManageType = TempData["AssetManageType"] != null ? TempData["AssetManageType"].ToString() : "";
-            switch (assetManageType)
-            {
-                case "i":
-
-                    break;
-                case "e":
-
-                    break;
-                case "v":
-                    TempData["readOnly"] = ",@readonly='true'";
-
-                    break;
-            }
+            TempData["UserName"] = ContentHelpers.Decode(Session["UserName"].ToString());
+            TempData["AssetCode"] = string.IsNullOrEmpty(code) ? "" : ContentHelpers.Decode(code);
+            TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "u" : ContentHelpers.Decode(manageType);
         }
 
         protected void setAlert(DataInfo.AlertStatusId status, string insertMsg, string editMsg)

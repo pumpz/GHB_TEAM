@@ -1159,6 +1159,7 @@ namespace AppraisalSystem.Models
             Boolean process = false;
             String msg = "";
             int? appraisalID = null;
+            String appraisalCode = "";
             try
             {
                 using (conn = new MySqlConnection(GetConnectionString()))
@@ -1194,9 +1195,11 @@ namespace AppraisalSystem.Models
                         cmd.ExecuteScalar();
                         //
                         appraisalID = cmd.Parameters["oAppraisalID"].Value == System.DBNull.Value ? 0 : Convert.ToInt32(cmd.Parameters["oAppraisalID"].Value);
+                       
                         if (appraisalID > 0)
                         {
                             tran.Commit();
+                            appraisalCode = appraisalJob.appraisal_assets_code;
                             process = true;
                         }
                         msg = Convert.ToString(cmd.Parameters["oMessage"].Value);
@@ -1219,7 +1222,7 @@ namespace AppraisalSystem.Models
             }
             result["Status"] = process;
             result["Message"] = msg;
-            result["appraisalID"] = appraisalID;
+            result["appraisalCode"] = appraisalCode;
             return result;
         }
 
