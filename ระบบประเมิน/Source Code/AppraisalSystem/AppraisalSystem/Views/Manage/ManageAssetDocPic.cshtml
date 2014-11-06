@@ -55,14 +55,13 @@
  <script type="text/javascript">
 
      function removeImg(value) {
-
-         $("#img_" + value).css('display', 'none');
-         $("#icon_" + value).css('display', 'none');
-
-         var url = "/Manage/removeImgDB";
+        var url = "/Manage/removeImgDB";
          var imageAssetId = value;
          $.get(url, { imageAssetId: imageAssetId }, function (data) {
-           
+             if (data) {
+                 $("#img_" + value).css('display', 'none');
+                 $("#icon_" + value).css('display', 'none');
+             }
          });
      }
     

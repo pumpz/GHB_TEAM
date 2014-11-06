@@ -316,76 +316,190 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
-        public ActionResult ManageAssetPic()//รูปทรัพย์สิน
+        public ActionResult ManageAssetPic(int appraisalID, string AssetManageType)//รูปทรัพย์สิน
         {
-            return View();
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            TempData["AssetManageType"] = AssetManageType;
+            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 2, appraisalID, userName);
+
+            if (listImages == null)
+            {
+                listImages = new List<UploadPictureAssetModel>();
+                for (int i = 0; i < 3; i++)
+                {
+                    UploadPictureAssetModel image = new UploadPictureAssetModel();
+                    image.appraisal_assets_id = appraisalID;
+                    listImages.Add(image);
+                }
+            }
+            return View(listImages);
         }
 
         [HttpPost]
-        public ActionResult ManageAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปทรัพย์สิน
+        public ActionResult ManageAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปทรัพย์สิน
         {
-            model.appraisal_assets_id = 1;
-            if (MultipleFiles != null)
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            Boolean process = false;
+            int count = 0;
+            string pathPic = "";
+            string fileName = "";
+            string savePath = "";
+            int appraisalID = 0;
+
+            foreach (UploadPictureAssetModel model in models)
             {
-                foreach (var fileBase in MultipleFiles)
+                pathPic = "";
+                fileName = "";
+                savePath = "";
+
+                appraisalID = model.appraisal_assets_id;
+                if (MultipleFiles[count] != null && MultipleFiles[count].ContentLength > 0)
                 {
-                    if (fileBase != null && fileBase.ContentLength > 0)
+                    try
                     {
-                        try
+
+                        string path = Server.MapPath("~/Images/Asset/" + model.appraisal_assets_id);
+
+                        fileName = MultipleFiles[count].FileName;
+                        if (!Directory.Exists(path))
                         {
-                            string pathPic = Server.MapPath("~/Images/Asset/" + model.appraisal_assets_id);
-                            if (!Directory.Exists(pathPic))
-                            {
-                                Directory.CreateDirectory(pathPic);
-                            }
-                            string savePath = Path.Combine(pathPic,
-                                          Path.GetFileName(fileBase.FileName));
-                            fileBase.SaveAs(savePath);
+                            Directory.CreateDirectory(path);
                         }
-                        catch (Exception ex)
-                        {
-                            ModelState.AddModelError(String.Empty, ex.Message);
-                        }
+                        savePath = Path.Combine(path,
+                                      Path.GetFileName(MultipleFiles[count].FileName));
+                        MultipleFiles[count].SaveAs(savePath);
+                        pathPic = "~/Images/Asset/" + model.appraisal_assets_id + "/" + fileName;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(String.Empty, ex.Message);
                     }
                 }
 
-            } 
+                count++;
+
+                if (model.image_assets_id == 0 || pathPic != "")
+                {
+                    model.image_path = pathPic;
+                    model.file_name = fileName;
+                    model.upload_type_id = 2; //รูปภาพทรัพย์สิน
+                    model.sequence = count;
+                    process = AppraisalService.MngUploadPicture(model, userName);
+                }
+
+            }
+            if (Convert.ToBoolean(process))
+            {
+                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                return RedirectToAction(
+                           "ManageCompareAssetPic",
+                           new RouteValueDictionary(new
+                           {
+                               appraisalID = appraisalID,
+                               AssetManageType = AssetManageType
+                           })
+                       );
+            }
+            else
+            {
+                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+            }
+           
             return View();
         }
 
-        public ActionResult ManageCompareAssetPic()//รูปข้อมูลเทียบ
+        public ActionResult ManageCompareAssetPic(int appraisalID, string AssetManageType)//รูปข้อมูลเทียบ
         {
-            return View();
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            TempData["AssetManageType"] = AssetManageType;
+            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 3, appraisalID, userName);
+
+            if (listImages == null)
+            {
+                listImages = new List<UploadPictureAssetModel>();
+                for (int i = 0; i < 3; i++)
+                {
+                    UploadPictureAssetModel image = new UploadPictureAssetModel();
+                    image.appraisal_assets_id = appraisalID;
+                    listImages.Add(image);
+                }
+            }
+            return View(listImages);
         }
 
         [HttpPost]
-        public ActionResult ManageCompareAssetPic(UploadPictureAssetModel model, HttpPostedFileBase[] MultipleFiles)//รูปข้อมูลเทียบ
+        public ActionResult ManageCompareAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปข้อมูลเทียบ
         {
-            model.appraisal_assets_id = 1;
-            if (MultipleFiles != null)
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            Boolean process = false;
+            int count = 0;
+            string pathPic = "";
+            string fileName = "";
+            string savePath = "";
+            int appraisalID = 0;
+
+            foreach (UploadPictureAssetModel model in models)
             {
-                foreach (var fileBase in MultipleFiles)
+                pathPic = "";
+                fileName = "";
+                savePath = "";
+
+                appraisalID = model.appraisal_assets_id;
+                if (MultipleFiles[count] != null && MultipleFiles[count].ContentLength > 0)
                 {
-                    if (fileBase != null && fileBase.ContentLength > 0)
+                    try
                     {
-                        try
+
+                        string path = Server.MapPath("~/Images/Compare/" + model.appraisal_assets_id);
+
+                        fileName = MultipleFiles[count].FileName;
+                        if (!Directory.Exists(path))
                         {
-                            string pathPic = Server.MapPath("~/Images/Compare/" + model.appraisal_assets_id);
-                            if (!Directory.Exists(pathPic))
-                            {
-                                Directory.CreateDirectory(pathPic);
-                            }
-                            string savePath = Path.Combine(pathPic,
-                                          Path.GetFileName(fileBase.FileName));
-                            fileBase.SaveAs(savePath);
+                            Directory.CreateDirectory(path);
                         }
-                        catch (Exception ex)
-                        {
-                            ModelState.AddModelError(String.Empty, ex.Message);
-                        }
+                        savePath = Path.Combine(path,
+                                      Path.GetFileName(MultipleFiles[count].FileName));
+                        MultipleFiles[count].SaveAs(savePath);
+                        pathPic = "~/Images/Compare/" + model.appraisal_assets_id + "/" + fileName;
+
+
+                    }
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError(String.Empty, ex.Message);
                     }
                 }
-            } 
+
+                count++;
+
+                if (model.image_assets_id == 0 || pathPic != "")
+                {
+                    model.image_path = pathPic;
+                    model.file_name = fileName;
+                    model.upload_type_id = 3; //รูปภาพเปรียบเทียบ
+                    model.sequence = count;
+                    process = AppraisalService.MngUploadPicture(model, userName);
+                }
+
+            }
+            if (Convert.ToBoolean(process))
+            {
+                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                return RedirectToAction(
+                           "ManageCompareAssetPic",
+                           new RouteValueDictionary(new
+                           {
+                               appraisalID = appraisalID,
+                               AssetManageType = AssetManageType
+                           })
+                       );
+            }
+            else
+            {
+                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+            }
             return View();
           }
 
@@ -710,17 +824,18 @@ namespace AppraisalSystem.Controllers
             ViewData["PaintTheTown"] = ConditionService.GetFilterLists("PAINT_THE_TOWN");
         }
 
-        public void removeImgDB(int imageAssetId)
+        public Boolean removeImgDB(int imageAssetId)
         {
+            Boolean result = false;
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(imageAssetId,0, 0, userName);
               foreach (UploadPictureAssetModel model in listImages){
                   model.image_path = null;
                   model.file_name = null;
-                 AppraisalService.MngUploadPicture(model, userName);
+               result=  AppraisalService.MngUploadPicture(model, userName);
             }
 
-           
+              return result;
         }
         #endregion
     }
