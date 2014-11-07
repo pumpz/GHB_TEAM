@@ -27,16 +27,6 @@ namespace AppraisalSystem.Controllers
             base.Initialize(requestContext);
         }
 
-        protected void setCanUpdate(string manageType)
-        {
-            ViewBag.data = " new {disabled = 'disabled' }";
-
-            switch (manageType)
-            {
-                case "u": ViewData["Disabled"] = "new {disabled = 'disabled' }"; break;
-            }
-        }
-
         protected AppraisalJobModel LoadAssetDetail(int appraisalID, string username)
         {
             AppraisalJobModel model = new AppraisalJobModel();
@@ -69,7 +59,6 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageAssetDetail(string appraisalID, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             setAssetDetail(); //ระบุ filter ในหน้า View
 
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -83,26 +72,9 @@ namespace AppraisalSystem.Controllers
                 //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
                 setManageDetail(thisID, thisManageType);
 
-                if (thisManageType == "v")
-                {
-                    //Set visible for edit
-                    setCanUpdate(thisManageType);
+                AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
 
-                    //Load Data for set on page
-                    AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
-
-                    return View(Model);
-                }
-                else if (thisManageType == "u")
-                {
-                    //Set visible for edit
-                    setCanUpdate(thisManageType);
-
-                    //Load Data for set on page
-                    AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
-
-                    return View(Model);
-                }
+                return View(Model);
             }
             else
             {
@@ -149,7 +121,7 @@ namespace AppraisalSystem.Controllers
                         else
                         {
                             TempData["AppraisalManageType"] = appraisalManageType;
-                            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
+                            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                         }
                     }
                 }
@@ -225,7 +197,7 @@ namespace AppraisalSystem.Controllers
                     }
                     else
                     {
-                        setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -287,12 +259,12 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                            //REDIRECT
                         }
                     }
                     else
                     {
-                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -392,7 +364,6 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
-                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                 return RedirectToAction(
                            "ManageAssetPic",
                            new RouteValueDictionary(new
@@ -404,7 +375,7 @@ namespace AppraisalSystem.Controllers
             }
             else
             {
-                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+                ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             }
 
             return View();
@@ -496,7 +467,6 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
-                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                 return RedirectToAction(
                            "ManageCompareAssetPic",
                            new RouteValueDictionary(new
@@ -508,7 +478,7 @@ namespace AppraisalSystem.Controllers
             }
             else
             {
-                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+                ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
             }
 
             return View();
@@ -597,7 +567,6 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
-                setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                 return RedirectToAction(
                            "ManageCompareAssetPic",
                            new RouteValueDictionary(new
@@ -609,7 +578,7 @@ namespace AppraisalSystem.Controllers
             }
             else
             {
-                setAlert(DataInfo.AlertStatusId.WARNING, "เพิ่มข้อมูลไม่สำเร็จ!", "ปรับปรุงข้อมูลไม่สำเร็จ!");
+                ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
             }
             return View();
         }
@@ -663,12 +632,12 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                            //REDIRECT
                         }
                     }
                     else
                     {
-                        setAlert(DataInfo.AlertStatusId.COMPLETE, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -747,12 +716,12 @@ namespace AppraisalSystem.Controllers
                     if (appraisalAssetId > 0)
                     {
                         modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
-                        setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        //REDIRECT
                     }
                 }
                 else
                 {
-                    setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                    ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                 }
             }
             catch (ArgumentException ae)
@@ -826,12 +795,12 @@ namespace AppraisalSystem.Controllers
                         if (appraisalAssetId > 0)
                         {
                             modelList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
-                            setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                            //REDIRECT
                         }
                     }
                     else
                     {
-                        setAlert(DataInfo.AlertStatusId.WARNING, "ไม่สามารถเพิ่มข้อมูลเรียบร้อยแล้ว!", "ไม่สามารถปรับปรุงข้อมูลเรียบร้อยแล้ว!");
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -859,21 +828,7 @@ namespace AppraisalSystem.Controllers
             Session.Add("AppraisalManageType", appraisalManageType);
             TempData["AppraisalManageType"] = appraisalManageType;
         }
-
-        protected void setAlert(DataInfo.AlertStatusId status, string insertMsg, string editMsg)
-        {
-            string assetManageType = TempData["AppraisalManageType"] != null ? TempData["AppraisalManageType"].ToString() : "";
-            switch (assetManageType)
-            {
-                case "i":
-                    TempData["alert"] = ContentHelpers.getAlertBox(status, insertMsg);
-                    break;
-                case "e":
-                    TempData["alert"] = ContentHelpers.getAlertBox(status, editMsg);
-                    break;
-            }
-        }
-
+        
         public void setAssetDoc()
         {
             ViewData["TYPE_OF_DOCUMENT"] = ConditionService.GetFilterLists("TYPE_OF_DOCUMENT");

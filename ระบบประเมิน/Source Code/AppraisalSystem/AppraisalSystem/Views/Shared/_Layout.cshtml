@@ -106,13 +106,13 @@
                             <a href="@Url.Content("~/Manage/ManageAssetPic" + txtUrl)"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปทรัพย์สิน</a>
                         </li>
                         <li id="menu6">
-                            <a href="@Url.Content("~/Manage/ManageCompareAssetPic" + txtUrl)"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปข้อมูลเทียบ</a>
-                        </li>
-                        <li id="menu7">
                             <a href="@Url.Content("~/Manage/ManageMaterial" + txtUrl)"><i class="fa fa-building-o fa-fw fa-3x"></i> สิ่งปลูกสร้าง</a>
                         </li>
-                        <li id="menu8">
+                        <li id="menu7">
                             <a href="@Url.Content("~/Manage/ManageCompareAsset" + txtUrl)"><i class="fa fa-bar-chart-o fa-fw fa-3x"></i> ตารางเปรียบเทียบ</a>
+                        </li>
+                        <li id="menu8">
+                            <a href="@Url.Content("~/Manage/ManageCompareAssetPic" + txtUrl)"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปข้อมูลเทียบ</a>
                         </li>
                         <li id="menu9">
                             <a href="@Url.Content("~/Manage/ManageOtherDetail" + txtUrl)"><i class="fa fa-plus fa-fw fa-3x"></i> รายละเอียดเพิ่มเติม</a>
@@ -169,9 +169,9 @@
                     case "ManageAssetDoc": pageId = 3; break;
                     case "ManageAssetDocPic": pageId = 4; break;
                     case "ManageAssetPic": pageId = 5; break;
-                    case "ManageCompareAssetPic": pageId = 6; break;
-                    case "ManageMaterial": pageId = 7; break;
-                    case "ManageCompareAsset": pageId = 8; break;
+                    case "ManageMaterial": pageId = 6; break;
+                    case "ManageCompareAsset": pageId = 7; break;
+                    case "ManageCompareAssetPic": pageId = 8; break;
                     case "ManageOtherDetail": pageId = 9; break;
                     case "ManagePrice": pageId = 10; break;
                 }

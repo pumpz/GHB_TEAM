@@ -24,7 +24,7 @@
 {
     
     <div class="col-md-8">
-     @Html.DisplayText(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
+     @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
              @Html.TextBoxFor(m => m.appraisal_assets_code, @getHtmlAttributes("form-control ui-wizard-content", null))
@@ -41,7 +41,7 @@
             </label>
              <label class="textbox-inline">
                 <label>ถนน</label>
-                 @Html.TextBoxFor(m => m.road,@getHtmlAttributes("form-control ui-wizard-content", null))
+                 @Html.TextBoxFor(m => m.road, @getHtmlAttributes("form-control ui-wizard-content", null))
             </label>
         </div>
         <div class="form-group">
@@ -72,7 +72,7 @@
         </div>
         <div class="form-group">
             <label>สิทธิการเข้าออก</label>
-            @Html.DropDownListFor(m => m.rights_of_access_id, new SelectList(ViewData["RightOfAccess"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), @getHtmlAttributes("form-control",null))
+            @Html.DropDownListFor(m => m.rights_of_access_id, new SelectList(ViewData["RightOfAccess"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), @getHtmlAttributes("form-control", null))
         </div>
         <div class="form-group">
             <label>สีตาม พรบ.ผังเมือง</label>

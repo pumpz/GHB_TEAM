@@ -25,6 +25,19 @@
 </script>
 <div class="panel-heading"><label>เอกสารสิทธิ์</label></div>
 <div class="panel-body">
+@functions 
+{
+    object getHtmlAttributes(string CssClass, string istyle)
+    {
+
+        var manageType = @TempData["appraisalManageType"].ToString();
+        if (manageType == "v")
+        {
+            return new { @class = CssClass, @readonly = "readonly", style = istyle };
+        }
+        return new { @class = CssClass, style = istyle };
+    }
+}
 @using (Html.BeginForm("ManageAssetDoc", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-8">

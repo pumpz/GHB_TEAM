@@ -13,7 +13,19 @@
     var isInfo = ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>;
     var levelInfo = ViewData["LEVEL"] as List<AppraisalSystem.Models.FilterModel>;
 }
+@functions 
+{
+    object getHtmlAttributes(string CssClass, string istyle)
+    {
 
+        var manageType = @TempData["appraisalManageType"].ToString();
+        if (manageType == "v")
+        {
+            return new { @class = CssClass, @readonly = "readonly", style = istyle };
+        }
+        return new { @class = CssClass, style = istyle };
+    }
+}
 <div class="panel-heading"><label>ตารางเปรียบเทียบ</label></div>
 <div class="panel-body">
 @using (Html.BeginForm("ManageCompareAsset", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
