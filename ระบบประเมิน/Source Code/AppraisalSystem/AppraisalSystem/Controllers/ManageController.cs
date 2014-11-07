@@ -75,9 +75,9 @@ namespace AppraisalSystem.Controllers
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
 
+            int thisID = appraisalID != null?Convert.ToInt32(ContentHelpers.Decode(appraisalID)):0;
             if (!string.IsNullOrEmpty(appraisalManageType))
             {
-                int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
                 string thisManageType = ContentHelpers.Decode(appraisalManageType);
 
                 //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
@@ -85,8 +85,6 @@ namespace AppraisalSystem.Controllers
 
                 if (thisManageType == "v")
                 {
-                    Response.Write("View");
-
                     //Set visible for edit
                     setCanUpdate(thisManageType);
 
@@ -97,8 +95,6 @@ namespace AppraisalSystem.Controllers
                 }
                 else if (thisManageType == "u")
                 {
-                    Response.Write("Update");
-
                     //Set visible for edit
                     setCanUpdate(thisManageType);
 
@@ -110,7 +106,10 @@ namespace AppraisalSystem.Controllers
             }
             else
             {
-                Response.Write("Insert");
+                if (thisID != null) 
+                {
+                    TempData["appraisalManageType"] = "u";
+                }
             }
 
             return View();
@@ -134,13 +133,15 @@ namespace AppraisalSystem.Controllers
                         {
                             if (process["appraisalID"] != null)
                             {
+                                //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
+                                setManageDetail(Convert.ToInt32(process["appraisalID"]), appraisalManageType);
 
                                 return RedirectToAction(
                                     "ManageAssetMap",
                                     new RouteValueDictionary(new
                                     {
                                         appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
-                                        AssetManageType = ContentHelpers.Encode(appraisalManageType)
+                                        appraisalManageType = ContentHelpers.Encode(appraisalManageType)
                                     })
                                 );
                             }

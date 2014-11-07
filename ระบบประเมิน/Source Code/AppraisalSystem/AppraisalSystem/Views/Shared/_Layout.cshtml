@@ -69,51 +69,57 @@
                             <div class="user-info-wrapper">	
                                 <div class="user-info">
                                     <div class="user-welcome">Welcome</div>
-                                    <div class="username">@AppraisalSystem.Utility.ContentHelpers.Decode(Session["UserName"].ToString())</div>
+                                    <div class="username">
+                                    @if (Session["UserName"] != null)
+                                    {
+                                        string username = AppraisalSystem.Utility.ContentHelpers.Decode(Session["UserName"].ToString());
+                                        <span>@username</span>
+                                    }
+                                    </div>
                                     <div class="status">Status <span class="status-now"><i class="fa fa-circle text-emerald fa"></i> Online</span> </div>
                                 </div>
                             </div>
                         </li>
-                  
-                        <li>
+                        @{
+                            
+                            string appraisalID = Session["appraisalID"] == null ? "" : AppraisalSystem.Utility.ContentHelpers.Encode(Session["appraisalID"].ToString());
+                            string appraisalManageType = Session["appraisalManageType"] == null ? "" : AppraisalSystem.Utility.ContentHelpers.Encode(Session["appraisalManageType"].ToString()); 
+
+                            string txtUrl = "/"+appraisalID + "/" + appraisalManageType;
+                         }
+                        <li id="menu0">
                             <a href="@Url.Content("~/Home/Manage")"><i class="fa fa-home fa-fw fa-3x"></i> หน้าแรก</a>
                         </li>
-                        @if (Session["AssetManageType"] == "u" || Session["AssetManageType"] == "")
-                        {
                         <li id="menu1" >
-                            <a href="@Url.Content("~/Manage/ManageAssetDetail")"><i class="fa fa-files-o fa-fw fa-3x"></i> ข้อมูลที่ตั้งทรัพย์สิน</a>
+                            <a href="@Url.Content("~/Manage/ManageAssetDetail" + txtUrl)"><i class="fa fa-files-o fa-fw fa-3x"></i> ข้อมูลที่ตั้งทรัพย์สิน</a>
                         </li>
-                        }
-                        @if (Session["AssetManageType"] == "u")
-                        {
                         <li id="menu2">
-                            <a href="@Url.Content("~/Manage/ManageAssetMap")"><i class="fa fa-map-marker fa-fw fa-3x"></i> แผนที่</a>
+                            <a href="@Url.Content("~/Manage/ManageAssetMap" + txtUrl)"><i class="fa fa-map-marker fa-fw fa-3x"></i> แผนที่</a>
                         </li>
-                        <li id="menu3">
-                            <a href="@Url.Content("~/Manage/ManageAssetDoc")"><i class="fa fa-files-o fa-fw fa-3x"></i> เอกสารสิทธิ์</a>
+                        <li id="menu3" style="">
+                            <a href="@Url.Content("~/Manage/ManageAssetDoc" + txtUrl)"><i class="fa fa-files-o fa-fw fa-3x"></i> เอกสารสิทธิ์</a>
                         </li>
                         <li id="menu4">
-                            <a href="@Url.Content("~/Manage/ManageAssetDocPic")"><i class="fa fa-clipboard fa-fw fa-3x"></i> รูปเอกสารสิทธิ์</a>
+                            <a href="@Url.Content("~/Manage/ManageAssetDocPic" + txtUrl)"><i class="fa fa-clipboard fa-fw fa-3x"></i> รูปเอกสารสิทธิ์</a>
                         </li>
                         <li id="menu5">
-                            <a href="@Url.Content("~/Manage/ManageAssetPic")"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปทรัพย์สิน</a>
+                            <a href="@Url.Content("~/Manage/ManageAssetPic" + txtUrl)"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปทรัพย์สิน</a>
                         </li>
-                        <li id="menu6" >
-                            <a href="@Url.Content("~/Manage/ManageCompareAssetPic")"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปข้อมูลเทียบ</a>
+                        <li id="menu6">
+                            <a href="@Url.Content("~/Manage/ManageCompareAssetPic" + txtUrl)"><i class="fa fa-picture-o fa-fw fa-3x"></i> รูปข้อมูลเทียบ</a>
                         </li>
                         <li id="menu7">
-                            <a href="@Url.Content("~/Manage/ManageMaterial")"><i class="fa fa-building-o fa-fw fa-3x"></i> สิ่งปลูกสร้าง</a>
+                            <a href="@Url.Content("~/Manage/ManageMaterial" + txtUrl)"><i class="fa fa-building-o fa-fw fa-3x"></i> สิ่งปลูกสร้าง</a>
                         </li>
                         <li id="menu8">
-                            <a href="@Url.Content("~/Manage/ManageCompareAsset")"><i class="fa fa-bar-chart-o fa-fw fa-3x"></i> ตารางเปรียบเทียบ</a>
+                            <a href="@Url.Content("~/Manage/ManageCompareAsset" + txtUrl)"><i class="fa fa-bar-chart-o fa-fw fa-3x"></i> ตารางเปรียบเทียบ</a>
                         </li>
                         <li id="menu9">
-                            <a href="@Url.Content("~/Manage/ManageOtherDetail")"><i class="fa fa-plus fa-fw fa-3x"></i> รายละเอียดเพิ่มเติม</a>
+                            <a href="@Url.Content("~/Manage/ManageOtherDetail" + txtUrl)"><i class="fa fa-plus fa-fw fa-3x"></i> รายละเอียดเพิ่มเติม</a>
                         </li>
                         <li id="menu10">
-                            <a href="@Url.Content("~/Manage/ManagePrice")"><i class="fa fa-money fa-fw fa-3x"></i> สรุปราคา</a>
+                            <a href="@Url.Content("~/Manage/ManagePrice" + txtUrl)"><i class="fa fa-money fa-fw fa-3x"></i> สรุปราคา</a>
                         </li>
-                        }
                     </ul>
                     <!-- /#side-menu -->
                 </div>
@@ -145,19 +151,39 @@
 
         </div>
         <!-- /#wrapper -->
+        
+        <script type="text/javascript">
+            var manageStatus = '@Session["appraisalManageType"]';
+            if (manageStatus == "") {
+                var urlPage = '@Request.Url';
+                var page = urlPage.split("/");
+                var isInsert = false;
+                var currentMenu = page[4];
+                var pageId = "";
 
-@*        <!-- Core Scripts - Include with every page -->
-        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery-1.js"></script>
-        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/bootstrap.js"></script>
-        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/jquery.js"></script>
+                switch (currentMenu) {
+                    case "Manage": pageId = 0; break;
+                    case "ManageSearch": pageId = 0; break;
+                    case "ManageAssetDetail": pageId = 1; break;
+                    case "ManageAssetMap": pageId = 2; break;
+                    case "ManageAssetDoc": pageId = 3; break;
+                    case "ManageAssetDocPic": pageId = 4; break;
+                    case "ManageAssetPic": pageId = 5; break;
+                    case "ManageCompareAssetPic": pageId = 6; break;
+                    case "ManageMaterial": pageId = 7; break;
+                    case "ManageCompareAsset": pageId = 8; break;
+                    case "ManageOtherDetail": pageId = 9; break;
+                    case "ManagePrice": pageId = 10; break;
+                }
 
-        <!-- Page-Level Plugin Scripts - Forms -->
-
-        <!-- Mint Admin Scripts - Include with every page -->
-        <script src="Mint%20-%20Flat%20&amp;%20Responsive%20Admin%20Dashboard_files/mint-admin.js"></script>
-
-        <!-- Page-Level Demo Scripts - Forms - Use for reference -->
-*@
+                if (val != "") {
+                    var val = parseInt(pageId);
+                    for (var i = 10; i > val; i--) {
+                        $("#menu" + i).css("display", "none");
+                    }
+                }
+            }
+        </script>
 </body>
 
 </html>

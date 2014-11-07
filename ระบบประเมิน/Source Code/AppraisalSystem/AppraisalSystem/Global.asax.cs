@@ -26,8 +26,8 @@ namespace AppraisalSystem
 
             routes.MapRoute(
                 "Default", // Route name
-                "{controller}/{action}/{appraisalID}/{appraisalCode}/{appraisalManageType}", // URL with parameters
-                new { controller = "Account", action = "LogOn", appraisalID = UrlParameter.Optional, appraisalCode = UrlParameter.Optional, appraisalManageType = UrlParameter.Optional } // Parameter defaults
+                "{controller}/{action}/{appraisalID}/{appraisalManageType}", // URL with parameters
+                new { controller = "Account", action = "LogOn", appraisalID = UrlParameter.Optional, appraisalManageType = UrlParameter.Optional } // Parameter defaults
             );
 
         }

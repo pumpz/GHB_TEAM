@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AppraisalSystem.Utility;
 
 namespace AppraisalSystem.Controllers
 {
@@ -21,6 +22,9 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult Manage()//Index (Choose search/Add new assets)
         {
+            // Clear Data that set for Layout menu
+            ContentHelpers.clearParamForSetMenu();
+
             return View();
         }
     }

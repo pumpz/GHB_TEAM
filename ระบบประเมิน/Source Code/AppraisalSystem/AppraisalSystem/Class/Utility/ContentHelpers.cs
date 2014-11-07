@@ -328,5 +328,14 @@ namespace AppraisalSystem.Utility
             }
             return Convert.ToDouble(result);
         }
+
+        public static void clearParamForSetMenu()
+        {
+            if (HttpContext.Current.Session != null)
+            {
+                HttpContext.Current.Session["appraisalID"] = "";
+                HttpContext.Current.Session["appraisalManageType"] = "";
+            }
+        }
     }
 }

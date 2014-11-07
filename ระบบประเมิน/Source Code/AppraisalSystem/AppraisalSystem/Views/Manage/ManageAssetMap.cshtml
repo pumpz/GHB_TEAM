@@ -90,7 +90,7 @@
          object getHtmlAttributes( string CssClass,string istyle)
          {
 
-             var manageType = @TempData["appraisalManageType"];
+             var manageType = @TempData["appraisalManageType"].ToString();
              if (manageType=="v")
              {
                  return new { @class = CssClass, @readonly = "readonly", style = istyle };

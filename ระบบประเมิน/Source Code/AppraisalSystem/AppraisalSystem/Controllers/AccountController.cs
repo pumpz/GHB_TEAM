@@ -33,6 +33,9 @@ namespace AppraisalSystem.Controllers
 
         public ActionResult LogOn()
         {
+            // Clear Data that set for Layout menu
+            ContentHelpers.clearParamForSetMenu();
+
             ViewBag.Title = String.Format(Resources.ConfigResource.PROJECT_TITLE_NAME, " : เข้าใช้งาน");
             return View();
         }
