@@ -29,7 +29,7 @@ namespace AppraisalSystem.Controllers
 
         protected void setCanUpdate(string manageType)
         {
-            ViewData["Disabled"] = " new {disabled = 'disabled' }";
+            ViewBag.data = " new {disabled = 'disabled' }";
 
             switch(manageType)
             {
@@ -66,7 +66,7 @@ namespace AppraisalSystem.Controllers
 
         //
         // GET: /Manage/
-
+        [Permission]
         public ActionResult ManageAssetDetail(string appraisalID, string appraisalCode, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
             ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
@@ -118,6 +118,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageAssetDetail(AppraisalJobModel model, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
             try
@@ -175,6 +176,7 @@ namespace AppraisalSystem.Controllers
             return isValid;
         }
 
+        [Permission]
         public ActionResult ManageAssetMap(string appraisalID, string appraisalCode, string appraisalManageType)//แผนที่
         {
             int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
@@ -200,6 +202,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageAssetMap(MapAssetModel model, string appraisalManageType)//แผนที่
         {
             try
@@ -303,6 +306,7 @@ namespace AppraisalSystem.Controllers
             return View(model);
         }
 
+        [Permission]
         public ActionResult ManageAssetDocPic(int appraisalID, string AssetManageType)//รูปเอกสารสิทธิ์
         {
              string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -322,6 +326,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปเอกสารสิทธิ์
         {
              string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -396,6 +401,7 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        [Permission]
         public ActionResult ManageAssetPic(int appraisalID, string AssetManageType)//รูปทรัพย์สิน
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -416,6 +422,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปทรัพย์สิน
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -490,6 +497,7 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
+        [Permission]
         public ActionResult ManageCompareAssetPic(int appraisalID, string AssetManageType)//รูปข้อมูลเทียบ
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -510,6 +518,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageCompareAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปข้อมูลเทียบ
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -815,6 +824,7 @@ namespace AppraisalSystem.Controllers
               return View(modelList);
           }
 
+        [Permission]
         public ActionResult ManagePrice()//สรุปราคา
         {
             return View();
