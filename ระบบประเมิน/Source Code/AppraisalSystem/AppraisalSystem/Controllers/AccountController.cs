@@ -31,8 +31,17 @@ namespace AppraisalSystem.Controllers
         // URL: /Account/LogOn
         // **************************************
 
+        protected void clearParamForSetMenu()
+        {
+            Session["appraisalID"] = "";
+            Session["appraisalManageType"] = "";
+        }
+
         public ActionResult LogOn()
         {
+            // Clear Data that set for Layout menu
+            clearParamForSetMenu();
+
             ViewBag.Title = String.Format(Resources.ConfigResource.PROJECT_TITLE_NAME, " : เข้าใช้งาน");
             return View();
         }

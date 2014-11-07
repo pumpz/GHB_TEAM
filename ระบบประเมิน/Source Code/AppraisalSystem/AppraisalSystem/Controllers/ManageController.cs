@@ -833,7 +833,7 @@ namespace AppraisalSystem.Controllers
         #region Setting Page
         public void setManageDetail(int appraisalID, string appraisalCode, string appraisalManageType)
         {
-            Session.Add("appraisalID", appraisalID); 
+            Session.Add("appraisalID", appraisalManageType); 
             Session.Add("AppraisalManageType", appraisalManageType); 
             TempData["AppraisalCode"] = appraisalCode;
             TempData["AppraisalManageType"] = appraisalManageType;
