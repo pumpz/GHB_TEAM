@@ -141,8 +141,7 @@ namespace AppraisalSystem.Controllers
                                     new RouteValueDictionary(new
                                     {
                                         appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
-                                        appraisalCode = ContentHelpers.Encode(process["appraisalCode"].ToString()),
-                                        AssetManageType = ContentHelpers.Encode(appraisalManageType)
+                                        appraisalManageType = ContentHelpers.Encode(appraisalManageType)
                                     })
                                 );
                             }
@@ -177,7 +176,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageAssetMap(string appraisalID, string appraisalCode, string appraisalManageType)//แผนที่
+        public ActionResult ManageAssetMap(string appraisalID, string appraisalManageType)//แผนที่
         {
             int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
             getAppraisalAssetCode(thisID);
@@ -218,8 +217,8 @@ namespace AppraisalSystem.Controllers
                                    "ManageAssetDocPic",
                                    new RouteValueDictionary(new
                                    {
-                                       appraisalID = model.appraisal_assets_id,
-                                       AssetManageType = appraisalManageType
+                                       appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
+                                       appraisalManageType = ContentHelpers.Encode(appraisalManageType)
                                    })
                                );
                     }
@@ -233,6 +232,7 @@ namespace AppraisalSystem.Controllers
             {
                 ModelState.AddModelError(String.Empty, e.Message);
             }
+            getAppraisalAssetCode(model.appraisal_assets_id);
             return View();
         }
 
@@ -307,18 +307,24 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageAssetDocPic(int appraisalID, string AssetManageType)//รูปเอกสารสิทธิ์
+        public ActionResult ManageAssetDocPic(string appraisalID, string appraisalManageType)//รูปเอกสารสิทธิ์
         {
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
              string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-             TempData["AssetManageType"] = AssetManageType;
-             List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0,1, appraisalID, userName);
+
+             List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 1, thisID, userName);
 
             if (listImages == null)
             {
                 listImages = new List<UploadPictureAssetModel>();
                 for(int i=0;i<3;i++){
                     UploadPictureAssetModel image = new UploadPictureAssetModel();
-                    image.appraisal_assets_id = appraisalID;
+                    image.appraisal_assets_id = thisID;
                     listImages.Add(image);
                 }
             }
@@ -327,10 +333,10 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปเอกสารสิทธิ์
+        public ActionResult ManageAssetDocPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string appraisalManageType)//รูปเอกสารสิทธิ์
         {
              string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            Boolean process = false;
+            Boolean process = true;
             int count = 0;
             string pathPic = "";
             string fileName = "";
@@ -373,6 +379,7 @@ namespace AppraisalSystem.Controllers
 
                 if (model.image_assets_id == 0 || pathPic !="")
                 {
+                    process = false;
                     model.image_path = pathPic;
                     model.file_name = fileName;
                     model.upload_type_id = 1; //รูปภาพเอกสารสิทธิ์
@@ -388,8 +395,8 @@ namespace AppraisalSystem.Controllers
                            "ManageAssetPic",
                            new RouteValueDictionary(new
                            {
-                               appraisalID = appraisalID,
-                               AssetManageType = AssetManageType
+                               appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
+                               appraisalManageType = ContentHelpers.Encode(appraisalManageType)
                            })
                        );
             }
@@ -402,11 +409,16 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageAssetPic(int appraisalID, string AssetManageType)//รูปทรัพย์สิน
+        public ActionResult ManageAssetPic(string appraisalID, string appraisalManageType)//รูปทรัพย์สิน
         {
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            TempData["AssetManageType"] = AssetManageType;
-            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 2, appraisalID, userName);
+            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 2, thisID, userName);
 
             if (listImages == null)
             {
@@ -414,7 +426,7 @@ namespace AppraisalSystem.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     UploadPictureAssetModel image = new UploadPictureAssetModel();
-                    image.appraisal_assets_id = appraisalID;
+                    image.appraisal_assets_id = thisID;
                     listImages.Add(image);
                 }
             }
@@ -423,10 +435,10 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปทรัพย์สิน
+        public ActionResult ManageAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string appraisalManageType)//รูปทรัพย์สิน
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            Boolean process = false;
+            Boolean process = true;
             int count = 0;
             string pathPic = "";
             string fileName = "";
@@ -469,6 +481,7 @@ namespace AppraisalSystem.Controllers
 
                 if (model.image_assets_id == 0 || pathPic != "")
                 {
+                    process = false;
                     model.image_path = pathPic;
                     model.file_name = fileName;
                     model.upload_type_id = 2; //รูปภาพทรัพย์สิน
@@ -484,8 +497,8 @@ namespace AppraisalSystem.Controllers
                            "ManageCompareAssetPic",
                            new RouteValueDictionary(new
                            {
-                               appraisalID = appraisalID,
-                               AssetManageType = AssetManageType
+                               appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
+                               appraisalManageType = ContentHelpers.Encode(appraisalManageType)
                            })
                        );
             }
@@ -498,11 +511,15 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageCompareAssetPic(int appraisalID, string AssetManageType)//รูปข้อมูลเทียบ
+        public ActionResult ManageCompareAssetPic(string appraisalID, string appraisalManageType)//รูปข้อมูลเทียบ
         {
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            TempData["AssetManageType"] = AssetManageType;
-            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 3, appraisalID, userName);
+            List<UploadPictureAssetModel> listImages = AppraisalService.GetUploadPictureAsset(0, 3, thisID, userName);
 
             if (listImages == null)
             {
@@ -510,7 +527,7 @@ namespace AppraisalSystem.Controllers
                 for (int i = 0; i < 3; i++)
                 {
                     UploadPictureAssetModel image = new UploadPictureAssetModel();
-                    image.appraisal_assets_id = appraisalID;
+                    image.appraisal_assets_id = thisID;
                     listImages.Add(image);
                 }
             }
@@ -519,10 +536,10 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageCompareAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string AssetManageType)//รูปข้อมูลเทียบ
+        public ActionResult ManageCompareAssetPic(List<UploadPictureAssetModel> models, HttpPostedFileBase[] MultipleFiles, string appraisalManageType)//รูปข้อมูลเทียบ
         {
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-            Boolean process = false;
+            Boolean process = true;
             int count = 0;
             string pathPic = "";
             string fileName = "";
@@ -565,6 +582,7 @@ namespace AppraisalSystem.Controllers
 
                 if (model.image_assets_id == 0 || pathPic != "")
                 {
+                    process = false;
                     model.image_path = pathPic;
                     model.file_name = fileName;
                     model.upload_type_id = 3; //รูปภาพเปรียบเทียบ
@@ -580,8 +598,8 @@ namespace AppraisalSystem.Controllers
                            "ManageCompareAssetPic",
                            new RouteValueDictionary(new
                            {
-                               appraisalID = appraisalID,
-                               AssetManageType = AssetManageType
+                               appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
+                               AssetManageType = ContentHelpers.Encode(appraisalManageType)
                            })
                        );
             }
@@ -910,15 +928,16 @@ namespace AppraisalSystem.Controllers
         }
         public void getAppraisalAssetCode(int appraisalAssetID)
         {
-
+          
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             List<AppraisalJobModel> listJob = AppraisalService.GetAppraisalJob(appraisalAssetID, null, userName);
 
             foreach (AppraisalJobModel model in listJob)
             {
-                TempData["appraisalCode"] = model.appraisal_assets_code;
+                TempData["appraisalAssetCode"] = model.appraisal_assets_code;
 
             }
+
         }
         #endregion
     }
