@@ -180,7 +180,7 @@ namespace AppraisalSystem.Controllers
         public ActionResult ManageAssetMap(string appraisalID, string appraisalCode, string appraisalManageType)//แผนที่
         {
             int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
-            string thisCode = ContentHelpers.Decode(appraisalCode);
+            getAppraisalAssetCode(thisID);
             string thisManageType = ContentHelpers.Decode(appraisalManageType);
             TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
 
@@ -907,6 +907,18 @@ namespace AppraisalSystem.Controllers
             }
 
               return result;
+        }
+        public void getAppraisalAssetCode(int appraisalAssetID)
+        {
+
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            List<AppraisalJobModel> listJob = AppraisalService.GetAppraisalJob(appraisalAssetID, null, userName);
+
+            foreach (AppraisalJobModel model in listJob)
+            {
+                TempData["appraisalCode"] = model.appraisal_assets_code;
+
+            }
         }
         #endregion
     }
