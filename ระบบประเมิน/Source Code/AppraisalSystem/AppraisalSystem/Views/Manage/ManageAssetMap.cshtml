@@ -86,7 +86,7 @@
         <div class="form-group">
             <label>หมายเลขงาน</label>
             @Html.TextBoxFor(m => m.appraisal_assets_id, new { @class = "form-control ui-wizard-content", style = "width:250px" })
-            @Html.TextBox("AssetManageType", @TempData["AssetManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
+            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
         <div class="form-group">
             <input  type="text" name="place" id="place" placeholder="Search Box" class="form-control ui-wizard-content" style="width:250px"/>
@@ -101,14 +101,14 @@
                @Html.TextBoxFor(m => m.longitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly",style="width:250px" })
        </div>
         <div class="form-group">
-           @if (TempData["AssetManageType"].ToString() == "i")
-         {
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-         }
-           else if (TempData["AssetManageType"].ToString() == "u")
-         {
-             <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-         } 
+        @if (TempData["AppraisalManageType"] == "")
+        {
+        <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+        }
+        else if (TempData["AppraisalManageType"] == "u")
+        {
+        <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
+        }
             <!--button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button-->
         </div>
        

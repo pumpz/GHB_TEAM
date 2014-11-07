@@ -10,11 +10,11 @@
 @using (Html.BeginForm())
 {
     <div class="col-md-8">
-     @Html.Display(ViewData["alert"] != null?ViewData["alert"].ToString():"")
+     @Html.DisplayText(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
              @Html.TextBoxFor(m => m.appraisal_assets_code, new { @class = "form-control ui-wizard-content" })
-             @Html.TextBox("AssetManageType", @TempData["AssetManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
+             @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
          <div class="form-group">
             <label class="textbox-inline">
@@ -50,30 +50,32 @@
         </div>
         <div class="form-group">
             <label>ประเภทของทรัพย์สิน</label>
-            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["AssetType"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control", @ViewBag.Data })
+            @Html.DropDownListFor(m => m.asset_type_id, new SelectList(ViewData["AssetType"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), new { @class = "form-control", @ViewBag.Data })
         </div>
         <div class="form-group">
             <label>วิธีการประเมิน</label>
-            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["AssetmentMethod"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control", @ViewBag.Data })
+            @Html.DropDownListFor(m => m.assessment_methods_id, new SelectList(ViewData["AssetmentMethod"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), new { @class = "form-control", @ViewBag.Data })
         </div>
         <div class="form-group">
             <label>สิทธิการเข้าออก</label>
-            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["RightOfAccess"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control", @ViewBag.Data })
+            @Html.DropDownListFor(m => m.rights_of_access_id, new SelectList(ViewData["RightOfAccess"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), new { @class = "form-control", @ViewBag.Data })
         </div>
         <div class="form-group">
             <label>สีตาม พรบ.ผังเมือง</label>
-            @Html.DropDownListFor(m => m.appraisal_assets_id, new SelectList(ViewData["PaintTheTown"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text"), new { @class = "form-control", @ViewBag.Data })
+            @Html.DropDownListFor(m => m.paint_the_town_id, new SelectList(ViewData["PaintTheTown"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text"), new { @class = "form-control", @ViewBag.Data })
         </div>
          <div class="form-group">
         
-             @if (TempData["AssetManageType"] == "i")
-             {
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-             }
-             else if (TempData["AssetManageType"] == "u")
-             {
+             @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
+               if (string.IsNullOrEmpty(appraisalManageType))
+               {
+             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+               }
+               else if (appraisalManageType == "u")
+               {
              <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-             }
+               }
+            }
          
          <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
         </div>

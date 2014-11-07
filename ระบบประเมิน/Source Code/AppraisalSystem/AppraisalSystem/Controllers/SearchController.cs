@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using AppraisalSystem.Models;
 using AppraisalSystem.Utility;
+using System.Web.Routing;
 
 namespace AppraisalSystem.Controllers
 {
@@ -12,13 +13,21 @@ namespace AppraisalSystem.Controllers
     {
         //
         // GET: /Search/
+        public IConditionService ConditionService { get; set; }
+
+        protected override void Initialize(RequestContext requestContext)
+        {
+            if (ConditionService == null) { ConditionService = new ConditionService(); }
+
+            base.Initialize(requestContext);
+        }
+
 
         public ActionResult ManageSearch()
         {
             List<AppraisalListsModel> searchList = null;
 
-            setAmphur();
-            setDistrict();
+            setSearchFilter();
 
             return View(searchList);
         }
@@ -28,8 +37,7 @@ namespace AppraisalSystem.Controllers
         {
             List<AppraisalListsModel> searchList = searchResult(val);
 
-            setAmphur();
-            setDistrict();
+            setSearchFilter();
 
             return View(searchList);
         }
@@ -41,9 +49,10 @@ namespace AppraisalSystem.Controllers
             string appraisalCode = val["appraisalCode"];
             int districtId = val["districtId"] == null ? 38 : Convert.ToInt32(val["districtId"]);
             int amphurId = val["amphurId"] == null ? 581 : Convert.ToInt32(val["amphurId"]);
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
 
             AppraisalService serv = new AppraisalService();
-            searchList = serv.GetAppraisalLists(appraisalCode, districtId, amphurId, "1", true);
+            searchList = serv.GetAppraisalLists(appraisalCode, districtId, amphurId, userName, true);
             if (ContentHelpers.Isnull(searchList) || searchList.Count <= 0)
             {
                 ModelState.AddModelError("", "Search data not found.");
@@ -57,33 +66,13 @@ namespace AppraisalSystem.Controllers
             return View();
         }
 
-        public void setAmphur()
+        public void setSearchFilter()
         {
-            ConditionService model = new ConditionService();
-
-            AmphurModel item = new AmphurModel();
-            item.amphur_id = -1;
-            item.amphur_name = "โปรดเลือก";
-
-            List<AmphurModel> modelList = model.GetAmphurLists();
-            modelList.Insert(0, item);
-
-            ViewData["Amphur"] = modelList;
+            ViewData["AMPHUR"] = ConditionService.GetAmphurLists();
+            ViewData["DISTRICT"] = ConditionService.GetDistrictLists();
         }
 
-        public void setDistrict()
-        {
-            ConditionService model = new ConditionService();
 
-            DistrictModel item = new DistrictModel();
-            item.district_id = -1;
-            item.district_name = "โปรดเลือก";
-
-            List<DistrictModel> modelList = model.GetDistrictLists();
-            modelList.Insert(0, item);
-
-            ViewData["District"] = modelList;
-        }
 
     }
 }

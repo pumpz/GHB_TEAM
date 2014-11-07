@@ -30,42 +30,103 @@ namespace AppraisalSystem.Controllers
         protected void setCanUpdate(string manageType)
         {
             ViewData["Disabled"] = " new {disabled = 'disabled' }";
+
             switch(manageType)
             {
                 case "u": ViewData["Disabled"] = "new {disabled = 'disabled' }"; break;
             }
         }
 
+        protected AppraisalJobModel LoadAssetDetail(int appraisalID, string username) 
+        {
+            AppraisalJobModel model = new AppraisalJobModel();
+
+            List<AppraisalJobModel> listJob = AppraisalService.GetAppraisalJob(appraisalID, "", username);
+            if (listJob != null)
+            {
+                foreach (AppraisalJobModel job in listJob)
+                {
+                    model.appraisal_assets_id = job.appraisal_assets_id;
+                    model.appraisal_assets_code = job.appraisal_assets_code;
+                    model.village = job.village;
+                    model.alley = job.alley;
+                    model.road = job.road;
+                    model.district_id = job.district_id;
+                    model.amphur_id = job.amphur_id;
+                    model.province_id = job.province_id;
+                    model.detailed_location = job.detailed_location;
+                    model.asset_type_id = job.asset_type_id;
+                    model.assessment_methods_id = job.assessment_methods_id;
+                    model.rights_of_access_id = job.rights_of_access_id;
+                    model.paint_the_town_id = job.paint_the_town_id;
+                }
+            }
+            return model;
+        }
+
         //
         // GET: /Manage/
 
-        public ActionResult ManageAssetDetail(string code, string manageType)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(string appraisalID, string appraisalCode, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            
-            setCanUpdate(manageType);
+            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             setAssetDetail(); //ระบุ filter ในหน้า View
-            setManageDetail(code, manageType); //ระบุid user, job code, ความสามารถ update/view ของ user ลง Tempdata
 
-            //manageType, appraisalCode,pageID
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty?ContentHelpers.Decode(appraisalManageType):"";
 
-            /* if (manageType == "v")
-             {
-                 set readonly   
-             }*/
+            if(!string.IsNullOrEmpty(appraisalManageType))
+            {
+                int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+                string thisCode = ContentHelpers.Decode(appraisalCode);
+                string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            
+                //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
+                setManageDetail(thisCode, thisManageType); 
+
+                if (thisManageType == "v")
+                {
+                    Response.Write("View");
+
+                    //Set visible for edit
+                    setCanUpdate(thisManageType);
+
+                    //Load Data for set on page
+                    AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
+
+                    return View(Model);
+                }
+                else if (thisManageType == "u")
+                {
+                    Response.Write("Update");
+
+                    //Set visible for edit
+                    setCanUpdate(thisManageType);
+
+                    //Load Data for set on page
+                    AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
+
+                    return View(Model);
+                }
+            }
+            else 
+            {
+                Response.Write("Insert");
+            }
+
             return View();
         }
 
         [HttpPost]
-        public ActionResult ManageAssetDetail(AppraisalJobModel model, string AssetManageType)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(AppraisalJobModel model, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
-            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             try
             {
                 if (ModelState.IsValid)
                 {
                    if (isFilterAssetDetail(model))
                    {
-                    string userName = TempData["UserName"].ToString();
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
 
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
@@ -78,15 +139,16 @@ namespace AppraisalSystem.Controllers
                                     "ManageAssetMap",
                                     new RouteValueDictionary(new
                                     {
-                                        appraisalCode = Convert.ToInt32(process["appraisalCode"].ToString()),
-                                        AssetManageType = AssetManageType
+                                        appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
+                                        appraisalCode = ContentHelpers.Encode(process["appraisalCode"].ToString()),
+                                        AssetManageType = ContentHelpers.Encode(appraisalManageType)
                                     })
                                 );
                             }
                         }
                         else
                         {
-                            TempData["AssetManageType"] = AssetManageType;
+                            TempData["AppraisalManageType"] = appraisalManageType;
                             ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
                         }
                    }
@@ -113,13 +175,17 @@ namespace AppraisalSystem.Controllers
             return isValid;
         }
 
-        public ActionResult ManageAssetMap(int appraisalCode, string AssetManageType)//แผนที่
+        public ActionResult ManageAssetMap(string appraisalID, string appraisalCode, string appraisalManageType)//แผนที่
         {
-            TempData["AssetManageType"] = AssetManageType;
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            string thisCode = ContentHelpers.Decode(appraisalCode);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
             MapAssetModel model = new MapAssetModel();
 
-            List<MapAssetModel> listMap = AppraisalService.GetMapAsset(0, appraisalCode, userName);
+            List<MapAssetModel> listMap = AppraisalService.GetMapAsset(0, thisID, userName);
             if(listMap !=null){
                 foreach (MapAssetModel map in listMap)
                 {
@@ -128,13 +194,13 @@ namespace AppraisalSystem.Controllers
                     model.longitude = map.longitude;
                 }
             }
-            model.appraisal_assets_id = appraisalCode;
+            model.appraisal_assets_id = thisID;
 
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult ManageAssetMap(MapAssetModel model, string AssetManageType)//แผนที่
+        public ActionResult ManageAssetMap(MapAssetModel model, string appraisalManageType)//แผนที่
         {
             try
             {
@@ -145,13 +211,12 @@ namespace AppraisalSystem.Controllers
                     Boolean process = AppraisalService.MngMapAsset(model, userName);
                     if (Convert.ToBoolean(process))
                     {
-                        setAlert(DataInfo.AlertStatusId.COMPLETE, "เพิ่มข้อมูลเรียบร้อยแล้ว!", "ปรับปรุงข้อมูลเรียบร้อยแล้ว!");
                         return RedirectToAction(
                                    "ManageAssetDocPic",
                                    new RouteValueDictionary(new
                                    {
                                        appraisalID = model.appraisal_assets_id,
-                                       AssetManageType = AssetManageType
+                                       AssetManageType = appraisalManageType
                                    })
                                );
                     }
@@ -756,16 +821,16 @@ namespace AppraisalSystem.Controllers
         }
 
         #region Setting Page
-        public void setManageDetail(string code, string manageType)
+        public void setManageDetail(string appraisalCode, string appraisalManageType)
         {
-            TempData["UserName"] = ContentHelpers.Decode(Session["UserName"].ToString());
-            TempData["AssetCode"] = string.IsNullOrEmpty(code) ? "" : ContentHelpers.Decode(code);
-            TempData["AssetManageType"] = string.IsNullOrEmpty(manageType) ? "u" : ContentHelpers.Decode(manageType);
+            Session.Add("AppraisalManageType", appraisalManageType); 
+            TempData["AppraisalCode"] = appraisalCode;
+            TempData["AppraisalManageType"] = appraisalManageType;
         }
 
         protected void setAlert(DataInfo.AlertStatusId status, string insertMsg, string editMsg)
         {
-            string assetManageType = TempData["AssetManageType"] != null ? TempData["AssetManageType"].ToString() : "";
+            string assetManageType = TempData["AppraisalManageType"] != null ? TempData["AppraisalManageType"].ToString() : "";
             switch (assetManageType)
             {
                 case "i":

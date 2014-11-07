@@ -225,6 +225,7 @@ namespace AppraisalSystem.Models
 
         [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
+        public int appraisal_assets_code { set; get; }
         public string latitude { set; get; }
         public string longitude { set; get; }
         public int status { set; get; }
@@ -1222,6 +1223,7 @@ namespace AppraisalSystem.Models
             }
             result["Status"] = process;
             result["Message"] = msg;
+            result["appraisalID"] = appraisalID;
             result["appraisalCode"] = appraisalCode;
             return result;
         }
