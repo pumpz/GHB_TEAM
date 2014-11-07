@@ -74,7 +74,9 @@
         });
 
     }
-    
+     
+
+
 </script>
 
 <div class="panel-heading"><label>แผนที่</label></div>
@@ -83,22 +85,35 @@
 {
     <div class="col-md-8">
         @Html.HiddenFor(m => m.appraisal_assets_id)
+        
+         @functions {
+         object getHtmlAttributes( string CssClass,string istyle,string iplaceHolder)
+         {
+
+             var manageType = @TempData["appraisalManageType"];
+             if (manageType=="V")
+             {
+                 return new { @class = CssClass, @disabled = "disabled", style = istyle, placeholder = iplaceHolder  };
+             }
+             return new { @class = CssClass, style = istyle, placeholder = iplaceHolder };
+         }
+         }
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            @Html.TextBoxFor(m => m.appraisal_assets_id, new { @class = "form-control ui-wizard-content", style = "width:250px" })
+            @Html.TextBox("appraisalCode", @TempData["appraisalCode"], new { @class = "form-control ui-wizard-content", @disabled = "disabled", style = "width:250px" })
             @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
         <div class="form-group">
-            <input  type="text" name="place" id="place" placeholder="Search Box" class="form-control ui-wizard-content" style="width:250px"/>
+             @Html.TextBox("place","", @getHtmlAttributes("form-control ui-wizard-content", "width:250px", "Enter Place"))
             <div id="googleMap" style="width:100%;height:380px;"></div> 
         </div>
         <div class="form-group">
              <label>ละติจูด</label>
-             @Html.TextBoxFor(m => m.latitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly",style="width:250px" })
+             @Html.TextBoxFor(m => m.latitude, new { @class = "form-control ui-wizard-content", @disabled = "disabled", style = "width:250px" })
         </div>
         <div class="form-group">
              <label>ลองติจูด</label>
-               @Html.TextBoxFor(m => m.longitude, new { @class = "form-control ui-wizard-content", @readonly = "readonly",style="width:250px" })
+               @Html.TextBoxFor(m => m.longitude, new { @class = "form-control ui-wizard-content", @disabled = "disabled", style = "width:250px" })
        </div>
         <div class="form-group">
         @if (TempData["AppraisalManageType"] == "")
