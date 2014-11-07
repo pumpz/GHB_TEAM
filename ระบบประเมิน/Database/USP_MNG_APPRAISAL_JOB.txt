@@ -1,0 +1,68 @@
+BEGIN
+         
+       set omessage = 'Success';
+
+	SELECT  'Duplicate job code' ,
+		`APPRAISAL_ASSETS_ID` 
+		INTO oMessage, oAppraisalID
+	      FROM `appraisal_assets_job`
+	      WHERE `status` = 1
+  and  `APPRAISAL_ASSETS_CODE` = TRIM(p_appraisal_asset_code)
+	     LIMIT 1; -- you better protect yourself from duplicates
+	IF(ISNULL(oAppraisalID)) THEN
+		INSERT INTO appraisal_assets_job
+		(
+			`APPRAISAL_ASSETS_CODE`, 
+			`VILLAGE`, 
+			`ALLEY`, 
+			`ROAD`, 
+			`DISTRICT_ID`,
+			`AMPHUR_ID`,
+			`PROVINCE_ID`,
+			`DETAILED_LOCATION`,
+			`ASSET_TYPE_ID`, 
+			`ASSESSMENT_METHODS_ID`,
+			`RIGHTS_OF_ACCESS_ID`,
+			`PAINT_THE_TOWN_ID`,
+			`CREATE_BY`
+		)
+		VALUES 
+		( 
+			p_appraisal_asset_code, 
+			p_village, 
+			p_alley, 
+			p_road, 
+			p_district_id,
+			p_amphur_id,
+			p_province_id,
+			p_detailed_location,
+			p_asset_type_id, 
+			p_assessment_mthods_id, 
+			p_rights_of_access_id, 
+			p_paint_the_town_id,
+			p_mng_by
+		) ; 
+		SET oAppraisalID = LAST_INSERT_ID();
+	ELSE
+		if(oMessage != "Success") THEN
+			SET oMessage = IFNULL(oMessage, 'Duplicate job code: ' + p_appraisal_asset_code);
+		END IF;
+
+			UPDATE `appraisal_assets_job`
+			SET `VILLAGE` = p_village,
+				`ALLEY` = p_alley,
+				`ROAD` = p_road,
+				`DISTRICT_ID` = p_district_id,
+				`AMPHUR_ID` = p_amphur_id,
+				`PROVINCE_ID` = p_province_id,
+				`DETAILED_LOCATION` = p_detailed_location,
+				`ASSET_TYPE_ID` = p_asset_type_id,
+				`ASSESSMENT_METHODS_ID` = p_assessment_mthods_id,
+				`RIGHTS_OF_ACCESS_ID` = p_rights_of_access_id,
+				`PAINT_THE_TOWN_ID` = p_paint_the_town_id,
+				`UPDATE_DATE` = CURRENT_TIMESTAMP,
+				`UPDATE_BY` = p_mng_by
+			WHERE `APPRAISAL_ASSETS_ID` = oAppraisalID AND `STATUS` = 1;
+	
+	END IF;
+    END
