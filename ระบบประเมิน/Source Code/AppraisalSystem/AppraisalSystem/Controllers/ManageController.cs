@@ -82,7 +82,7 @@ namespace AppraisalSystem.Controllers
                 string thisManageType = ContentHelpers.Decode(appraisalManageType);
             
                 //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
-                setManageDetail(thisCode, thisManageType); 
+                setManageDetail(thisID,thisCode, thisManageType); 
 
                 if (thisManageType == "v")
                 {
@@ -831,8 +831,9 @@ namespace AppraisalSystem.Controllers
         }
 
         #region Setting Page
-        public void setManageDetail(string appraisalCode, string appraisalManageType)
+        public void setManageDetail(int appraisalID, string appraisalCode, string appraisalManageType)
         {
+            Session.Add("appraisalID", appraisalID); 
             Session.Add("AppraisalManageType", appraisalManageType); 
             TempData["AppraisalCode"] = appraisalCode;
             TempData["AppraisalManageType"] = appraisalManageType;

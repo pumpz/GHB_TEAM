@@ -22,9 +22,18 @@ namespace AppraisalSystem.Controllers
             base.Initialize(requestContext);
         }
 
+        protected void clearParamForSetMenu()
+        {
+            Session["appraisalID"] = "";
+            Session["appraisalManageType"] = "";
+        }
 
+        [Permission]
         public ActionResult ManageSearch()
         {
+            // Clear Data that set for Layout menu
+            clearParamForSetMenu();
+
             List<AppraisalListsModel> searchList = null;
 
             setSearchFilter();
@@ -33,6 +42,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [HttpPost]
+        [Permission]
         public ActionResult ManageSearch(FormCollection val)
         {
             List<AppraisalListsModel> searchList = searchResult(val);
