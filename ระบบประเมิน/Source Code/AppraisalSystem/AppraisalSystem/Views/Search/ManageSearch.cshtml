@@ -42,7 +42,6 @@
                     foreach (var item in Model)
                     {
                         string appraisalID = AppraisalSystem.Utility.ContentHelpers.Encode(item.appraisal_assets_id.ToString());
-                        string appraisalCode = AppraisalSystem.Utility.ContentHelpers.Encode(item.appraisal_assets_id.ToString());
                         string assetManageTypeView = AppraisalSystem.Utility.ContentHelpers.Encode("v");
                         string assetManageTypeUpdate = AppraisalSystem.Utility.ContentHelpers.Encode("u");
                         
@@ -50,8 +49,8 @@
                             <td class="sorting_1">@item.appraisal_assets_code</td>
                             <td class="  ">@item.district_name</td>
                             <td class="  ">@item.amphur_name</td>
-                            <td class="center  "><button class="btn btn-default btn-circle" type="button" title="ดูข้อมูล"  onclick="window.location='@Url.Content("~/Manage/ManageAssetDetail/" + @appraisalID + "/" + appraisalCode + "/" + assetManageTypeView)'"><i class="fa fa-file-text-o"></i></button>&nbsp;
-                            <button class="btn btn-default btn-circle" type="button" title="แก้ไขข้อมูล"  onclick="window.location='@Url.Content("~/Manage/ManageAssetDetail/" + @appraisalID + "/" + appraisalCode + "/" + assetManageTypeUpdate)'"><i class="fa fa-edit"></i></button></td>
+                            <td class="center  "><button class="btn btn-default btn-circle" type="button" title="ดูข้อมูล"  onclick="window.location='@Url.Content("~/Manage/ManageAssetDetail/" + @appraisalID + "/" + assetManageTypeView)'"><i class="fa fa-file-text-o"></i></button>&nbsp;
+                            <button class="btn btn-default btn-circle" type="button" title="แก้ไขข้อมูล"  onclick="window.location='@Url.Content("~/Manage/ManageAssetDetail/" + @appraisalID + "/" + assetManageTypeUpdate)'"><i class="fa fa-edit"></i></button></td>
                     </tr>
                     }
                 }

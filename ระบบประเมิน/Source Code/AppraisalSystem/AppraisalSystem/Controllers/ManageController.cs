@@ -67,7 +67,7 @@ namespace AppraisalSystem.Controllers
         //
         // GET: /Manage/
         [Permission]
-        public ActionResult ManageAssetDetail(string appraisalID, string appraisalCode, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
+        public ActionResult ManageAssetDetail(string appraisalID, string appraisalManageType)//ข้อมูลที่ตั้งทรัพย์สิน
         {
             ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, "จัดการข้อมูลไม่สำเร็จ!");
             setAssetDetail(); //ระบุ filter ในหน้า View
@@ -78,11 +78,10 @@ namespace AppraisalSystem.Controllers
             if(!string.IsNullOrEmpty(appraisalManageType))
             {
                 int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
-                string thisCode = ContentHelpers.Decode(appraisalCode);
                 string thisManageType = ContentHelpers.Decode(appraisalManageType);
             
                 //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
-                setManageDetail(thisID,thisCode, thisManageType); 
+                setManageDetail(thisID, thisManageType); 
 
                 if (thisManageType == "v")
                 {
@@ -133,7 +132,7 @@ namespace AppraisalSystem.Controllers
 
                         if (Convert.ToBoolean(process["Status"]))
                         {
-                            if (process["appraisalCode"] != null)
+                            if (process["appraisalID"] != null)
                             {
 
                                 return RedirectToAction(
@@ -141,7 +140,6 @@ namespace AppraisalSystem.Controllers
                                     new RouteValueDictionary(new
                                     {
                                         appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
-                                        appraisalCode = ContentHelpers.Encode(process["appraisalCode"].ToString()),
                                         AssetManageType = ContentHelpers.Encode(appraisalManageType)
                                     })
                                 );
@@ -831,11 +829,10 @@ namespace AppraisalSystem.Controllers
         }
 
         #region Setting Page
-        public void setManageDetail(int appraisalID, string appraisalCode, string appraisalManageType)
+        public void setManageDetail(int appraisalID, string appraisalManageType)
         {
             Session.Add("appraisalID", appraisalManageType); 
             Session.Add("AppraisalManageType", appraisalManageType); 
-            TempData["AppraisalCode"] = appraisalCode;
             TempData["AppraisalManageType"] = appraisalManageType;
         }
 
