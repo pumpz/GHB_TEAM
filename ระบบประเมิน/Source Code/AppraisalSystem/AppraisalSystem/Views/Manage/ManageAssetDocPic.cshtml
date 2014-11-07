@@ -10,22 +10,10 @@
 @using (Html.BeginForm("ManageAssetDocPic", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-8">
-       @functions {
-         object getHtmlAttributes( string CssClass,string istyle)
-         {
-
-             var manageType = @TempData["appraisalManageType"];
-             if (manageType=="v")
-             {
-                 return new { @class = CssClass, @readonly = "readonly", style = istyle };
-             }
-             return new { @class = CssClass, style = istyle };
-         }
-         }
         <div class="form-group">
             <label>หมายเลขงาน</label>
-              @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly", style = "width:250px" })
-            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
+            <input class="form-control ui-wizard-content"/>
+            @Html.TextBox("AssetManageType", @TempData["AssetManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div> 
          @for (var i = 0; i < Model.Count;i++ )
          {
@@ -34,33 +22,27 @@
            @Html.HiddenFor(model => Model[i].image_path)
           <div class="form-group">
             <label>รูปเอกสารสิทธิ์</label>
-               @if (TempData["appraisalManageType"] != "v")
-             {
             <input type="file" name="MultipleFiles"/>
-              }
         </div>
              
       if (Model[i].image_path != null && Model[i].image_path != "")
       {
             <div class="form-group">   
              <img src= "@Url.Content(Model[i].image_path)" alt="Edit" width="200px" id="img_@(Model[i].image_assets_id)" />
-                @if (TempData["appraisalManageType"] != "v")
-             {
               <button type="button" id="icon_@(Model[i].image_assets_id)" value="@(Model[i].image_assets_id)" class="btn btn-info ui-wizard-content ui-formwizard-button" onclick="removeImg(value);">X</button>
-                    }
-                    </div>
+            </div>
       }
         <div class="form-group">
             <label>คำอธิบายรูปภาพ</label>
-             @Html.TextAreaFor(model => Model[i].description, @getHtmlAttributes("form-control", ""))
+             @Html.TextAreaFor(model => Model[i].description, new { @class = "form-control" })
         </div>
          }
         <div class="form-group">
-              @if (TempData["appraisalManageType"] == "")
+              @if (TempData["AssetManageType"].ToString() == "i")
          {
             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
          }
-              else if (TempData["appraisalManageTypes"] == "u")
+           else if (TempData["AssetManageType"].ToString() == "u")
          {
              <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
          } 
