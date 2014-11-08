@@ -268,6 +268,27 @@ namespace AppraisalSystem.Models
         public int sequence { set; get; }
         public string create_by { set; get; }
     }
+
+    [Serializable]
+    public class ManagePriceModel
+    {
+         [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
+        public int appraisal_assets_id { set; get; }
+        public string appraisal_assets_code { set; get; }
+        public string village { set; get; }
+        public string alley { set; get; }
+        public string road { set; get; }
+        public string district_name { set; get; }
+        public string amphur_name { set; get; }
+        public string province_name { set; get; }
+        public string detailed_location { set; get; }
+        public string asset_type { set; get; }
+        public string assessment_methods { set; get; }
+        public string rights_of_asset { set; get; }
+        public string paint_the_town { set; get; }
+        public string land_value { set; get; }
+        public string building_value { set; get; }
+    }
     #endregion
 
     #region Services
@@ -346,6 +367,15 @@ namespace AppraisalSystem.Models
         /// <param name="createBy"></param>
         /// <returns>List<UploadPictureAssetModel></returns>
         List<UploadPictureAssetModel> GetUploadPictureAsset(int imageAssetID,int uploadTypeID, int appraisalID, string createBy);
+
+        /// <detail>
+        /// ManagePriceModel
+        /// </detail>
+        /// <param name="appraisalID"></param>
+        /// <param name="createBy"></param>
+        /// <returns>List<ManagePriceModel></returns>
+        List<ManagePriceModel> GetManagePrice(int appraisalID);
+
 
         /// <management>
         /// MngAppraisalJob
@@ -1127,6 +1157,79 @@ namespace AppraisalSystem.Models
                                     UploadPictureAssetItem.status = dr["status"] == System.DBNull.Value ? 0 : Convert.ToInt16(dr["status"]);
 
                                     result.Add(UploadPictureAssetItem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+
+            return result;
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select)]
+        public List<ManagePriceModel> GetManagePrice( int appraisalID)
+        {
+            MySqlConnection conn = null;
+            List<ManagePriceModel> result = null;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.VIEW_RESULT, conn))
+                    {
+                        string condition = "";
+
+                        if (appraisalID > 0)
+                        {
+                            condition += string.Format(" WHERE APPRAISAL_ASSETS_ID = {0}", appraisalID);
+                        }
+                   
+                        cmd.CommandText += condition;
+                        using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                        {
+                            if (dr.HasRows)
+                            {
+                                result = new List<ManagePriceModel>();
+                                while (dr.Read())
+                                {
+                                    ManagePriceModel item = new ManagePriceModel();
+                                    item.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
+                                    item.appraisal_assets_code = dr["appraisal_assets_code"] == System.DBNull.Value ? "" : Convert.ToString(dr["appraisal_assets_code"]);
+                                    item.village = dr["village"] == System.DBNull.Value ? "" : Convert.ToString(dr["village"]);
+                                    item.alley = dr["alley"] == System.DBNull.Value ? "" : Convert.ToString(dr["alley"]);
+                                    item.road = dr["road"] == System.DBNull.Value ? "" : Convert.ToString(dr["road"]);
+                                    item.district_name = dr["district_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["district_name"]);
+                                    item.amphur_name = dr["amphur_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["amphur_name"]);
+                                    item.province_name = dr["province_name"] == System.DBNull.Value ? "" : Convert.ToString(dr["province_name"]);
+                                    item.detailed_location = dr["detailed_location"] == System.DBNull.Value ? "" : Convert.ToString(dr["detailed_location"]);
+                                    item.asset_type = dr["asset_type"] == System.DBNull.Value ? "" : Convert.ToString(dr["asset_type"]);
+                                    item.assessment_methods = dr["assessment_methods"] == System.DBNull.Value ? "" : Convert.ToString(dr["assessment_methods"]);
+                                    item.rights_of_asset = dr["rights_of_asset"] == System.DBNull.Value ? "" : Convert.ToString(dr["rights_of_asset"]);
+                                    item.paint_the_town = dr["paint_the_town"] == System.DBNull.Value ? "" : Convert.ToString(dr["paint_the_town"]);
+                                    item.land_value = dr["land_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["land_value"]);
+                                    item.building_value = dr["building_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["building_value"]);
+
+
+                                    result.Add(item);
                                 }
                             }
                         }

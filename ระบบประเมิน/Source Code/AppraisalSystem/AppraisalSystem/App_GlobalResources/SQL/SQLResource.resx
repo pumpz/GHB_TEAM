@@ -213,6 +213,9 @@
   <data name="VIEW_PROVINCE" xml:space="preserve">
     <value>SELECT * FROM V_PROVINCE</value>
   </data>
+  <data name="VIEW_RESULT" xml:space="preserve">
+    <value>SELECT * FROM V_RESULT</value>
+  </data>
   <data name="VIEW_ROLES" xml:space="preserve">
     <value>SELECT * FROM V_ROLES</value>
   </data>
