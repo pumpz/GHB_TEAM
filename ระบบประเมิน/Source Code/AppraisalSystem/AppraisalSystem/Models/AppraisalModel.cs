@@ -825,7 +825,7 @@ namespace AppraisalSystem.Models
                         {
                             condition += string.Format(" AND CREATE_BY = '{0}'", createBy);
                         }
-                        cmd.CommandText += condition;
+                        cmd.CommandText += condition + " ORDER BY SEQUENCE";
                         using (MySqlDataReader dr = cmd.ExecuteReader(CommandBehavior.CloseConnection))
                         {
                             if (dr.HasRows)
@@ -1368,8 +1368,8 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_rai_area", MySqlDbType.Int32).Value = appraisalDetail.rai_area;
                         cmd.Parameters.Add("p_ngaan_area", MySqlDbType.Int32).Value = appraisalDetail.ngaan_area;
                         cmd.Parameters.Add("p_wa_area", MySqlDbType.Int32).Value = appraisalDetail.wa_area;
-                        cmd.Parameters.Add("p_total_area", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(appraisalDetail.total_area);
-                        cmd.Parameters.Add("p_appraisal", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(appraisalDetail.appraisal);
+                        cmd.Parameters.Add("p_total_area", MySqlDbType.Double).Value = string.IsNullOrEmpty(appraisalDetail.total_area)?0:ContentHelpers.replaceMoneyToDouble(appraisalDetail.total_area);
+                        cmd.Parameters.Add("p_appraisal", MySqlDbType.Double).Value = string.IsNullOrEmpty(appraisalDetail.appraisal) ? 0 : ContentHelpers.replaceMoneyToDouble(appraisalDetail.appraisal);
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
 
                         cmd.Parameters.Add(new MySqlParameter("oAppraisalDetailID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;
@@ -1559,8 +1559,8 @@ namespace AppraisalSystem.Models
                         cmd.Parameters.Add("p_room_3", MySqlDbType.VarChar).Value = locationAsset.room_3;
                         cmd.Parameters.Add("p_width", MySqlDbType.Double).Value = locationAsset.width;
                         cmd.Parameters.Add("p_high", MySqlDbType.Double).Value = locationAsset.high;
-                        cmd.Parameters.Add("p_price_per_meter", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(locationAsset.price_per_meter);
-                        cmd.Parameters.Add("p_depreciation", MySqlDbType.Double).Value = ContentHelpers.replaceMoneyToDouble(locationAsset.depreciation);
+                        cmd.Parameters.Add("p_price_per_meter", MySqlDbType.Double).Value = string.IsNullOrEmpty(locationAsset.price_per_meter) ? 0 : ContentHelpers.replaceMoneyToDouble(locationAsset.price_per_meter);
+                        cmd.Parameters.Add("p_depreciation", MySqlDbType.Double).Value = string.IsNullOrEmpty(locationAsset.depreciation) ? 0 : ContentHelpers.replaceMoneyToDouble(locationAsset.depreciation);
                         cmd.Parameters.Add("p_mng_by", MySqlDbType.VarChar).Value = mngBy;
 
                         cmd.Parameters.Add(new MySqlParameter("oAssetsLocationID", MySqlDbType.Int32)).Direction = ParameterDirection.Output;

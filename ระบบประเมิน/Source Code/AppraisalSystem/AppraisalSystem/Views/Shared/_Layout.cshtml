@@ -83,7 +83,8 @@
                         @{
                             
                             string appraisalID = Session["appraisalID"] == null ? "" : AppraisalSystem.Utility.ContentHelpers.Encode(Session["appraisalID"].ToString());
-                            string appraisalManageType = Session["appraisalManageType"] == null ? "" : AppraisalSystem.Utility.ContentHelpers.Encode(Session["appraisalManageType"].ToString()); 
+                            //string appraisalManageType = Session["appraisalManageType"] == null ? "" : AppraisalSystem.Utility.ContentHelpers.Encode(Session["appraisalManageType"].ToString());
+                            string appraisalManageType = Session["appraisalManageType"] == null ? "" : Session["appraisalManageType"].ToString(); 
 
                             string txtUrl = "/"+appraisalID + "/" + appraisalManageType;
                          }

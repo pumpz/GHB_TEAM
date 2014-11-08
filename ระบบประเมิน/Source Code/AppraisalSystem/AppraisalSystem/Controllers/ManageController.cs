@@ -30,25 +30,27 @@ namespace AppraisalSystem.Controllers
         protected AppraisalJobModel LoadAssetDetail(int appraisalID, string username)
         {
             AppraisalJobModel model = new AppraisalJobModel();
-
-            List<AppraisalJobModel> listJob = AppraisalService.GetAppraisalJob(appraisalID, "", username);
-            if (listJob != null)
+            if (appraisalID > 0)
             {
-                foreach (AppraisalJobModel job in listJob)
+                List<AppraisalJobModel> listJob = AppraisalService.GetAppraisalJob(appraisalID, "", username);
+                if (listJob != null)
                 {
-                    model.appraisal_assets_id = job.appraisal_assets_id;
-                    model.appraisal_assets_code = job.appraisal_assets_code;
-                    model.village = job.village;
-                    model.alley = job.alley;
-                    model.road = job.road;
-                    model.district_id = job.district_id;
-                    model.amphur_id = job.amphur_id;
-                    model.province_id = job.province_id;
-                    model.detailed_location = job.detailed_location;
-                    model.asset_type_id = job.asset_type_id;
-                    model.assessment_methods_id = job.assessment_methods_id;
-                    model.rights_of_access_id = job.rights_of_access_id;
-                    model.paint_the_town_id = job.paint_the_town_id;
+                    foreach (AppraisalJobModel job in listJob)
+                    {
+                        model.appraisal_assets_id = job.appraisal_assets_id;
+                        model.appraisal_assets_code = job.appraisal_assets_code;
+                        model.village = job.village;
+                        model.alley = job.alley;
+                        model.road = job.road;
+                        model.district_id = job.district_id;
+                        model.amphur_id = job.amphur_id;
+                        model.province_id = job.province_id;
+                        model.detailed_location = job.detailed_location;
+                        model.asset_type_id = job.asset_type_id;
+                        model.assessment_methods_id = job.assessment_methods_id;
+                        model.rights_of_access_id = job.rights_of_access_id;
+                        model.paint_the_town_id = job.paint_the_town_id;
+                    }
                 }
             }
             return model;
@@ -65,20 +67,20 @@ namespace AppraisalSystem.Controllers
             TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
 
             int thisID = appraisalID != null?Convert.ToInt32(ContentHelpers.Decode(appraisalID)):0;
-            if (!string.IsNullOrEmpty(appraisalManageType))
+            if (string.IsNullOrEmpty(appraisalManageType))
             {
-                string thisManageType = ContentHelpers.Decode(appraisalManageType);
-
-                //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
-                setManageDetail(thisID, thisManageType);
+                //string thisManageType = ContentHelpers.Decode(appraisalManageType);
 
                 AppraisalJobModel Model = LoadAssetDetail(thisID, userName);
+
+                //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
+                setManageDetail(Model.appraisal_assets_id, appraisalManageType);
 
                 return View(Model);
             }
             else
             {
-                if (thisID != null) 
+                if (thisID > 0) 
                 {
                     TempData["appraisalManageType"] = "u";
                 }
@@ -98,13 +100,19 @@ namespace AppraisalSystem.Controllers
                     if (isFilterAssetDetail(model))
                     {
                         string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                        model.district_id = 1;
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
                         if (Convert.ToBoolean(process["Status"]))
                         {
                             if (process["appraisalID"] != null)
                             {
+                                string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                                string thisManageType = _appraisalManageType;
+                                if (_appraisalManageType != "u")
+                                {
+                                    appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                                }
+
                                 //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
                                 setManageDetail(Convert.ToInt32(process["appraisalID"]), appraisalManageType);
 
@@ -113,7 +121,7 @@ namespace AppraisalSystem.Controllers
                                     new RouteValueDictionary(new
                                     {
                                         appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
-                                        appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                                        appraisalManageType = appraisalManageType
                                     })
                                 );
                             }
@@ -186,12 +194,19 @@ namespace AppraisalSystem.Controllers
                     Boolean process = AppraisalService.MngMapAsset(model, userName);
                     if (Convert.ToBoolean(process))
                     {
+                        string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                        string thisManageType = _appraisalManageType;
+                        if (_appraisalManageType != "u")
+                        {
+                            appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                        }
+
                         return RedirectToAction(
                                    "ManageAssetDoc",
                                    new RouteValueDictionary(new
                                    {
                                        appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
-                                       appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                                       appraisalManageType = appraisalManageType
                                    })
                                );
                     }
@@ -262,16 +277,24 @@ namespace AppraisalSystem.Controllers
                     var process = AppraisalService.MngAppraisalDetail(model, userName);
                     if (process)
                     {
-                        List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, model.assets_detail_id, userName);
+                        List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(model.assets_detail_id,model.appraisal_assets_id , userName);
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
+
+                            string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                            string thisManageType = _appraisalManageType;
+                            if (_appraisalManageType != "u")
+                            {
+                                appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                            }
+
                             return RedirectToAction(
                                    "ManageAssetDocPic",
                                    new RouteValueDictionary(new
                                    {
                                        appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
-                                       appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                                       appraisalManageType = appraisalManageType
                                    })
                                );
                         }
@@ -290,6 +313,15 @@ namespace AppraisalSystem.Controllers
             {
                 ModelState.AddModelError(String.Empty, e.Message);
             }
+
+            string _ManageType1 = ContentHelpers.Decode(appraisalManageType);
+            if (_ManageType1 != "u")
+            {
+                _ManageType1 = ContentHelpers.Encode(appraisalManageType);
+            }
+
+            TempData["appraisalManageType"] = _ManageType1;
+
             return View(model);
         }
 
@@ -378,12 +410,19 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
+                string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                string thisManageType = _appraisalManageType;
+                if (_appraisalManageType != "u")
+                {
+                    appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                }
+
                 return RedirectToAction(
                            "ManageAssetPic",
                            new RouteValueDictionary(new
                            {
                                appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
-                               appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                               appraisalManageType = appraisalManageType
                            })
                        );
             }
@@ -481,12 +520,19 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
+                string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                string thisManageType = _appraisalManageType;
+                if (_appraisalManageType != "u")
+                {
+                    appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                }
+
                 return RedirectToAction(
-                           "ManageCompareAssetPic",
+                           "ManageMaterial",
                            new RouteValueDictionary(new
                            {
                                appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
-                               appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                               appraisalManageType = appraisalManageType
                            })
                        );
             }
@@ -581,12 +627,19 @@ namespace AppraisalSystem.Controllers
             }
             if (Convert.ToBoolean(process))
             {
+                string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                string thisManageType = _appraisalManageType;
+                if (_appraisalManageType != "u")
+                {
+                    appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                }
+
                 return RedirectToAction(
-                           "ManageMaterial",
+                           "ManageOtherDetail",
                            new RouteValueDictionary(new
                            {
                                appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
-                               AssetManageType = ContentHelpers.Encode(appraisalManageType)
+                               appraisalManageType = appraisalManageType
                            })
                        );
             }
@@ -653,12 +706,20 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
+
+                            string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                            string thisManageType = _appraisalManageType;
+                            if (_appraisalManageType != "u")
+                            {
+                                appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                            }
+
                            return RedirectToAction(
                           "ManageCompareAsset",
                           new RouteValueDictionary(new
                           {
                               appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
-                              appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                              appraisalManageType = appraisalManageType
                           })
                       );
                         }
@@ -752,12 +813,20 @@ namespace AppraisalSystem.Controllers
                     if (appraisalAssetId > 0)
                     {
                         modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
+
+                        string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                        string thisManageType = _appraisalManageType;
+                        if (_appraisalManageType != "u")
+                        {
+                            appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                        }
+
                         return RedirectToAction(
-                       "ManageOtherDetail",
+                       "ManageCompareAssetPic",
                        new RouteValueDictionary(new
                        {
                            appraisalID = ContentHelpers.Encode(appraisalAssetId.ToString()),
-                           appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                           appraisalManageType = appraisalManageType
                        })
                    );
                     }
@@ -845,13 +914,21 @@ namespace AppraisalSystem.Controllers
                         if (appraisalAssetId > 0)
                         {
                             modelList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
+
+                            string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                            string thisManageType = _appraisalManageType;
+                            if (_appraisalManageType != "u")
+                            {
+                                appraisalManageType = ContentHelpers.Encode(appraisalManageType);
+                            }
+
                             return RedirectToAction(
-                        "ManagePrice",
-                        new RouteValueDictionary(new
-                        {
-                            appraisalID = ContentHelpers.Encode(appraisalAssetId.ToString()),
-                            appraisalManageType = ContentHelpers.Encode(appraisalManageType)
-                        })
+                            "ManagePrice",
+                            new RouteValueDictionary(new
+                            {
+                                appraisalID = ContentHelpers.Encode(appraisalAssetId.ToString()),
+                                appraisalManageType = appraisalManageType
+                            })
                           );
                         }
                     }
@@ -916,9 +993,11 @@ namespace AppraisalSystem.Controllers
         #region Setting Page
         public void setManageDetail(int appraisalID, string appraisalManageType)
         {
+     
+
             Session.Add("appraisalID", appraisalID);
             Session.Add("AppraisalManageType", appraisalManageType);
-            TempData["AppraisalManageType"] = appraisalManageType;
+            //TempData["AppraisalManageType"] = appraisalManageType;
         }
         
         public void setAssetDoc()
