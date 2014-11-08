@@ -81,13 +81,9 @@
          <div class="form-group">
         
              @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
-               if (string.IsNullOrEmpty(appraisalManageType))
+               if (string.IsNullOrEmpty(appraisalManageType) || appraisalManageType == "u")
                {
              <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-               }
-               else if (appraisalManageType == "u")
-               {
-             <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
                }
             }
          

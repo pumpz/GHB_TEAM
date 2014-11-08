@@ -683,7 +683,7 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageCompareAsset(string appraisalID, string appraisalManageType)//ตารางเปรียบเทียบ
         {
-            List<CompareAssetModel> modelList = null;
+            List<CompareAssetModel> modelList = new List<CompareAssetModel>();
            // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
 
             int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
@@ -696,12 +696,13 @@ namespace AppraisalSystem.Controllers
             {
                 setCompareAsset();
 
-                if (ContentHelpers.IsNotnull(thisID) && Convert.ToInt32(thisID) > 0)
+               /* if (ContentHelpers.IsNotnull(thisID) && Convert.ToInt32(thisID) > 0)
                 {
                     modelList = AppraisalService.GetCompareAsset(0, thisID, "");
                 }
                 else
-                {
+                {*/
+                    modelList = AppraisalService.GetCompareAsset(0, thisID, "");
                     if (modelList == null)
                     {
                         modelList = new List<CompareAssetModel>();
@@ -713,7 +714,7 @@ namespace AppraisalSystem.Controllers
                             modelList.Add(compare);
                         }
                     }
-                }
+                //}
             }
             catch (ArgumentException ae)
             {
@@ -780,7 +781,7 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageOtherDetail(string appraisalID, string appraisalManageType)//รายละเอียดเพิ่มเติม
         {
-            List<CompareDescriptionModel> modelList = null;
+            List<CompareDescriptionModel> modelList = new List<CompareDescriptionModel>();
 
            // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
 

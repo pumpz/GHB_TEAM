@@ -27,13 +27,13 @@
 <div class="panel-body">
 @functions 
 {
-    object getHtmlAttributes(string CssClass, string istyle)
+    object getHtmlAttributes(string CssClass, string istyle, string onChange, string onKeyup, string dataplaceHolder)
     {
 
         var manageType = @TempData["appraisalManageType"].ToString();
         if (manageType == "v")
         {
-            return new { @class = CssClass, @readonly = "readonly", style = istyle };
+            return new { @class = CssClass, @readonly = "readonly", data_placeholder = dataplaceHolder, style = istyle, onchange = onChange, onkeyup = onKeyup };
         }
         return new { @class = CssClass, style = istyle };
     }
@@ -41,14 +41,15 @@
 @using (Html.BeginForm("ManageMaterial", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-12">
+        @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            @Html.LabelFor(model => model.appraisal_assets_id, Convert.ToString(ViewData["AppraisalCode"]))
-            @Html.ValidationMessageFor(model => model.appraisal_assets_id)
+            @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
         <div class="form-group">
             <label>หมายเลขสป.</label>
-            @Html.TextBoxFor(model => model.no_buildings, new { @class = "form-control ui-wizard-content", style = "width:30%" })
+            @Html.TextBoxFor(model => model.no_buildings, @getHtmlAttributes("form-control ui-wizard-content", null , null, null,null))
             @Html.ValidationMessageFor(model => model.no_buildings)
         </div>
         <div class="form-group">
@@ -60,7 +61,7 @@
                     var buildingTypeAll = ViewData["BUILDING_TYPE"] as List<AppraisalSystem.Models.FilterModel>;
                     if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(buildingTypeAll) && buildingTypeAll.Count > 0)
 	                {
-		                @Html.DropDownListFor(model => model.building_type_id, new SelectList(buildingTypeAll, "filter_value", "filter_text", Model.building_type_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกประเภทอาคาร..." })
+		                @Html.DropDownListFor(model => model.building_type_id, new SelectList(buildingTypeAll, "filter_value", "filter_text", Model.building_type_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกประเภทอาคาร..."))
 	                }
                     @Html.ValidationMessageFor(model => model.building_type_id)
                 }
@@ -69,7 +70,7 @@
                 <label>จำนวนชั้น</label>
             </label>
             <label class="textbox-inline ddlForHeader100">
-                @Html.TextBoxFor(model => model.floor, new { @class = "form-control ui-wizard-content" })
+                @Html.TextBoxFor(model => model.floor, @getHtmlAttributes("form-control ui-wizard-content", null , null, null,null))
                 @Html.ValidationMessageFor(model => model.floor)
             </label>
         </div>
@@ -82,7 +83,7 @@
                     var conditionBuildingAll = ViewData["CONDITION_BUILDING"] as List<AppraisalSystem.Models.FilterModel>;
                     if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(conditionBuildingAll) && conditionBuildingAll.Count > 0)
 	                {
-		                @Html.DropDownListFor(model => model.condition_building_id, new SelectList(conditionBuildingAll, "filter_value", "filter_text", Model.condition_building_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกสภาพสิ่งปลูกสร้าง..." })
+		                @Html.DropDownListFor(model => model.condition_building_id, new SelectList(conditionBuildingAll, "filter_value", "filter_text", Model.condition_building_id), @getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกสภาพสิ่งปลูกสร้าง..."))
 	                }
                     @Html.ValidationMessageFor(model => model.condition_building_id)
                 }
@@ -91,13 +92,13 @@
                 <label>อายุอาคาร</label>
             </label>
             <label class="textbox-inline ddlForHeader100">
-                @Html.TextBoxFor(model => model.building_age, new { @class="form-control ui-wizard-content" })
+                @Html.TextBoxFor(model => model.building_age, @getHtmlAttributes("form-control ui-wizard-content", null, null, null, null))
                 @Html.ValidationMessageFor(model => model.building_age)
             </label>
         </div>
         <div class="form-group">
             <label>รายละเอียดสิ่งปลูกสร้าง</label>
-            @Html.TextArea("txtHomeDesc","",3,3, new { @class = "form-control" })
+            @Html.TextArea("txtHomeDesc", "", 3, 3, @getHtmlAttributes("form-control", null, null, null, null))
         </div>
     </div>
     <div class="col-md-6">
@@ -114,7 +115,7 @@
                         var structureAll = ViewData["STRUCTURE"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(structureAll) && structureAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.structure_id, new SelectList(structureAll, "filter_value", "filter_text", Model.structure_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกโครงสร้าง..." })
+		                    @Html.DropDownListFor(model => model.structure_id, new SelectList(structureAll, "filter_value", "filter_text", Model.structure_id), @getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกโครงสร้าง..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.structure_id)
                     }
@@ -129,7 +130,7 @@
                         var poleAll = ViewData["STRUCTURE"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(poleAll) && poleAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.pole_id, new SelectList(poleAll, "filter_value", "filter_text", Model.pole_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกประเภทเสา..." })
+		                    @Html.DropDownListFor(model => model.pole_id, new SelectList(poleAll, "filter_value", "filter_text", Model.pole_id),  @getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกประเภทเสา..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.pole_id)
                     }
@@ -144,7 +145,7 @@
                         var roofAll = ViewData["STRUCTURE"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(roofAll) && roofAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.roof_id, new SelectList(roofAll, "filter_value", "filter_text", Model.roof_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกโครงหลังคา..." })
+		                    @Html.DropDownListFor(model => model.roof_id, new SelectList(roofAll, "filter_value", "filter_text", Model.roof_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกโครงหลังคา..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.roof_id)
                     }
@@ -159,7 +160,7 @@
                         var materialAll = ViewData["MATERIALS"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(materialAll) && materialAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.materials_id, new SelectList(materialAll, "filter_value", "filter_text", Model.materials_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกวัสดุมุงหลังคา..." })
+		                    @Html.DropDownListFor(model => model.materials_id, new SelectList(materialAll, "filter_value", "filter_text", Model.materials_id), @getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกวัสดุมุงหลังคา..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.materials_id)
                     }
@@ -174,7 +175,7 @@
                         var ceilingAll = ViewData["CEILING"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(ceilingAll) && ceilingAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.ceiling_id, new SelectList(ceilingAll, "filter_value", "filter_text", Model.ceiling_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกฝ้าเพดา..." })
+		                    @Html.DropDownListFor(model => model.ceiling_id, new SelectList(ceilingAll, "filter_value", "filter_text", Model.ceiling_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกฝ้าเพดา..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.ceiling_id)
                     }
@@ -189,7 +190,7 @@
                         var exteriorWallAll = ViewData["EX-INTERIOR_WALLS"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(exteriorWallAll) && exteriorWallAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.exterior_walls_id, new SelectList(exteriorWallAll, "filter_value", "filter_text", Model.exterior_walls_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกผนังภายนอก..." })
+		                    @Html.DropDownListFor(model => model.exterior_walls_id, new SelectList(exteriorWallAll, "filter_value", "filter_text", Model.exterior_walls_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกผนังภายนอก..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.exterior_walls_id)
                     }
@@ -204,7 +205,7 @@
                         var interiorWallAll = ViewData["EX-STAIR"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(interiorWallAll) && interiorWallAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.interior_walls_id, new SelectList(interiorWallAll, "filter_value", "filter_text", Model.interior_walls_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกผนังภายใน..." })
+		                    @Html.DropDownListFor(model => model.interior_walls_id, new SelectList(interiorWallAll, "filter_value", "filter_text", Model.interior_walls_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกผนังภายใน..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.interior_walls_id)
                     }
@@ -219,7 +220,7 @@
                         var stairAll = ViewData["STAIR"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(stairAll) && stairAll.Count > 0)
 	                    {
-		                    @Html.DropDownListFor(model => model.stair_id, new SelectList(stairAll, "filter_value", "filter_text", Model.stair_id), new { @class = "form-control", data_placeholder = "กรุณาเลือกบันได..." })
+		                    @Html.DropDownListFor(model => model.stair_id, new SelectList(stairAll, "filter_value", "filter_text", Model.stair_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกบันได..."))
 	                    }
                         @Html.ValidationMessageFor(model => model.stair_id)
                     }
@@ -239,19 +240,19 @@
             </div>
             <div class="form-group">
                 <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.room_1, new { @class="form-control ui-wizard-content" })
+                    @Html.TextBoxFor(model => model.room_1,@getHtmlAttributes("form-control ui-wizard-content", null , null, null,null))
                     @Html.ValidationMessageFor(model => model.room_1)
                 </label>
             </div>
             <div class="form-group">
                  <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.room_2, new { @class = "form-control ui-wizard-content" })
+                    @Html.TextBoxFor(model => model.room_2, @getHtmlAttributes("form-control ui-wizard-content", null, null, null, null))
                     @Html.ValidationMessageFor(model => model.room_2)
                 </label>
             </div>
             <div class="form-group">
                  <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.room_3, new { @class="form-control ui-wizard-content" })
+                    @Html.TextBoxFor(model => model.room_3, @getHtmlAttributes("form-control ui-wizard-content", null, null, null, null))
                     @Html.ValidationMessageFor(model => model.room_3)
                 </label>
             </div>
@@ -262,14 +263,14 @@
             </div>
             <div class="form-group">
                 <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.width, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
+                    @Html.TextBoxFor(model => model.width,@getHtmlAttributes("form-control ui-wizard-content", "width:150px" , "javascript:SizeAreaValue()", "javascript:SizeAreaValue()",null))
                     @Html.ValidationMessageFor(model => model.width)
                 </label>
                 <label class="textbox-inline">
                     <label>x&nbsp;</label>
                 </label>
                 <label class="textbox-inline">
-                    @Html.TextBoxFor(model => model.high, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
+                    @Html.TextBoxFor(model => model.high, @getHtmlAttributes("form-control ui-wizard-content", "width:150px", "javascript:SizeAreaValue()", "javascript:SizeAreaValue()", null))
                     @Html.ValidationMessageFor(model => model.high)
                 </label>
              </div>
@@ -287,14 +288,14 @@
                 <label><br/>x&nbsp;</label>
             </label>
             <label class="textbox-inline">ราคาต่อตร.ม.<br/>
-                 @Html.TextBoxFor(model => model.price_per_meter, new { @class = "form-control ui-wizard-content money", onkeyup = "javascript:CalMaterialValue()" })
+                 @Html.TextBoxFor(model => model.price_per_meter,@getHtmlAttributes("form-control ui-wizard-content money", null, null, "javascript:CalMaterialValue()", null))
                  @Html.ValidationMessageFor(model => model.price_per_meter)
             </label>
             <label class="textbox-inline">
                 <label><br/>-&nbsp;</label>
             </label>
             <label class="textbox-inline">หักค่าเสื่อม<br/>
-                 @Html.TextBoxFor(model => model.depreciation, new { @class = "form-control ui-wizard-content money", onkeyup = "javascript:CalMaterialValue()" })
+                 @Html.TextBoxFor(model => model.depreciation, @getHtmlAttributes("form-control ui-wizard-content money", null, null, "javascript:CalMaterialValue()", null))
                  @Html.ValidationMessageFor(model => model.depreciation)
             </label>
        </div>
@@ -313,9 +314,12 @@
             </label>
         </div>
          <div class="form-group">
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
+             @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
+               if (string.IsNullOrEmpty(appraisalManageType) || appraisalManageType == "u")
+               {
+             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+               }
+            }
         </div>
     </div>
 }

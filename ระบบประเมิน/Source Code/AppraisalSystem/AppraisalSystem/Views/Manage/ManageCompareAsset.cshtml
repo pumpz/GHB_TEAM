@@ -31,12 +31,12 @@
 @using (Html.BeginForm("ManageCompareAsset", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-12">
+        @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            @for (var i = 0; i < Model.Count; i++)
-            {
-                @Html.LabelFor(model => model[i].appraisal_assets_id, Convert.ToString(ViewData["AppraisalCode"]))
-            }
+           
+            @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
         <div class="form-group">
             <label>ตารางเปรียบเทียบข้อมูล</label>
@@ -44,60 +44,60 @@
         <div class="form-group">
             <table id="dataTables-example" class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="dataTables-example_info">
                 <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="รายละเอียดการวิเคราะห์" aria-sort="ascending">รายละเอียดการวิเคราะห์</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="รายละเอียดการวิเคราะห์" aria-sort="ascending">รายละเอียดการวิเคราะห์</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
                 </thead>
                 <tbody>
                 <tr class="gradeA odd">
                         <td class="sorting_1">ราคาสำรวจ / หน่วย</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
-                            <td>@Html.TextBoxFor(model => model[i].survey_price, new { @class = "form-control ui-wizard-content" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].survey_price, @getHtmlAttributes("form-control ui-wizard-content", "width:150px"))</td>
                         }
                     </tr><tr class="gradeA even">
                         <td class="sorting_1">ราคาที่พิจารณาเหมาะสม บาท/หน่วย</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
-                            <td>@Html.TextBoxFor(model => model[i].appropriate_price, new { @class = "form-control ui-wizard-content" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].appropriate_price, @getHtmlAttributes("form-control ui-wizard-content", "width:150px"))</td>
                         }
                     </tr><tr class="gradeA odd">
                         <td class="sorting_1">แหล่งข้อมูล</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
-                            <td>@Html.TextBoxFor(model => model[i].data_source, new { @class = "form-control ui-wizard-content" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].data_source, @getHtmlAttributes("form-control ui-wizard-content", "width:150px"))</td>
                         }
                     </tr><tr class="gradeA even">
                         <td class="sorting_1">เบอร์โทร.</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
-                            <td>@Html.TextBoxFor(model => model[i].phone, new { @class = "form-control ui-wizard-content" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].phone, @getHtmlAttributes("form-control ui-wizard-content", "width:150px"))</td>
                         }
                     </tr><tr class="gradeA odd">
                         <td class="sorting_1">ขนาดเนื้อที่</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
-                            <td>@Html.TextBoxFor(model => model[i].size_area, new { @class = "form-control ui-wizard-content" })</td>
+                            <td>@Html.TextBoxFor(model => model[i].size_area, @getHtmlAttributes("form-control ui-wizard-content", "width:150px"))</td>
                         }
                     </tr><tr class="gradeA even">
                         <td class="sorting_1">รูปทรงข้อมูล</td>
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].shape_information_id, new SelectList(ViewData["SHAPE_INFORMATION"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].shape_information_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].shape_information_id, new SelectList(ViewData["SHAPE_INFORMATION"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].shape_information_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr></tbody>
             </table>
             <table id="dataTables-example" class="table table-striped table-bordered table-hover dataTable no-footer" aria-describedby="dataTables-example_info">
                 <thead>
-                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ปัจจัยที่พิจาณาเปรียบเทียบ" aria-sort="ascending">ปัจจัยที่พิจาณาเปรียบเทียบ</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
-                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 359px;" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
+                    <tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ปัจจัยที่พิจาณาเปรียบเทียบ" aria-sort="ascending">ปัจจัยที่พิจาณาเปรียบเทียบ</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ทรัพย์สิน">ทรัพย์สิน</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ1">ข้อมูลเทียบ1</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ2">ข้อมูลเทียบ2</th>
+                    <th class="sorting" tabindex="0" aria-controls="dataTables-example" rowspan="1" colspan="1" style="width: 20%" aria-label="ข้อมูลเทียบ3">ข้อมูลเทียบ3</th></tr>
                 </thead>
                 <tbody>
                 <tr class="gradeA odd">
@@ -105,7 +105,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].environment_id, new SelectList(ViewData["ENVIRONMENT"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].environment_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].environment_id, new SelectList(ViewData["ENVIRONMENT"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].environment_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr><tr class="gradeA even">
@@ -113,7 +113,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].characteristics_assets_id, new SelectList(ViewData["CONDITION_LAND"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].characteristics_assets_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].characteristics_assets_id, new SelectList(ViewData["CONDITION_LAND"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].characteristics_assets_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr><tr class="gradeA odd">
@@ -121,7 +121,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].characteristics_access_id, new SelectList(ViewData["CHARACTERISTICS_ACCESS"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].characteristics_access_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].characteristics_access_id, new SelectList(ViewData["CHARACTERISTICS_ACCESS"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].characteristics_access_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr><tr class="gradeA odd">
@@ -129,7 +129,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].utilities_id, new SelectList(ViewData["PUBLIC_UTILITY"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].utilities_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].utilities_id, new SelectList(ViewData["PUBLIC_UTILITY"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].utilities_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr><tr class="gradeA even">
@@ -137,7 +137,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].terms_id, new SelectList(ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].terms_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].terms_id, new SelectList(ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].terms_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr><tr class="gradeA even">
@@ -145,7 +145,7 @@
                         @for (var i = 0; i < Model.Count; i++)
                         {
                             <td class="  "> 
-                                @Html.DropDownListFor(model => model[i].liquidity_id, new SelectList(ViewData["LEVEL"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].liquidity_id), new { @class = "form-control", style = "width:205px" })
+                                @Html.DropDownListFor(model => model[i].liquidity_id, new SelectList(ViewData["LEVEL"] as List<AppraisalSystem.Models.FilterModel>, "filter_type_code", "filter_text", Model[i].liquidity_id), @getHtmlAttributes("form-control", "width:150px"))
                             </td>
                         }
                     </tr></tbody>
@@ -156,9 +156,12 @@
             }
         </div>
         <div class="form-group">
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
+             @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
+               if (string.IsNullOrEmpty(appraisalManageType) || appraisalManageType == "u")
+               {
+             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+               }
+            }
         </div>
         
     </div>

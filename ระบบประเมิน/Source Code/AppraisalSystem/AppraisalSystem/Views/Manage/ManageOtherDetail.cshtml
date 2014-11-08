@@ -24,25 +24,24 @@
 @using (Html.BeginForm("ManageOtherDetail", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-8">
+        @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            @for (var i = 0; i < Model.Count; i++)
-            {
-                @Html.LabelFor(model => model[i].appraisal_assets_id, Convert.ToString(ViewData["AppraisalCode"]))
-            }
+                 @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div> 
         @for (var i = 0; i < Model.Count; i++)
         {
             <div class="form-group">
                 @{
-                    var labelH = "ข้อมูลเทียบ "+i;
-                    if (i == 0)
-                    {
-                        labelH = "สรุป";
-                    }
+            var labelH = "ข้อมูลเทียบ " + i;
+            if (i == 0)
+            {
+                labelH = "สรุป";
+            }
                 }
                 <label>ข้อมูลเทียบ @Html.Raw(labelH)</label>
-                @Html.TextAreaFor(model => model[i].note, 3, 3, new { @class = "form-control" })
+                @Html.TextAreaFor(model => model[i].note, 3, 3, @getHtmlAttributes("form-control", null))
             </div>
         }
         @for (var i = 0; i < Model.Count; i++)
@@ -50,9 +49,12 @@
             @Html.TextBoxFor(model => model[i].sequence, new { style = "display: none;" })
         }
          <div class="form-group">
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
+            @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
+               if (string.IsNullOrEmpty(appraisalManageType) || appraisalManageType == "u")
+               {
+             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+               }
+            }
         </div>
     </div>
 }

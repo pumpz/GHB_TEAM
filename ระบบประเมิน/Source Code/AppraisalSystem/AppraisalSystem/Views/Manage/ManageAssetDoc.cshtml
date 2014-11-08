@@ -27,13 +27,13 @@
 <div class="panel-body">
 @functions 
 {
-    object getHtmlAttributes(string CssClass, string istyle)
+    object getHtmlAttributes(string CssClass, string istyle, string onChange, string onKeyup)
     {
 
         var manageType = @TempData["appraisalManageType"].ToString();
         if (manageType == "v")
         {
-            return new { @class = CssClass, @readonly = "readonly", style = istyle };
+            return new { @class = CssClass, @readonly = "readonly", style = istyle, onchange = onChange, onkeyup = onKeyup};
         }
         return new { @class = CssClass, style = istyle };
     }
@@ -41,57 +41,60 @@
 @using (Html.BeginForm("ManageAssetDoc", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="col-md-8">
+        @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>        
-            @Html.LabelFor(model => model.appraisal_assets_id, Convert.ToString(ViewData["AppraisalCode"]))
-            @Html.ValidationMessageFor(model => model.appraisal_assets_id)
+            @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div>
         <div class="form-group">
             <label>ประเภทเอกสารสิทธิ์</label>
-            @Html.DropDownListFor(model => model.type_of_document_id, new SelectList(ViewData["TYPE_OF_DOCUMENT"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text", Model.type_of_document_id), new { @class = "form-control", style = "width:205px" })
+            @Html.DropDownListFor(model => model.type_of_document_id, new SelectList(ViewData["TYPE_OF_DOCUMENT"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text", Model.type_of_document_id), @getHtmlAttributes("form-control", null, null, null))
             @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>เลขที่เอกสารสิทธิ์</label>
-            @Html.TextBoxFor(model => model.certificate_of_ownership, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.certificate_of_ownership, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
             @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>เลขที่ดิน</label>
-            @Html.TextBoxFor(model => model.parcel_number, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.parcel_number, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
         </div>
         <div class="form-group">
             <label>หน้าสำรวจ</label>
-            @Html.TextBoxFor(model => model.survey, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.survey, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
         </div>
         <div class="form-group">
             <label>เล่ม/หน้า</label>
-            @Html.TextBoxFor(model => model.book_or_page, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.book_or_page, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
         </div>
         <div class="form-group">
             <label>ระวางเลขที่</label>
-            @Html.TextBoxFor(model => model.tc_no, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.tc_no, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
         </div>
         <div class="form-group">
             <label>สภาพที่ดิน</label>
-            @Html.DropDownListFor(model => model.condition_land_id, new SelectList(ViewData["CONDITION_LAND"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text", Model.condition_land_id), new { @class = "form-control", style = "width:205px" })
+            @Html.DropDownListFor(model => model.condition_land_id, new SelectList(ViewData["CONDITION_LAND"] as List<AppraisalSystem.Models.FilterModel>, "filter_value", "filter_text", Model.condition_land_id), @getHtmlAttributes("form-control", null, null, null))
             @Html.ValidationMessageFor(model => model.condition_land_id)
         </div>
         <div class="form-group">
-            <label>ภาระติดพัน</label>
+            <label>ภาระติดพัน</label>&nbsp;&nbsp;
             @{
                foreach (var item in ViewData["ISCONDITION"] as List<AppraisalSystem.Models.FilterModel>)
                {
                    if (item.filter_value > 0)
                    {
                        var isCheck = new Dictionary<string, object>();
+                       
                        if (item.filter_value > 0)
                        {
                            isCheck.Add("checked", "checked");
                            
                        }
                        isCheck.Add("style", "margin-left: 5%;");
-		               @Html.RadioButtonFor(model => model.courting_the_burden, item.filter_value, isCheck) @Html.Label(item.filter_text)
+                       
+		               @Html.RadioButtonFor(model => model.courting_the_burden, item.filter_value, @getHtmlAttributes(null, isCheck.ToString(), null, null))<label id="lblText">&nbsp;&nbsp;@item.filter_text</label>
                    }
                }
                @Html.ValidationMessageFor(model => model.courting_the_burden)
@@ -99,27 +102,27 @@
         </div>
         <div class="form-group">
             <label>ผู้ถือกรรมสิทธิ์</label>
-            @Html.TextBoxFor(model => model.ownership, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.ownership, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
             @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>ผู้ทรงสิทธิ์</label>
-            @Html.TextBoxFor(model => model.rightsholder, new { @class = "form-control ui-wizard-content" })
+            @Html.TextBoxFor(model => model.rightsholder, @getHtmlAttributes("form-control ui-wizard-content", null, null, null))
             @Html.ValidationMessageFor(model => model.type_of_document_id)
         </div>
         <div class="form-group">
             <label>จังหวัด</label>
-            @Html.DropDownListFor(model => model.province_id, new SelectList(ViewData["PROVINCE"] as List<AppraisalSystem.Models.ProvinceModel>, "province_id", "province_name", Model.province_id), new { @class = "form-control", style = "width:205px" })
+            @Html.DropDownListFor(model => model.province_id, new SelectList(ViewData["PROVINCE"] as List<AppraisalSystem.Models.ProvinceModel>, "province_id", "province_name", Model.province_id), @getHtmlAttributes("form-control", null, null, null))
             @Html.ValidationMessageFor(model => model.province_id)
         </div>
         <div class="form-group">
             <label>อำเภอ</label>
-            @Html.DropDownListFor(model => model.amphur_id, new SelectList(ViewData["AMPHUR"] as List<AppraisalSystem.Models.AmphurModel>, "amphur_id", "amphur_name", Model.amphur_id), new { @class = "form-control", style = "width:205px" })
+            @Html.DropDownListFor(model => model.amphur_id, new SelectList(ViewData["AMPHUR"] as List<AppraisalSystem.Models.AmphurModel>, "amphur_id", "amphur_name", Model.amphur_id), @getHtmlAttributes("form-control", null, null, null))
             @Html.ValidationMessageFor(model => model.amphur_id)
         </div>
         <div class="form-group">
             <label>ตำบล</label>
-            @Html.DropDownListFor(model => model.district_id, new SelectList(ViewData["DISTRICT"] as List<AppraisalSystem.Models.DistrictModel>, "district_id", "district_name", Model.district_id), new { @class = "form-control", style = "width:205px" })
+            @Html.DropDownListFor(model => model.district_id, new SelectList(ViewData["DISTRICT"] as List<AppraisalSystem.Models.DistrictModel>, "district_id", "district_name", Model.district_id), @getHtmlAttributes("form-control", null, null, null))
             @Html.ValidationMessageFor(model => model.district_id)
         </div>
         <div class="form-group">
@@ -127,13 +130,13 @@
                 <label>&nbsp;<br/><br/>เนื้อที่</label>
             </label>
             <label class="textbox-inline">ไร่<br/>
-                @Html.TextBoxFor(model => model.rai_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
+                @Html.TextBoxFor(model => model.rai_area, @getHtmlAttributes("form-control ui-wizard-content", "width:180px", "javascript:SizeAreaValue()", "javascript:SizeAreaValue()"))
             </label>
             <label class="textbox-inline">งาน<br/>
-                 @Html.TextBoxFor(model => model.ngaan_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
+                 @Html.TextBoxFor(model => model.ngaan_area, @getHtmlAttributes("form-control ui-wizard-content", "width:180px", "javascript:SizeAreaValue()", "javascript:SizeAreaValue()"))
             </label>
             <label class="textbox-inline">วา<br/>
-                 @Html.TextBoxFor(model => model.wa_area, new { @class = "form-control ui-wizard-content", onchange = "javascript:SizeAreaValue()", onkeyup = "javascript:SizeAreaValue()" })
+                 @Html.TextBoxFor(model => model.wa_area, @getHtmlAttributes("form-control ui-wizard-content", "width:180px", "javascript:SizeAreaValue()", "javascript:SizeAreaValue()"))
             </label>
         </div>
         <div class="form-group">
@@ -147,23 +150,31 @@
                 <label><br/>x&nbsp;</label>
             </label>
             <label class="textbox-inline">(ราคาประเมินที่เหมาะสม)<br/>
-                 @Html.TextBoxFor(model => model.appraisal, new { @class = "form-control ui-wizard-content money", onkeyup = "javascript:CalLandValue()" })
+                 @Html.TextBoxFor(model => model.appraisal,@getHtmlAttributes("form-control ui-wizard-content money", null, null, "javascript:CalLandValue()"))
             </label>
-            <label class="textbox-inline"><br/>
+        </div>
+        <div class="form-group">
+            <label class="textbox-inline" style="visibility: hidden;">
+                <label>เนื้อที่(คิดเป็นตารางวา)</label>
+            </label>
+            <label class="textbox-inline">
                 <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="คำนวณ" onclick="javascript:CalLandValue()" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
             </label>
             <label class="textbox-inline">
                 <label><br/>=&nbsp;</label>
             </label>
-            <label class="textbox-inline"><br/>
+            <label class="textbox-inline">
                 @Html.TextBox("txtCal", "", new { @class = "form-control ui-wizard-content money", @readonly = "readonly" })
             </label>
             
         </div>
          <div class="form-group">
-            <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
-            <button type="submit" id="btnSubmit" class="btn btn-primary ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-edit"></i> @Resources.ConfigResource.BtnEdit</button>
-            <button type="submit" id="btnExportPDF" class="btn btn-warning ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="แก้ไข" ><i class="fa fa-print"></i> @Resources.ConfigResource.BtnExportPDF</button>
+             @{string appraisalManageType = Convert.ToString(TempData["AppraisalManageType"]);
+               if (string.IsNullOrEmpty(appraisalManageType) || appraisalManageType == "u")
+               {
+             <button type="submit" id="btnSubmit" class="btn btn-info ui-wizard-content ui-formwizard-button" style="float:right;margin-right:10px" value="บันทึก"><i class="fa fa-save"></i> @Resources.ConfigResource.BtnSubmit</button>
+               }
+            }
         </div>
         
     </div>
