@@ -98,7 +98,7 @@ namespace AppraisalSystem.Controllers
                     if (isFilterAssetDetail(model))
                     {
                         string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-
+                        model.district_id = 1;
                         Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
 
                         if (Convert.ToBoolean(process["Status"]))
@@ -187,7 +187,7 @@ namespace AppraisalSystem.Controllers
                     if (Convert.ToBoolean(process))
                     {
                         return RedirectToAction(
-                                   "ManageAssetDocPic",
+                                   "ManageAssetDoc",
                                    new RouteValueDictionary(new
                                    {
                                        appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
@@ -210,18 +210,25 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageAssetDoc(string id)//เอกสารสิทธิ์
+        public ActionResult ManageAssetDoc(string appraisalID, string appraisalManageType)//เอกสารสิทธิ์
         {
             AppraisalDetailModel model = new AppraisalDetailModel();
-            model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+            //model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+            //TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            model.appraisal_assets_id = thisID;
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             try
             {
                 setAssetDoc();
 
-                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                if (ContentHelpers.IsNotnull(thisID) && thisID > 0)
                 {
-                    List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, Convert.ToInt32(id), "");
+                    List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(0, thisID, "");
                     if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                     {
                         model = modelList[0];
@@ -242,9 +249,9 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageAssetDoc(AppraisalDetailModel model)//เอกสารสิทธิ์
+        public ActionResult ManageAssetDoc(AppraisalDetailModel model, string appraisalManageType)//เอกสารสิทธิ์
         {
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+          //  TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
                 setAssetDoc();
@@ -259,7 +266,14 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
-                            //REDIRECT
+                            return RedirectToAction(
+                                   "ManageAssetDocPic",
+                                   new RouteValueDictionary(new
+                                   {
+                                       appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
+                                       appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                                   })
+                               );
                         }
                     }
                     else
@@ -568,7 +582,7 @@ namespace AppraisalSystem.Controllers
             if (Convert.ToBoolean(process))
             {
                 return RedirectToAction(
-                           "ManageCompareAssetPic",
+                           "ManageMaterial",
                            new RouteValueDictionary(new
                            {
                                appraisalID = ContentHelpers.Encode(appraisalID.ToString()),
@@ -584,18 +598,25 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageMaterial(string id)//สิ่งปลูกสร้าง
+        public ActionResult ManageMaterial(string appraisalID, string appraisalManageType)//สิ่งปลูกสร้าง
         {
             LocationAssetModel model = new LocationAssetModel();
-            model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+            //model.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+            //sTempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            model.appraisal_assets_id = thisID;
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             try
             {
                 setMaterial();
 
-                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                if (ContentHelpers.IsNotnull(thisID) && thisID > 0)
                 {
-                    List<LocationAssetModel> modelList = AppraisalService.GetLocationAsset(0, Convert.ToInt32(id), "");
+                    List<LocationAssetModel> modelList = AppraisalService.GetLocationAsset(0, thisID, "");
                     if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                     {
                         model = modelList[0];
@@ -615,9 +636,9 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageMaterial(LocationAssetModel model)//สิ่งปลูกสร้าง
+        public ActionResult ManageMaterial(LocationAssetModel model, string appraisalManageType)//สิ่งปลูกสร้าง
         {
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+          //  TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
                 setMaterial();
@@ -632,7 +653,14 @@ namespace AppraisalSystem.Controllers
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
-                            //REDIRECT
+                           return RedirectToAction(
+                          "ManageCompareAsset",
+                          new RouteValueDictionary(new
+                          {
+                              appraisalID = ContentHelpers.Encode(model.appraisal_assets_id.ToString()),
+                              appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                          })
+                      );
                         }
                     }
                     else
@@ -653,17 +681,24 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageCompareAsset(string id)//ตารางเปรียบเทียบ
+        public ActionResult ManageCompareAsset(string appraisalID, string appraisalManageType)//ตารางเปรียบเทียบ
         {
             List<CompareAssetModel> modelList = null;
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
+
             try
             {
                 setCompareAsset();
 
-                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                if (ContentHelpers.IsNotnull(thisID) && Convert.ToInt32(thisID) > 0)
                 {
-                    modelList = AppraisalService.GetCompareAsset(0, Convert.ToInt32(id), "");
+                    modelList = AppraisalService.GetCompareAsset(0, thisID, "");
                 }
                 else
                 {
@@ -673,7 +708,7 @@ namespace AppraisalSystem.Controllers
                         for (int i = 1; i < 5; i++)
                         {
                             CompareAssetModel compare = new CompareAssetModel();
-                            compare.appraisal_assets_id = Convert.ToInt32(TempData["AppraisalID"]);
+                            compare.appraisal_assets_id = thisID;
                             compare.sequence = i;
                             modelList.Add(compare);
                         }
@@ -693,9 +728,9 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageCompareAsset(List<CompareAssetModel> modelList)//ตารางเปรียบเทียบ
+        public ActionResult ManageCompareAsset(List<CompareAssetModel> modelList, string appraisalManageType)//ตารางเปรียบเทียบ
         {
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
                 setCompareAsset();
@@ -716,7 +751,14 @@ namespace AppraisalSystem.Controllers
                     if (appraisalAssetId > 0)
                     {
                         modelList = AppraisalService.GetCompareAsset(0, appraisalAssetId, userName);
-                        //REDIRECT
+                        return RedirectToAction(
+                       "ManageOtherDetail",
+                       new RouteValueDictionary(new
+                       {
+                           appraisalID = ContentHelpers.Encode(appraisalAssetId.ToString()),
+                           appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                       })
+                   );
                     }
                 }
                 else
@@ -736,15 +778,22 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManageOtherDetail(string id)//รายละเอียดเพิ่มเติม
+        public ActionResult ManageOtherDetail(string appraisalID, string appraisalManageType)//รายละเอียดเพิ่มเติม
         {
             List<CompareDescriptionModel> modelList = null;
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+
+           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
             try
             {
-                if (ContentHelpers.IsNotnull(id) && Convert.ToInt32(id) > 0)
+                if (ContentHelpers.IsNotnull(thisID) && thisID > 0)
                 {
-                    modelList = AppraisalService.GetCompareDescription(0, Convert.ToInt32(id), "");
+                    modelList = AppraisalService.GetCompareDescription(0, thisID, "");
                 }
                 else
                 {
@@ -754,7 +803,7 @@ namespace AppraisalSystem.Controllers
                         for (int i = 1; i < 5; i++)
                         {
                             CompareDescriptionModel compareDesc = new CompareDescriptionModel();
-                            compareDesc.appraisal_assets_id = Convert.ToInt32(TempData["APPRAISAL_ASSETS_ID"]);
+                            compareDesc.appraisal_assets_id = thisID;
                             compareDesc.sequence = i;
                             modelList.Add(compareDesc);
                         }
@@ -774,9 +823,9 @@ namespace AppraisalSystem.Controllers
 
         [HttpPost]
         [Permission]
-        public ActionResult ManageOtherDetail(List<CompareDescriptionModel> modelList)//รายละเอียดเพิ่มเติม
+        public ActionResult ManageOtherDetail(List<CompareDescriptionModel> modelList, string appraisalManageType)//รายละเอียดเพิ่มเติม
         {
-            TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
+           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
                 if (ModelState.IsValid)
@@ -795,7 +844,14 @@ namespace AppraisalSystem.Controllers
                         if (appraisalAssetId > 0)
                         {
                             modelList = AppraisalService.GetCompareDescription(0, appraisalAssetId, userName);
-                            //REDIRECT
+                            return RedirectToAction(
+                        "ManagePrice",
+                        new RouteValueDictionary(new
+                        {
+                            appraisalID = ContentHelpers.Encode(appraisalAssetId.ToString()),
+                            appraisalManageType = ContentHelpers.Encode(appraisalManageType)
+                        })
+                          );
                         }
                     }
                     else
@@ -816,7 +872,7 @@ namespace AppraisalSystem.Controllers
         }
 
         [Permission]
-        public ActionResult ManagePrice()//สรุปราคา
+        public ActionResult ManagePrice(string appraisalID, string appraisalManageType)//สรุปราคา
         {
             return View();
         }
