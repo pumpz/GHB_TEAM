@@ -875,7 +875,42 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManagePrice(string appraisalID, string appraisalManageType)//สรุปราคา
         {
-            return View();
+            int thisID = Convert.ToInt32(ContentHelpers.Decode(appraisalID));
+            getAppraisalAssetCode(thisID);
+            string thisManageType = ContentHelpers.Decode(appraisalManageType);
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? ContentHelpers.Decode(appraisalManageType) : "";
+
+            string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+            ManagePriceModel model = new ManagePriceModel();
+
+            List<ManagePriceModel> listPrice = AppraisalService.GetManagePrice(thisID);
+            if (listPrice != null)
+            {
+                foreach (ManagePriceModel price in listPrice)
+                {
+                    model.appraisal_assets_id = price.appraisal_assets_id;
+                    model.appraisal_assets_code = price.appraisal_assets_code;
+                    model.village = price.village;
+                    model.alley = price.alley;
+                    model.road = price.road;
+                    model.district_name = price.district_name;
+                    model.amphur_name = price.amphur_name;
+                    model.province_name = price.province_name;
+                    model.detailed_location = price.detailed_location;
+                    model.asset_type = price.asset_type;
+                    model.assessment_methods = price.assessment_methods;
+                    model.rights_of_access = price.rights_of_access;
+                    model.paint_the_town = price.paint_the_town;
+                    model.land_value = price.land_value;
+                    model.building_value = price.building_value;
+                }
+            }
+            else 
+            {
+                model.appraisal_assets_id = thisID;
+            }
+
+            return View(model);
         }
 
         #region Setting Page

@@ -347,6 +347,17 @@ namespace Resources {
                 return ResourceManager.GetString("VIEW_PROVINCE", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to SELECT * FROM V_ROLES.
+        /// </summary>
+        internal static string VIEW_RESULT
+        {
+            get
+            {
+                return ResourceManager.GetString("VIEW_RESULT", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to SELECT * FROM V_ROLES.

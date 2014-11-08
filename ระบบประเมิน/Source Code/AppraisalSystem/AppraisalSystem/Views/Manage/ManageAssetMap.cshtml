@@ -84,6 +84,7 @@
 @using (Html.BeginForm())
 {
     <div class="col-md-8">
+        @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         @Html.HiddenFor(m => m.appraisal_assets_id)
         
          @functions {

@@ -304,8 +304,11 @@
                 <label style="width:140px;">&nbsp;</label>
             </label>
             <label class="textbox-inline">
+             @if (TempData["appraisalManageType"].ToString() != "v")
+             {
                 <button type="button" id="btnCal" class="btn btn-danger ui-wizard-content ui-formwizard-button" style="float:right" value="แก้ไข" onclick="javascript:CalMaterialValue()" ><i class="fa fa-bitcoin"></i>&nbsp;กดคำนวน</button>
-            </label>
+             }
+             </label>
             <label class="textbox-inline">
                 <label><br/>=&nbsp;</label>
             </label>

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AppraisalSystem.Models.ManagePriceModel
+@{
     ViewBag.Title = "สรุปราคา";
     ViewBag.Header = "";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,7 +25,8 @@
     <div class="col-md-12">
         <div class="form-group">
             <label>หมายเลขงาน</label>
-            <input class="form-control ui-wizard-content">
+            @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+            @Html.TextBox("appraisalManageType", @TempData["appraisalManageType"], new { @class = "form-control ui-wizard-content", @style = "display:none" })
         </div> 
         <div class="well">
             <div class="form-group">
@@ -32,19 +34,19 @@
                     <label>ชื่อหมู่บ้าน</label>
                 </label>
                 <label class="textbox-inline">
-                    @Html.TextBox("a", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.village, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline fieldHeader100">
                     <label>ซอย</label>
                 </label>
                 <label class="textbox-inline">
-                    @Html.TextBox("b", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.alley, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline fieldHeader100">
                     <label>ถนน</label>
                 </label>
                 <label class="textbox-inline">
-                    @Html.TextBox("c", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.road, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
             </div>
             <div class="form-group">
@@ -52,40 +54,40 @@
                     <label>อำเภอ</label>
                 </label>
                 <label class="textbox-inline ddlForHeader100">
-                    @Html.TextBox("d", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.amphur_name, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline fieldHeader100">
                     <label>ตำบล</label>
                 </label>
                 <label class="textbox-inline ddlForHeader100">
-                     @Html.TextBox("e", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                     @Html.TextBoxFor(m => m.district_name, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline fieldHeader100">
                     <label>จังหวัด</label>
                 </label>
                 <label class="textbox-inline ddlForHeader100">
-                     @Html.TextBox("f", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                     @Html.TextBoxFor(m => m.province_name, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
             </div>
             <div class="form-group">
                 <label>รายละเอียดที่ตั้ง</label>
-                 @Html.TextBox("g", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                 @Html.TextBoxFor(m => m.detailed_location, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
             </div>
             <div class="form-group">
                 <label>ประเภทของทรัพย์สิน</label>
-                @Html.TextBox("h", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.asset_type, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
             </div>
             <div class="form-group">
                 <label>วิธีการประเมิน</label>
-                @Html.TextBox("i", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.assessment_methods, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
             </div>
             <div class="form-group">
                 <label>สิทธิการเข้าออก</label>
-                @Html.TextBox("j", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.rights_of_access, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
             </div>
             <div class="form-group">
                 <label>สีตาม พรบ.ผังเมือง</label>
-                @Html.TextBox("k", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                @Html.TextBoxFor(m => m.paint_the_town, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
             </div>
         </div>
     </div>
@@ -96,19 +98,21 @@
                     <label>&nbsp;<br/><br/>เนื้อที่(คิดเป็นตารางวา)</label>
                 </label>
                 <label class="textbox-inline">&nbsp;<br/>
-                     @Html.TextBox("l", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                     @Html.TextBoxFor(m => m.building_value, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline">
                     <label><br/>x&nbsp;</label>
                 </label>
                 <label class="textbox-inline">มูลค่าสุทธิ<br/>
-                     @Html.TextBox("m", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                     @Html.TextBoxFor(m => m.land_value, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
                 </label>
                 <label class="textbox-inline">
                     <label><br/>=&nbsp;</label>
                 </label>
                 <label class="textbox-inline"><br/>
-                    @Html.TextBox("txtCalResult", new { @class = "form-control ui-wizard-content", @readonly = "readonly" })
+                    @{
+                        object result = Model.building_value*Model.land_value;
+                    @Html.TextBox("txtCalResult",result, new { @class = "form-control ui-wizard-content", @readonly = "readonly" })}
                 </label>
             </div>
         </div>

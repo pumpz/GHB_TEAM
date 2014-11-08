@@ -284,10 +284,10 @@ namespace AppraisalSystem.Models
         public string detailed_location { set; get; }
         public string asset_type { set; get; }
         public string assessment_methods { set; get; }
-        public string rights_of_asset { set; get; }
+        public string rights_of_access { set; get; }
         public string paint_the_town { set; get; }
-        public string land_value { set; get; }
-        public string building_value { set; get; }
+        public double land_value { set; get; }
+        public double building_value { set; get; }
     }
     #endregion
 
@@ -836,7 +836,7 @@ namespace AppraisalSystem.Models
                                     CompareAssetModel CompareAssetItem = new CompareAssetModel();
                                     CompareAssetItem.compare_assets_id = dr["compare_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["compare_assets_id"]);
                                     CompareAssetItem.appraisal_assets_id = dr["appraisal_assets_id"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["appraisal_assets_id"]);
-                                    CompareAssetItem.survey_price = dr["type_of_document_id"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["survey_price"]);
+                                    CompareAssetItem.survey_price = dr["survey_price"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["survey_price"]);
                                     CompareAssetItem.appropriate_price = dr["appropriate_price"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["appropriate_price"]);
                                     CompareAssetItem.data_source = dr["data_source"] == System.DBNull.Value ? "" : Convert.ToString(dr["data_source"]);
                                     CompareAssetItem.phone = dr["phone"] == System.DBNull.Value ? "" : Convert.ToString(dr["phone"]);
@@ -1223,10 +1223,10 @@ namespace AppraisalSystem.Models
                                     item.detailed_location = dr["detailed_location"] == System.DBNull.Value ? "" : Convert.ToString(dr["detailed_location"]);
                                     item.asset_type = dr["asset_type"] == System.DBNull.Value ? "" : Convert.ToString(dr["asset_type"]);
                                     item.assessment_methods = dr["assessment_methods"] == System.DBNull.Value ? "" : Convert.ToString(dr["assessment_methods"]);
-                                    item.rights_of_asset = dr["rights_of_asset"] == System.DBNull.Value ? "" : Convert.ToString(dr["rights_of_asset"]);
+                                    item.rights_of_access = dr["RIGHTS_OF_ACCESS"] == System.DBNull.Value ? "" : Convert.ToString(dr["RIGHTS_OF_ACCESS"]);
                                     item.paint_the_town = dr["paint_the_town"] == System.DBNull.Value ? "" : Convert.ToString(dr["paint_the_town"]);
-                                    item.land_value = dr["land_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["land_value"]);
-                                    item.building_value = dr["building_value"] == System.DBNull.Value ? "" : Convert.ToString(dr["building_value"]);
+                                    item.land_value = dr["land_value"] == System.DBNull.Value ? 0: Convert.ToDouble(dr["land_value"]);
+                                    item.building_value = dr["building_value"] == System.DBNull.Value ? 0 : Convert.ToDouble(dr["building_value"]);
 
 
                                     result.Add(item);

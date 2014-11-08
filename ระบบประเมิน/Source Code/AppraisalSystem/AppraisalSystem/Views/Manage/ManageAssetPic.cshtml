@@ -14,7 +14,7 @@
          object getHtmlAttributes( string CssClass,string istyle)
          {
 
-             var manageType = @TempData["appraisalManageType"];
+             var manageType = @TempData["appraisalManageType"].ToString();
              if (manageType=="v")
              {
                  return new { @class = CssClass, @readonly = "readonly", style = istyle };
@@ -22,6 +22,7 @@
              return new { @class = CssClass, style = istyle };
          }
          }
+         @Html.Raw(ViewData["alert"] != null ? ViewData["alert"].ToString() : "")
         <div class="form-group">
             <label>หมายเลขงาน</label>
               @Html.TextBox("appraisalAssetCode", @TempData["appraisalAssetCode"], new { @class = "form-control ui-wizard-content", @readonly = "readonly", style = "width:250px" })
@@ -34,7 +35,7 @@
            @Html.HiddenFor(model => Model[i].image_path)
           <div class="form-group">
             <label>รูปทรัพย์สิน</label>
-             @if (TempData["appraisalManageType"] != "v")
+             @if (TempData["appraisalManageType"].ToString() != "v")
              {
             <input type="file" name="MultipleFiles"/>
              }
@@ -44,7 +45,7 @@
       {
             <div class="form-group">   
              <img src= "@Url.Content(Model[i].image_path)" alt="Edit" width="200px" id="img_@(Model[i].image_assets_id)" />
-              @if (TempData["appraisalManageType"] != "v")
+              @if (TempData["appraisalManageType"].ToString() != "v")
              {
               <button type="button" id="icon_@(Model[i].image_assets_id)" value="@(Model[i].image_assets_id)" class="btn btn-info ui-wizard-content ui-formwizard-button" onclick="removeImg(value);">X</button>
                   }
