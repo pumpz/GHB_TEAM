@@ -17,6 +17,12 @@
                     <div class="panel-body">
                         @Html.ValidationSummary(true)
                         <fieldset>
+                            @if (ViewData["alert"] != null || ViewData["alert"] != "")
+                            {
+                            <div class="form-group has-error">
+                                    <span class="field-validation-error">@ViewData["alert"]</span>
+                            </div>
+                            }
                             <div class="form-group">
                                 @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "รหัสพนักงาน" })
                                 <div class="form-group has-error">

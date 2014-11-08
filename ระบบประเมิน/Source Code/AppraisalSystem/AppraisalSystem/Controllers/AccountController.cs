@@ -67,7 +67,7 @@ namespace AppraisalSystem.Controllers
                     }
                     else
                     {
-                        Response.Write("ไม่พบข้อมูล!");
+                        ViewData["alert"] = "ไม่พบข้อมูล!";
                     }
                 }
             }

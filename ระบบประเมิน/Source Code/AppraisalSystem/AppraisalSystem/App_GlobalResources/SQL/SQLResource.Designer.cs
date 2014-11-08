@@ -79,7 +79,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1 ORDER BY SEQUENCE.
+        ///   Looks up a localized string similar to SELECT * FROM COMPARE_ASSETS WHERE STATUS = 1 .
         /// </summary>
         internal static string GET_COMPARE_ASSETS {
             get {
@@ -347,14 +347,12 @@ namespace Resources {
                 return ResourceManager.GetString("VIEW_PROVINCE", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to SELECT * FROM V_ROLES.
+        ///   Looks up a localized string similar to SELECT * FROM V_RESULT.
         /// </summary>
-        internal static string VIEW_RESULT
-        {
-            get
-            {
+        internal static string VIEW_RESULT {
+            get {
                 return ResourceManager.GetString("VIEW_RESULT", resourceCulture);
             }
         }

@@ -92,6 +92,8 @@ namespace AppraisalSystem.Models
     public class AppraisalJobModel
     {
         public int appraisal_assets_id { set; get; }
+
+        [Required(ErrorMessage = "กรุณาระบุหมายเลขงาน")]
         public string appraisal_assets_code { set; get; }
         public string village { set; get; }
         public string alley { set; get; }
@@ -226,7 +228,9 @@ namespace AppraisalSystem.Models
         [Required(ErrorMessage = "กรุณาบันทึกข้อมูลในส่วนงานประเมินให้เรียบร้อยก่อน")]
         public int appraisal_assets_id { set; get; }
         public int appraisal_assets_code { set; get; }
+        [Required(ErrorMessage = "กรุณาระบุตำแหน่ง")]
         public string latitude { set; get; }
+        [Required(ErrorMessage = "กรุณาระบุตำแหน่ง")]
         public string longitude { set; get; }
         public int status { set; get; }
         public DateTime create_date { set; get; }

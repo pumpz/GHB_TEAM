@@ -95,42 +95,40 @@ namespace AppraisalSystem.Controllers
         {
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
                 if (ModelState.IsValid)
                 {
-                    if (isFilterAssetDetail(model))
+                    string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
+                    Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
+
+                    if (Convert.ToBoolean(process["Status"]))
                     {
-                        string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
-                        Hashtable process = AppraisalService.MngAppraisalJob(model, userName);
-
-                        if (Convert.ToBoolean(process["Status"]))
+                        if (process["appraisalID"] != null)
                         {
-                            if (process["appraisalID"] != null)
+                            string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
+                            string thisManageType = _appraisalManageType;
+                            if (_appraisalManageType != "u")
                             {
-                                string _appraisalManageType = ContentHelpers.Decode(appraisalManageType);
-                                string thisManageType = _appraisalManageType;
-                                if (_appraisalManageType != "u")
-                                {
-                                    appraisalManageType = ContentHelpers.Encode(appraisalManageType);
-                                }
-
-                                //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
-                                setManageDetail(Convert.ToInt32(process["appraisalID"]), appraisalManageType);
-
-                                return RedirectToAction(
-                                    "ManageAssetMap",
-                                    new RouteValueDictionary(new
-                                    {
-                                        appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
-                                        appraisalManageType = appraisalManageType
-                                    })
-                                );
+                                appraisalManageType = ContentHelpers.Encode(appraisalManageType);
                             }
+
+                            //ระบุ id user, job code, ความสามารถ update/view ของ user ลง Tempdata
+                            setManageDetail(Convert.ToInt32(process["appraisalID"]), appraisalManageType);
+
+                            return RedirectToAction(
+                                "ManageAssetMap",
+                                new RouteValueDictionary(new
+                                {
+                                    appraisalID = ContentHelpers.Encode(process["appraisalID"].ToString()),
+                                    appraisalManageType = appraisalManageType
+                                })
+                            );
                         }
-                        else
-                        {
-                            TempData["AppraisalManageType"] = appraisalManageType;
-                            ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
-                        }
+                    }
+                    else
+                    {
+                        TempData["AppraisalManageType"] = appraisalManageType;
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
             }
@@ -187,6 +185,9 @@ namespace AppraisalSystem.Controllers
         {
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+                getAppraisalAssetCode(model.appraisal_assets_id);
+
                 if (ModelState.IsValid)
                 {
                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -266,18 +267,19 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageAssetDoc(AppraisalDetailModel model, string appraisalManageType)//เอกสารสิทธิ์
         {
-          //  TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+                getAppraisalAssetCode(model.appraisal_assets_id);
                 setAssetDoc();
 
-                if (ModelState.IsValid)
+                if (ModelState.IsValid && model.type_of_document_id != 0)
                 {
                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
                     var process = AppraisalService.MngAppraisalDetail(model, userName);
                     if (process)
                     {
-                        List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(model.assets_detail_id,model.appraisal_assets_id , userName);
+                        List<AppraisalDetailModel> modelList = AppraisalService.GetAppraisalDetail(model.assets_detail_id, model.appraisal_assets_id, userName);
                         if (ContentHelpers.IsNotnull(modelList) && modelList.Count > 0)
                         {
                             model = modelList[0];
@@ -304,6 +306,10 @@ namespace AppraisalSystem.Controllers
                         ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.ERROR, "จัดการข้อมูลไม่สำเร็จ!");
                     }
                 }
+                else {
+                    if (model.type_of_document_id == 0)
+                        ViewData["type_of_document_id"] = "false";
+                }
             }
             catch (ArgumentException ae)
             {
@@ -313,14 +319,6 @@ namespace AppraisalSystem.Controllers
             {
                 ModelState.AddModelError(String.Empty, e.Message);
             }
-
-            string _ManageType1 = ContentHelpers.Decode(appraisalManageType);
-            if (_ManageType1 != "u")
-            {
-                _ManageType1 = ContentHelpers.Encode(appraisalManageType);
-            }
-
-            TempData["appraisalManageType"] = _ManageType1;
 
             return View(model);
         }
@@ -362,6 +360,9 @@ namespace AppraisalSystem.Controllers
             string fileName = "";
             string savePath = "";
             int appraisalID = 0;
+
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+            getAppraisalAssetCode(models[0].appraisal_assets_id);
 
             foreach (UploadPictureAssetModel model in models)
             {
@@ -473,6 +474,9 @@ namespace AppraisalSystem.Controllers
             string savePath = "";
             int appraisalID = 0;
 
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+            getAppraisalAssetCode(models[0].appraisal_assets_id);
+
             foreach (UploadPictureAssetModel model in models)
             {
                 pathPic = "";
@@ -579,6 +583,9 @@ namespace AppraisalSystem.Controllers
             string fileName = "";
             string savePath = "";
             int appraisalID = 0;
+
+            TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+            getAppraisalAssetCode(models[0].appraisal_assets_id);
 
             foreach (UploadPictureAssetModel model in models)
             {
@@ -691,9 +698,10 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageMaterial(LocationAssetModel model, string appraisalManageType)//สิ่งปลูกสร้าง
         {
-          //  TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+                getAppraisalAssetCode(model.appraisal_assets_id);
                 setMaterial();
 
                 if (ModelState.IsValid)
@@ -792,9 +800,10 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageCompareAsset(List<CompareAssetModel> modelList, string appraisalManageType)//ตารางเปรียบเทียบ
         {
-           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+                getAppraisalAssetCode(modelList[0].appraisal_assets_id);
                 setCompareAsset();
 
                 string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
@@ -895,9 +904,11 @@ namespace AppraisalSystem.Controllers
         [Permission]
         public ActionResult ManageOtherDetail(List<CompareDescriptionModel> modelList, string appraisalManageType)//รายละเอียดเพิ่มเติม
         {
-           // TempData["AppraisalCode"] = Convert.ToInt32(TempData["AppraisalCode"]);
             try
             {
+                TempData["appraisalManageType"] = appraisalManageType != string.Empty ? appraisalManageType : "";
+                getAppraisalAssetCode(modelList[0].appraisal_assets_id);
+
                 if (ModelState.IsValid)
                 {
                     string userName = ContentHelpers.Decode(Convert.ToString(Session["UserName"]));
