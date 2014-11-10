@@ -59,15 +59,15 @@ namespace AppraisalSystem.Controllers
                             case "VALUER":
                                 return RedirectToAction("Manage", "Home");
                             case "CHECKER":
-                                return RedirectToAction("Search", "Search");
+                                return RedirectToAction("ManageSearch", "Search");
                             default:
-                                ModelState.AddModelError("MESSAGE", "ไม่มีสิทธิ์ในการเข้าใช้งานระบบ");
+                                ViewData["alert"] = "ไม่มีสิทธิ์ในการเข้าใช้งานระบบ";
                                 break;
                         }
                     }
                     else
                     {
-                        ViewData["alert"] = "ไม่พบข้อมูล!";
+                        ViewData["alert"] = ContentHelpers.getAlertBox(DataInfo.AlertStatusId.WARNING, Convert.ToString(process["Message"]));
                     }
                 }
             }
