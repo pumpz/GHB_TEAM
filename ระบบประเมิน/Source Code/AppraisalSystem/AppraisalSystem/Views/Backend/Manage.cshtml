@@ -24,6 +24,7 @@
                 <th></th>
                 <th></th>
                 <th></th>
+                <th></th>
                 <th>
                     ชื่อผู้ใช้งาน
                 </th>
@@ -44,15 +45,24 @@
     @foreach (var item in Model)
     {
         <tr>
-              <td> @Html.ActionLink("Update", "UpdateUser", new { id = item.UserID })</td>
+              <td> @Html.ActionLink("Update", "UpdateUser", "Backend", new { id = item.UserID }, null)</td>
               <td> @Html.ActionLink("Delete", "DeleteUser", new { id = item.UserID }) </td>
                  @if (item.Status == 1)
                  {
-                <td> @Html.ActionLink("Lock", "LockUser", new { id = item.UserID, isLock = true }) </td>
+                <td> @Html.ActionLink("Lock", "LockUser", "Backend", new { id = item.UserID, isLock = true }, null) </td>
                  }
                  else
                  {
-                     <td> @Html.ActionLink("UnLock", "LockUser", new { id = item.UserID, isLock = false }) </td>
+                     <td> @Html.ActionLink("UnLock", "LockUser", "Backend", new { id = item.UserID, isLock = false }, null) </td>
+                 }
+
+                 @if (item.User_Login == 1)
+                 {
+                <td> @Html.ActionLink("Kick", "KickUser", "Backend", new { id = item.UserID, isLock = true }, null) </td>
+                 }
+                 else
+                 {
+                     <td> </td>
                  }
             
             <td>@item.UserName </td>

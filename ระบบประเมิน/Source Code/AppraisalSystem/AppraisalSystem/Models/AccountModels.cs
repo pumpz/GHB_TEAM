@@ -109,6 +109,7 @@ namespace AppraisalSystem.Models
         public string RoleCode { get; set; }
         public string RoleName { get; set; }
         public int Status { get; set; }
+        public int User_Login { get; set; }
         public int DeleteFlag { get; set; }
         public string CitizenID { get; set; }
         public string Name { get; set; }
@@ -195,6 +196,13 @@ namespace AppraisalSystem.Models
         /// <param name="userName"></param>
         /// <returns>Boolean</returns>
         Boolean LogOut(string userName);
+
+        /// <detail>
+        /// userId
+        /// </detail>
+        /// <param name="userId"></param>
+        /// <returns>Boolean</returns>
+        Boolean KickUser(int userId);
 
         /// <detail>
         /// GetUsers
@@ -638,7 +646,61 @@ namespace AppraisalSystem.Models
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.Clear();
-                        cmd.Parameters.Add("iUserName", MySqlDbType.VarChar).Value = userName;
+                        cmd.Parameters.Add("iUser", MySqlDbType.VarChar).Value = userName;
+
+                        int excute = cmd.ExecuteNonQuery();
+                        //
+                        if (excute > 0)
+                        {
+                            tran.Commit();
+                            process = true;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ms)
+            {
+                throw new Exception("MySqlException: " + ms.Message);
+            }
+            catch (Exception)
+            {
+                tran.Rollback();
+                throw;
+            }
+            finally
+            {
+                conn.Close();
+                conn.Dispose();
+            }
+            return process;
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Update)]
+        public Boolean KickUser(int userId)
+        {
+            if (userId <= 0) throw new ArgumentException("Value cannot be null or empty.", "userid");
+
+            // The underlying ChangePassword() will throw an exception rather
+            // than return false in certain failure scenarios.
+            MySqlConnection conn = null;
+            MySqlTransaction tran = null;
+            bool process = false;
+            try
+            {
+                using (conn = new MySqlConnection(GetConnectionString()))
+                {
+                    if (conn.State == ConnectionState.Closed)
+                    {
+                        conn.Open();
+                    }
+
+                    tran = conn.BeginTransaction(IsolationLevel.ReadCommitted);
+
+                    using (MySqlCommand cmd = new MySqlCommand(Resources.SQLResource.USP_UPD_USERS_LOGOUT, conn, tran))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.Clear();
+                        cmd.Parameters.Add("iUser", MySqlDbType.VarChar).Value = userId;
 
                         int excute = cmd.ExecuteNonQuery();
                         //
@@ -709,6 +771,7 @@ namespace AppraisalSystem.Models
                                     UserItem.Email = dr["EMAIL"] == System.DBNull.Value ? "" : Convert.ToString(dr["EMAIL"]);
                                     UserItem.Phone = dr["PHONE"] == System.DBNull.Value ? "" : Convert.ToString(dr["PHONE"]);
                                     UserItem.Last_Login = dr["LAST_LOGIN"] == System.DBNull.Value ? Nullable : Convert.ToDateTime(dr["LAST_LOGIN"]);
+                                    UserItem.User_Login = dr["USER_LOGIN"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["USER_LOGIN"]);
                                     UserItem.DeleteFlag = dr["DELETE_FLAG"] == System.DBNull.Value ? 0 : Convert.ToInt32(dr["DELETE_FLAG"]);
                                     UserItem.Create_Date = dr["CREATE_DATE"] == System.DBNull.Value ? Nullable : Convert.ToDateTime(dr["CREATE_DATE"]);
                                     UserItem.Update_Date = dr["UPDATE_DATE"] == System.DBNull.Value ? Nullable : Convert.ToDateTime(dr["UPDATE_DATE"]);

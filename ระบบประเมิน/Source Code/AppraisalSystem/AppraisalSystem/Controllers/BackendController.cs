@@ -271,6 +271,40 @@ namespace AppraisalSystem.Controllers
         }
 
         // **************************************
+        // URL: /Backend/KickUser
+        // **************************************
+
+        [Authorize]
+        [Permission]
+        public ActionResult KickUser(int id)
+        {
+            try
+            {
+                if (id > 0)
+                {
+                    if (MembershipService.KickUser(id))
+                    {
+                        return RedirectToAction("manage", "backend");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Kick user unsuccess.");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Not request user id.");
+                }
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError(String.Empty, e.Message);
+            }
+
+            return View();
+        }
+
+        // **************************************
         // URL: /Backend/GetUserList
         // **************************************
 
