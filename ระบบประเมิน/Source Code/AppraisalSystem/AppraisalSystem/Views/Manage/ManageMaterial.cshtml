@@ -177,7 +177,7 @@
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(ceilingAll) && ceilingAll.Count > 0)
 	                    {
 		                    @Html.DropDownListFor(model => model.ceiling_id, new SelectList(ceilingAll, "filter_value", "filter_text", Model.ceiling_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกฝ้าเพดา..."))
-	                    }
+	                        }
                         @Html.ValidationMessageFor(model => model.ceiling_id)
                     }
                 </label>
@@ -203,7 +203,7 @@
                 </label>
                 <label class="textbox-inline ddlForHeader100">
                     @{
-                        var interiorWallAll = ViewData["EX-STAIR"] as List<AppraisalSystem.Models.FilterModel>;
+                        var interiorWallAll = ViewData["EX-INTERIOR_WALLS"] as List<AppraisalSystem.Models.FilterModel>;
                         if (AppraisalSystem.Utility.ContentHelpers.IsNotnull(interiorWallAll) && interiorWallAll.Count > 0)
 	                    {
 		                    @Html.DropDownListFor(model => model.interior_walls_id, new SelectList(interiorWallAll, "filter_value", "filter_text", Model.interior_walls_id),@getHtmlAttributes("form-control", null , null, null,"กรุณาเลือกผนังภายใน..."))
