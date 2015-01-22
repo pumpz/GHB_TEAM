@@ -1,0 +1,377 @@
+@font-face {
+            font-family: openSans;
+            src: url(../fonts/OpenSans-Regular.ttf);
+        }
+        @font-face {
+            font-family: openSansThin;
+            src: url(../fonts/OpenSans-Light.ttf);
+        }
+        @font-face {
+            font-family: openSansSemiBold;
+            src: url(../fonts/OpenSans-Semibold.ttf);
+        }
+
+        html{
+            font-size: 62.5%;
+        }
+        
+        body{
+            background-color: #f7f7f7;
+            font-family: openSans;
+            <!--font-family: myFirstFont;-->
+        }
+       
+        a{
+            cursor:pointer;
+        }
+
+    #top-section{
+        padding:0 1em; background-color:white;
+    }
+        
+        #leftSection{
+            padding:0;
+        }
+            #leftSection figure{
+                padding:0;
+            }
+                #leftSection figure img{
+                    width:98%;  background-color:#0071BC;
+                }
+            #leftSection #caption{
+                background-color: #0071BC;
+                padding: 0;
+                margin-left: 0.5px;
+                width: 97.9%;
+                margin-top: -0.5em;
+            }
+                #leftSection #caption p{
+                    text-align:center; color:black; margin:0; margin-top:-5em; line-height:1.8em; letter-spacing:0.1em; padding: 0 2em; color:white;
+                }
+        
+        #rightSection header{
+            height: 117px ;
+            margin-top: 30px;
+        }
+        
+            #rightSection header #logo{
+                max-height: 100%;
+                width: auto;
+                color: #333333;
+            }
+                #rightSection header #logo img{
+                    height: inherit;
+                    float: left;
+                }
+        
+            #rightSection header h3{
+                margin-top: 50px;                
+            }
+        
+        
+        #rightSection h4{
+            text-align:center; margin-top:30px; font-size:1.25em; padding:0.4em; line-height:1.6em; letter-spacing:0.05em;
+            font-family:openSansSemiBold;
+        }
+        
+        #rightSection #buttonRow{
+            font-family: openSansThin;
+            margin: 0;
+            margin-top: 25px;
+            padding:0 0.4em;
+        }
+        
+            #rightSection #buttonRow a{
+                list-style: none;
+            }
+
+                #rightSection #buttonRow div a div.button{
+                    background-color: #B3B3B3;
+                    padding: 0.5em 5px;
+                    border-radius: 4px;
+                    border: none;
+                    border-bottom: solid;
+                    border-bottom-width: thin;
+                    border-bottom-color: #808080;
+                }
+                    #rightSection #buttonRow div a div.active{
+                        background-color: #2EBDEF;
+                        border-bottom-color: #0071BC;
+                    }
+                    #rightSection #buttonRow div a div.button p{
+                        color: white;
+                        margin: 2px 0;
+                        text-align: center;
+                        font-size: 1.1em;
+                        letter-spacing: 0.1em;
+                    }
+            #rightSection #buttonRow div a:hover{
+                text-decoration: none;
+            }
+            #rightSection #buttonRow div a:hover>div{
+                background-color: #77DFF7  ;
+                border-bottom-color: #2EBDEF;
+            }
+            #rightSection #buttonRow div a:hover>div.active{        
+                cursor:default;
+            }
+        
+        #rightSection #input-form{
+            font-family: openSans;
+            padding: 35px 1em 0 1em;
+        }
+    
+            #rightSection #input-form .input-line{
+                padding: 0px 0 1em 0;
+            }
+                #rightSection #input-form .input-line p{
+                    display: inline-block;
+                    text-align: left;           
+                    padding: 4px 0;
+                    padding-left: 1.4em;
+                    font-size: 1.1em;
+                }
+                #rightSection #input-form .input-line input{
+                    display: inline-block;
+                    width: 100%;
+                    font-size: 1.1em;
+                    padding: 4px;
+                    border-width: thin;
+                    border-color: #4D4D4D; 
+                    font-family: openSansThin;
+                }
+                #rightSection #input-form .input-line select{
+                    display: inline-block;
+                    width: 60%;
+                    font-size: 1.1em;
+                    padding: 4px;
+                    border-width: thin;
+                    border-color: #4D4D4D; 
+                    font-family: openSans;
+                }
+        
+                #signin-line{
+                    font-family: openSansThin;
+                    margin: 0;
+                    margin-top: 2em;
+                    padding:0;
+                }
+        
+                #signin-line .link-signinLine{
+                    display: inline;
+                    
+                }
+        
+                #signin-line a{
+                    padding-right: 1em;
+                    float: left;
+                    margin: 0;
+                }
+                    #signin-line a p{
+                        float: right;
+                        text-decoration: underline;
+                        -moz-text-decoration-color: #B3B3B3; /* Code for Firefox */
+                        text-decoration-color: #B3B3B3;
+                    }
+                #signin-line p{
+                    margin: 1.5em 0;
+                }
+        
+                #signin-line div-signin-button{
+                    float: right;
+                }
+                
+                #signin-line div a#signin-button{
+                    background-color: #22B573;
+                    padding: 0.7em 3em;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    border: none;
+                    border-bottom: solid;
+                    border-bottom-width:medium;
+                    border-bottom-color: #009245;
+                    text-align: center;       
+                }
+                
+                     a#signin-button p{
+                        margin: 0;
+                        font-size: 1.6em;
+                        color: white;
+                        text-decoration: none;
+                    }
+                    
+                    #signin-line a#signin-button:hover {
+                        background-color: #29CC7E;
+                        border-bottom-color: #22B573;
+                    }
+        #short-line{
+            height:1px; width:55%; background-color:gray; margin: 0 20%; margin-top:15px; background-color:#E6E6E6;
+        }
+                
+        footer{
+            padding: 0.8em 0.8em 0 1.5em;
+            background-color: white;
+            
+        }
+            footer div p#contact-info{
+                letter-spacing: 0.05em;
+                line-height: 1.6em;
+                color: #666666;
+                font-family:openSansThin;
+            }
+            footer div p#copyright{
+                letter-spacing: 0.03em;
+                color:#808080; font-family:openSansThin;    
+                text-align: right;
+                padding-right: 0;
+            }
+        
+        
+        @media screen and (max-width: 1199PX) {
+            #rightSection header{            
+                margin-top: 20px;
+            }
+                #rightSection h4{
+                    margin-top: 1em;
+                    font-size: 1.1em;
+                }
+                #rightSection #buttonRow{            
+                    margin-top: 5px;
+                }
+            
+            #rightSection #input-form .input-line p{
+               padding-left: 0.5em;
+            }
+            #signin-line{
+                margin-top: 0.2em;
+            } 
+            #signin-line a{
+                padding: 0;
+            }
+            div #div-signin-button{
+               padding: 0;      
+            }
+            #short-line{
+                display: none;
+            }
+
+        }
+        
+        /*sm*/
+        @media screen and (max-width: 991px) {
+            
+                #rightSection header h3{
+                    font-size: 2em;
+                    line-height: 1em;
+                }
+                #rightSection header p{
+                    font-size: 1.2em;
+                    line-height: 1em;
+                }
+            
+            #rightSection h4{
+                margin-top:20px; font-size: 1.9em; 
+            }
+            
+            #rightSection #buttonRow{            
+                margin-top: 15px;
+            }
+                #rightSection #input-form .input-line input{
+                    width: 95%;
+                }
+                #rightSection #input-form .input-line p{
+                    padding-left: 1.3em;
+                }
+
+            
+            #signin-line{
+                margin-top: 1em;
+                margin-bottom: 2em;
+            }            
+                #signin-line a{
+                    padding: 0;
+                }
+                #signin-line a #signin-button{
+                    float: left;
+                    margin-left: 0.5em;
+                }
+            
+            footer{
+                background-color: #0071BC;
+                color:white;
+            }
+                footer div p#contact-info{
+                    color:white;
+                }
+                footer div p#copyright{
+                    color:#CCCCCC;
+                    padding: 0;
+                    text-align: left;
+                }
+        }
+        
+        
+        
+        @media screen and (max-width: 767PX) {
+            #rightSection #input-form .input-line p{
+                padding-left: 1em;
+            }
+            #rightSection #input-form .input-line input{
+                margin-left: 1em;
+                width: 90%;
+            }
+            #rightSection #input-form .input-line select{
+                margin-left: 1em;
+                width: 90%;
+            }
+            #signin-line{
+                margin-top: 2em;                
+            }
+            
+            div #div-signin-button{
+                  padding-left: 1em;
+            }
+        }
+        
+        /*xs*/
+        @media screen and (max-width: 631px) {
+            #rightSection h4{
+                margin-top:20px; font-size: 1.5em; 
+            }
+            
+            #rightSection #buttonRow a .button{
+                  padding: 1em 10px;
+            }
+            
+        }
+
+        @media screen and (max-width: 448px) {
+            #top-section{
+                padding:0;
+            }
+            
+            #rightSection header{
+            height: 100px ;
+            margin-top: 20px;
+        }
+        
+            #rightSection header #logo{
+                max-height: 100%;
+                width: auto;
+                color: #333333;
+            }
+                #rightSection header #logo img{
+                    height: inherit;
+                    float: left;
+                }
+        
+            #rightSection header h3{
+                margin-top: 40px;
+                font-size: 1.8em;
+            }
+            #rightSection header p{
+                font-size: 1em;               
+            }
+        
+            
+        }

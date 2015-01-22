@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="UTF-8" content="" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="@Url.Content("~/Content/images/MFU-logo.ico")" />
+    <link rel="apple-touch-icon" href="@Url.Content("~/Content/images/MFU-logo.png")" />
+	<!-- Bootstrap -->
+    
+	<link href="@Url.Content("~/Content/themes/base/bootstrap.min.css")" rel="stylesheet" media="screen" />
+    <link href="@Url.Content("~/Content/themes/MFU-signin.css")" rel="stylesheet" media="screen" />
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" media="screen" />
+    <script src="@Url.Content("~/Scripts/jquery-1.11.1.min.js")" type="text/javascript"></script>
+</head>
+
+<body>
+    <div class="container">
+        
+        <section class="row" id="top-section" style="">
+            
+            <section id="leftSection" class="col-md-7 hidden-sm hidden-xs" style="">
+                
+                    <figure class="col-md-12" style="">
+                        <img src="@Url.Content("~/Content/themes/images/Img_1207.png")" style=""/>
+                    </figure>
+                    <div id="caption" class="row col-md-12" style="">
+                        <p style="">On-line Instructional Evaluation System Used for the Development of MFU Academic Staff’s Effective Instructional Management</p>
+                    </div>
+                
+            </section>
+                
+            <section id="rightSection" class="col-md-5 col-sm-12" style="">
+                @RenderBody()
+            </section>
+        </section>
+
+        <div id="main">
+            <footer class="row">
+                <div class="row col-md-12">
+                <p id="contact-info">For more information, contact directly to the Division of Quality Assurance & Curriculum Development, Academic Services Building, (AS 4th Floor),
+                    Room RE 426, (Tel) 053-916408 E-mail:qa@mfu.ac.th</p>
+                <p id="copyright" class="col-md-12 col-sm-12 col-xs-12">©2015 MaeFah Luang University</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

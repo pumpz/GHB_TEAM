@@ -1,0 +1,131 @@
+﻿@model MFUSurvey.Models.LogOnModel
+@{
+    Layout = "~/Views/Shared/_LogOn.cshtml";
+}
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#signin-button').on('click', function () {
+            $(this).closest('form')[0].submit();
+        });
+
+        $('.button-link').on('click', function () {
+            $('.active').removeClass('active');
+            $(this).find('.button').addClass('active');
+            var checkThis = $(this);
+
+            $('input[type=email]').removeAttr('placeholder');
+            if (checkThis.is('#student-button')) {
+                $('input[type=email]').attr('placeholder', 'example@lamduan.mfu.ac.th');
+                document.getElementById("PersonType").value = "student";
+            }
+            if (checkThis.is('#teacher-button') || checkThis.is('#admin-button')) {
+                $('input[type=email]').attr('placeholder', 'example@mfu.ac.th');
+                if (checkThis.is('#teacher-button')) {
+                    document.getElementById("PersonType").value = "teacher";
+                } else {
+                    document.getElementById("PersonType").value = "admin";
+                }
+
+            }
+        });
+    });
+
+    function OnSuccess(response) {
+        alert(response);
+    }
+
+    function OnFailure(response) {
+        alert(response);
+    }
+</script>
+
+@using (Ajax.BeginForm("LogOn", "Account",
+    new AjaxOptions { OnSuccess = "OnSuccess", OnFailure = "OnFailure" }))
+{
+    <header class="row">           
+        <div class="hidden-lg hidden-md col-sm-3 hidden-xs"></div>
+        <img src="@Url.Content("~/Content/themes/images/Logo.png")" class="col-md-3 col-sm-2 col-xs-2" style="max-height: 100%;  width: auto;  color: #333333;">
+        <div class="col-md-9 col-sm-7 col-xs-9" style="padding-left:1em;">
+            <h3>มหาวิทยาลัยแม่ฟ้าหลวง</h3>
+            <p style="">Mae Fah Luang University</p>
+        </div>
+    </header>
+
+    <h4 class="row">Online Instructional Evaluation System Login</h4>
+    
+    @Html.ValidationSummary(true, "Login was unsuccessful. Please correct the errors and try again.")
+
+    <div id="buttonRow" class="row">
+        @Html.Hidden("PersonType", "student")
+        <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:0; padding-right:1em;">
+            <a id="student-button" class="button-link">
+                <div class="button active">
+                    <p>Student</p>
+                </div>
+            </a>
+        </div>
+                    
+        <div class="col-md-4 col-sm-4 col-xs-4" style="padding:0 0.5em;">
+            <a id="teacher-button" class="button-link">
+                <div class="button">
+                    <p>Teacher</p>
+                </div>
+            </a>
+        </div>
+                    
+        <div class="col-md-4 col-sm-4 col-xs-4" style="padding-left:1em; padding-right:0;">
+            <a id="admin-button" class="button-link">
+                <div class="button">
+                    <p>Admin</p>
+                </div>
+            </a>
+        </div>          
+    </div>
+                
+    <div id="input-form" class="row">
+        <div class="row col-md-12 input-line">
+            <div class="col-md-4 col-sm-4"> <p>@Html.LabelFor(m => m.Email) :</p></div>    
+            <div class="col-md-8 col-sm-8"> @Html.TextBoxFor(m => m.Email, new { @type = "email", @placeholder = "example@lamduan.mfu.ac.th" })</div>
+            <div class="col-md-8 col-sm-8">@Html.ValidationMessageFor(m => m.Email)</div>
+        </div>
+        <div class="row col-md-12 input-line">
+            <div class="col-md-4 col-sm-4"> <p>@Html.LabelFor(m => m.Password) :</p></div>    
+            <div class="col-md-8 col-sm-8"> @Html.PasswordFor(m => m.Password, new { @placeholder = "XXXXXX", @style = "letter-spacing:0.2em;" })</div>
+            <div class="col-md-8 col-sm-8">@Html.ValidationMessageFor(m => m.Password)</div>
+        </div>
+        <div class="row col-md-12 input-line">
+            <div class="col-md-4 col-sm-4"> <p>@Html.LabelFor(m => m.Semester) :</p> </div>    
+            <div class="col-md-8 col-sm-8"> 
+                @Html.DropDownListFor(m => m.Semester, new SelectList(ViewBag.Semester, "Value", "Text"), new { })
+            </div>
+        </div>
+                    
+        <div class="row col-md-12" id="signin-line">
+                        
+            <div class="hidden-lg hidden-md col-sm-3"></div>
+            
+            @Html.ActionLink(Resources.System_Config.TITLE_FOR_GOT_PASSWORD_EN, "ForgotPassword", "Account", new { @class = "col-md-6 col-sm-4 hidden-xs", @style = "padding: 5% 0 0 10%;text-decoration: underline;" })
+                  
+            <p class="col-md-1 col-sm-1 hidden-xs">|</p>
+                        
+            <div class="col-md-5 col-sm-4 col-xs-12" id="div-signin-button">
+               <a id="signin-button">
+                    <div class="button">
+                        <p>Sign In</p>
+                    </div>
+                </a>
+            </div>
+                        
+            <div class="hidden-lg hidden-md hidden-sm col-xs-12">
+                <a><p style="float:left;">forget E-mail or Password</p> </a>
+            </div>
+        </div>
+                    
+        <div id="short-line" class="row col-md-12" style="" >
+        </div>
+                    
+                    
+    </div>
+}
